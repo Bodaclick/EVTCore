@@ -1,0 +1,5 @@
+evt_api:
+    resource: "@EVTApiBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
