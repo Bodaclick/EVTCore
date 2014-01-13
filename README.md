@@ -1,4 +1,3 @@
-EVT
-===
-
-e-Verticals Core
+EVTCore
+========================
+e-Verticals backend application
