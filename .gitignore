@@ -10,3 +10,7 @@
 /vendor/
 /bin/
 /composer.phar
+.buildpath
+.project
+.settings/
+
