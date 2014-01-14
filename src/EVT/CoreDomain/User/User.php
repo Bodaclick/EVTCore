@@ -23,9 +23,10 @@ class User
      * @param InformationBag $infoBag
      * @return Lead
      */
-    public function doLead(Showroom $showroom, Event $event, InformationBag $infoBag)
+    public function doLead(Showroom $showroom, Event $event, InformationBag $infoBag = null)
     {
         $lead = new Lead($this, $showroom, $event);
+
         $lead->setInformationBag($infoBag);
         return $lead;
     }

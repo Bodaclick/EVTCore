@@ -9,7 +9,6 @@ class UserDoesLeadTest extends \PHPUnit_Framework_TestCase
 {
     public function testDoLead()
     {
-        //$user = $this->getMockBuilder('EVT\CoreDomain\User\User')->disableOriginalConstructor()->getMock();
         $user = new User();
         $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
@@ -17,5 +16,15 @@ class UserDoesLeadTest extends \PHPUnit_Framework_TestCase
         $lead = $user->doLead($showroom, $event, $informationBag);
         $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $lead);
         $this->assertEquals('value', $lead->getInformationBag()->get('key'));
+    }
+
+    public function testDoLeadNoInfoBag()
+    {
+        $user = new User();
+        $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
+        $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
+        $lead = $user->doLead($showroom, $event);
+        $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $lead);
+        $this->assertNull($lead->getInformationBag());
     }
 }
