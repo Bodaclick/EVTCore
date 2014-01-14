@@ -27,13 +27,14 @@ class Lead
      * @param Showroom $showroom
      * @param Event    $event
      */
-    public function __construct(User $user, Showroom $showroom, Event $event)
+    public function __construct(LeadId $id, User $user, Showroom $showroom, Event $event)
     {
+        $this->id = $id->getValue();
         $this->showroom = $showroom;
         $this->user     = $user;
         $this->event    = $event;
     }
-
+    
     public function setInformationBag($informationBag)
     {
         $this->informationBag = $informationBag;
