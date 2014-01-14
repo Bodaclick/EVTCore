@@ -18,6 +18,7 @@ class Lead
     private $user;
     private $showroom;
     private $informationBag;
+    protected $id;
 
     /**
      * __construct
@@ -29,8 +30,8 @@ class Lead
     public function __construct(User $user, Showroom $showroom, Event $event)
     {
         $this->showroom = $showroom;
-        $this->user = $user;
-        $this->event = $event;
+        $this->user     = $user;
+        $this->event    = $event;
     }
 
     public function setInformationBag($informationBag)
@@ -56,5 +57,10 @@ class Lead
     public function getShowroom()
     {
         return $this->showroom;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 }
