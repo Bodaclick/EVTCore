@@ -2,6 +2,8 @@
 
 namespace EVT\CoreDomain\User;
 
+use EVT\CoreDomain\Lead\LeadId;
+
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\InformationBag;
 use EVT\CoreDomain\Lead\Event;
@@ -25,7 +27,7 @@ class User
      */
     public function doLead(Showroom $showroom, Event $event, InformationBag $infoBag = null)
     {
-        $lead = new Lead($this, $showroom, $event);
+        $lead = new Lead(new LeadId(''), $this, $showroom, $event);
 
         $lead->setInformationBag($infoBag);
         return $lead;
