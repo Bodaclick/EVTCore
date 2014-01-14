@@ -15,7 +15,7 @@ class LeadTest extends \PHPUnit_Framework_TestCase
         $user = $this->getMockBuilder('EVT\CoreDomain\User\User')->disableOriginalConstructor()->getMock();
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
         $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
-        $lead = new Lead(new LeadId('1'), $user, $showroom, $event);
+        $lead = new Lead(new LeadId(''), $user, $showroom, $event);
         $this->assertEquals($event, $lead->getEvent());
         $this->assertEquals($user, $lead->getUser());
         $this->assertEquals($showroom, $lead->getShowroom());
@@ -26,7 +26,7 @@ class LeadTest extends \PHPUnit_Framework_TestCase
         $user = $this->getMockBuilder('EVT\CoreDomain\User\User')->disableOriginalConstructor()->getMock();
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
         $event = new Event(new \DateTime('now'));
-        $lead = new Lead(new LeadId('2'), $user, $showroom, $event);
+        $lead = new Lead(new LeadId(''), $user, $showroom, $event);
         $informationBag = new LeadInformationBag();
         $lead->setInformationBag($informationBag);
         $this->assertEquals($informationBag, $lead->getInformationBag());
