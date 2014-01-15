@@ -9,7 +9,7 @@ class UserDoesLeadTest extends \PHPUnit_Framework_TestCase
 {
     public function testDoLead()
     {
-        $user = new User();
+        $user = new User('name', 'email@mail.com');
         $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
         $informationBag = new InformationBag(['key' => 'value']);
@@ -20,7 +20,7 @@ class UserDoesLeadTest extends \PHPUnit_Framework_TestCase
 
     public function testDoLeadNoInfoBag()
     {
-        $user = new User();
+        $user = new User('name', 'email@mail.com');
         $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
         $lead = $user->doLead($showroom, $event);
