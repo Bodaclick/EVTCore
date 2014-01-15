@@ -11,19 +11,19 @@ namespace EVT\CoreDomain\Provider;
 class ShowroomsProviderFilter extends \FilterIterator
 {
     private $providerFilter;
-    
-    public function __construct(\Iterator $iterator, Provider $filter )
+
+    public function __construct(\Iterator $iterator, Provider $filter)
     {
         parent::__construct($iterator);
         $this->providerFilter = $filter;
     }
-    
+
     public function accept()
     {
         $showroom = $this->getInnerIterator()->current();
-        if( $showroom->getProvider()->getId() == $this->providerFilter->getId()) {
+        if ($showroom->getProvider()->getId() == $this->providerFilter->getId()) {
             return true;
-        }        
+        }
         return false;
     }
 }

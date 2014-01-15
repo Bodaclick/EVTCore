@@ -19,6 +19,8 @@ class LeadTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($event, $lead->getEvent());
         $this->assertEquals($user, $lead->getUser());
         $this->assertEquals($showroom, $lead->getShowroom());
+        $this->assertNotNull($lead->getCreatedAt());
+        $this->assertEquals('UTC', $lead->getCreatedAt()->getTimeZone()->getName());
     }
 
     public function testLeadInformationBag()

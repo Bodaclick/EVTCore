@@ -18,6 +18,7 @@ class Lead
     private $user;
     private $showroom;
     private $informationBag;
+    private $createdAt;
     protected $id;
 
     /**
@@ -33,8 +34,9 @@ class Lead
         $this->showroom = $showroom;
         $this->user     = $user;
         $this->event    = $event;
+        $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
     }
-    
+
     public function setInformationBag($informationBag)
     {
         $this->informationBag = $informationBag;
@@ -63,5 +65,10 @@ class Lead
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }
