@@ -3,7 +3,6 @@
 namespace EVT\CoreDomain\User;
 
 use EVT\CoreDomain\Lead\LeadId;
-
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\InformationBag;
 use EVT\CoreDomain\Lead\Event;
@@ -12,10 +11,10 @@ use EVT\CoreDomain\Lead\Lead;
 /**
  * User
  *
- * @author Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
- * @copyright Bodaclick S.A
+ * @author    Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
+ * @copyright 2014 Bodaclick S.A
  */
-class User
+class User extends GenericUser
 {
     /**
      * doLead
