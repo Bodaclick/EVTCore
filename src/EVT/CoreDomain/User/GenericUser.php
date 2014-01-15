@@ -15,6 +15,14 @@ abstract class GenericUser
     private $name;
     private $email;
 
+    /**
+     * Create a new GenericUser
+     *
+     * @param string $name  The name of the User
+     * @param string $email The email of the User
+     *
+     * @throws \InvalidArgumentException If email not valid
+     */
     public function __construct($name, $email)
     {
         $this->name = $name;
