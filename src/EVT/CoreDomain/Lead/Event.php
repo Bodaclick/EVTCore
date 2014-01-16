@@ -18,7 +18,7 @@ class Event
     {
         $this->type = $type;
         $this->location = $location;
-        $this->date = $date;
+        $this->date = clone $date;
 
     }
     public function getEventType()
