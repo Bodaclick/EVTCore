@@ -3,6 +3,7 @@
 namespace EVT\CoreDomain\Tests\User;
 
 use EVT\CoreDomain\User\User;
+use EVT\CoreDomain\User\PersonalInformation;
 
 /**
  * GenericUserTest
@@ -14,9 +15,8 @@ class GenericUserTest extends \PHPUnit_Framework_TestCase
 {
     public function testUserCreation()
     {
-        $user = new User('name', 'email@mail.com');
-
-        $this->assertEquals('name', $user->getName());
+        $user = new User('email@mail.com', new PersonalInformation('name'));
+        $this->assertEquals('name', $user->getPersonalInformation()->name);
         $this->assertEquals('email@mail.com', $user->getEmail());
     }
 
@@ -25,6 +25,6 @@ class GenericUserTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidEmail()
     {
-        $user = new User('name', 'email.invalid@');
+        $user = new User('email.invalid@', new PersonalInformation());
     }
 }

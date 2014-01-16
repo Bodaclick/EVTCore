@@ -37,8 +37,10 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
     {
         $vertical = new Vertical("Test Name");
         $provider = new Provider(new ProviderId(''), "Test Name", new EmailCollection(new Email('valid@email.com')));
+        $provider2 = new Provider(new ProviderId(''), "Test2", new EmailCollection(new Email('valid2@email.com')));
 
         $showroom1 = $vertical->addShowroom($provider, 1);
+        $showroom1 = $vertical->addShowroom($provider2, 0);
         $showroom2 = $vertical->addShowroom($provider, 1);
         $this->assertNull($showroom2);
     }

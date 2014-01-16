@@ -1,6 +1,7 @@
 <?php
 namespace EVT\CoreDomain\Provider;
 
+use EVT\CoreDomain\User\Manager;
 use EVT\CoreDomain\EmailCollection;
 
 /**
@@ -15,6 +16,7 @@ class Provider
     private $name;
     private $slug;
     private $notificationEmails;
+    private $managers;
 
     public function __construct(ProviderId $id, $name, EmailCollection $notificationEmails)
     {
@@ -22,6 +24,7 @@ class Provider
         $this->name = $name;
         $this->slug = $name; // TODO Slugify
         $this->notificationEmails = $notificationEmails;
+        $this->managers = new \ArrayObject();
     }
 
     public function getId()
@@ -42,5 +45,17 @@ class Provider
     public function getNotificationEmails()
     {
         return $this->notificationEmails;
+    }
+
+    public function addManager(Manager $manager)
+    {
+        if (!$this->managers->offsetExists($manager->getEmail())) {
+            $this->managers->offsetSet($manager->getEmail(), $manager);
+        }
+    }
+
+    public function getManagers()
+    {
+        return $this->managers;
     }
 }

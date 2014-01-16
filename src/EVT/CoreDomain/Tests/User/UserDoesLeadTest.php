@@ -4,12 +4,13 @@ namespace EVT\CoreDomain\Tests\User;
 
 use EVT\CoreDomain\User\User;
 use EVT\CoreDomain\InformationBag;
+use EVT\CoreDomain\User\PersonalInformation;
 
 class UserDoesLeadTest extends \PHPUnit_Framework_TestCase
 {
     public function testDoLead()
     {
-        $user = new User('name', 'email@mail.com');
+        $user = new User('email@mail.com', new PersonalInformation());
         $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
         $informationBag = new InformationBag(['key' => 'value']);
@@ -20,7 +21,7 @@ class UserDoesLeadTest extends \PHPUnit_Framework_TestCase
 
     public function testDoLeadNoInfoBag()
     {
-        $user = new User('name', 'email@mail.com');
+        $user = new User('email@mail.com', new PersonalInformation());
         $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
         $lead = $user->doLead($showroom, $event);
