@@ -11,9 +11,28 @@ namespace EVT\CoreDomain\Lead;
 class Event
 {
     private $date;
+    private $type;
+    private $location;
 
-    public function __construct(\DateTime $date)
+    public function __construct(EventType $type, Location $location, \DateTime $date)
     {
-        $this->date = $date;
+        $this->type = $type;
+        $this->location = $location;
+        $this->date = clone $date;
+    }
+
+    public function getEventType()
+    {
+        return $this->type;
+    }
+
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
     }
 }
