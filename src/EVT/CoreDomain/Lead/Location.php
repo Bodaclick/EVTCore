@@ -30,7 +30,10 @@ class Location
     public function getLatLong()
     {
 
-        $latLong= array('lat'=>$this->lat,'long'=>$this->long);
+        $latLong= array();
+        $latLong['lat']=$this->lat;
+        $latLong['long']=$this->long;
+
         return $latLong;
 
 
