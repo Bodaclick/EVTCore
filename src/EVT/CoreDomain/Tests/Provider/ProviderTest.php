@@ -3,6 +3,7 @@ namespace EVT\CoreDomain\Tests\Provider;
 
 use EVT\CoreDomain\Email;
 use EVT\CoreDomain\EmailCollection;
+use EVT\CoreDomain\User\Manager;
 use EVT\CoreDomain\Provider\ProviderId;
 use EVT\CoreDomain\Provider\Provider;
 
@@ -20,5 +21,21 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $provider = new Provider(new ProviderId(''), $testName, new EmailCollection(new Email('valid@email.com')));
         $this->assertEquals($testName, $provider->getName());
         $this->assertEquals($testName, $provider->getSlug());
+    }
+
+    public function testAddManager()
+    {
+        $testName = "TestName";
+        $provider = new Provider(new ProviderId(''), $testName, new EmailCollection(new Email('valid@email.com')));
+        $provider->addManager(new Manager('Name', 'valid@email.com'));
+
+        $managers = $provider->getManagers();
+        $this->assertCount(1, $managers);
+
+
+        $provider->addManager(new Manager('Name', 'valid@email.com'));
+
+        $managers = $provider->getManagers();
+        $this->assertCount(1, $managers);
     }
 }
