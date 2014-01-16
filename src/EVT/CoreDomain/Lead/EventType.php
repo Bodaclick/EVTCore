@@ -10,14 +10,13 @@ namespace EVT\CoreDomain\Lead;
  */
 class EventType
 {
-
     private $type;
 
     public function __construct($type)
     {
-
         $this->type = $type;
     }
+
     public function getType()
     {
         return $this->type;
