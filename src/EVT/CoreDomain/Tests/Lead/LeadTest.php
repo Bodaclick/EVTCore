@@ -16,6 +16,7 @@ class LeadTest extends \PHPUnit_Framework_TestCase
         $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
         $personalInfo = new PersonalInformation();
         $lead = new Lead(new LeadId(''), $personalInfo, $showroom, $event);
+        $this->assertEquals('', $lead->getId());
         $this->assertEquals($event, $lead->getEvent());
         $this->assertEquals($personalInfo, $lead->getPersonalInformation());
         $this->assertEquals($showroom, $lead->getShowroom());
