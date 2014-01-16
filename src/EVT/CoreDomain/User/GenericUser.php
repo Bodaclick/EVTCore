@@ -3,6 +3,7 @@
 namespace EVT\CoreDomain\User;
 
 use EVT\CoreDomain\Email;
+use EVT\CoreDomain\User\PersonalInformation;
 
 /**
  * GenericUser
@@ -12,8 +13,8 @@ use EVT\CoreDomain\Email;
  */
 abstract class GenericUser
 {
-    private $name;
-    private $email;
+    protected $personalInfo;
+    protected $email;
 
     /**
      * Create a new GenericUser
@@ -23,15 +24,15 @@ abstract class GenericUser
      *
      * @throws \InvalidArgumentException If email not valid
      */
-    public function __construct($name, $email)
+    public function __construct($email, PersonalInformation $personalInfo)
     {
-        $this->name = $name;
         $this->email = new Email($email);
+        $this->personalInfo = $personalInfo;
     }
 
-    public function getName()
+    public function getPersonalInformation()
     {
-        return $this->name;
+        return $this->personalInfo;
     }
 
     public function getEmail()
