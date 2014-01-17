@@ -14,3 +14,9 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+evt_api:
+    apikeys:
+        - name: localTest
+          key: apikeyValue 
+    
