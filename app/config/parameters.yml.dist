@@ -13,3 +13,7 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+    
+    apikeys:
+        - name: local
+          key: 17664104WOv2a6N2wZI7169S5c5BBwqi65M57Z658L1n4Kzh9i80761Bi91z0WeQ 
