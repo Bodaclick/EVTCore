@@ -38,7 +38,7 @@ class ApiKeyUserProvider implements UserProviderInterface
     public function refreshUser(UserInterface $user)
     {
         // this is used for storing authentication in the session
-        // but in this example, the token is sent in each request,
+        // the token is sent in each request,
         // so authentication can be stateless. Throwing this exception
         // is proper to make things stateless
         throw new UnsupportedUserException();

@@ -1,8 +1,8 @@
 services:
-    evt_api_key_user_provider:
+    evt.api_key.user_provider:
         class: EVT\ApiBundle\Security\ApiKeyUserProvider
         arguments: [%evt_api.apikeys%]
 
-    apikey_authenticator:
+    evt.api_key.authenticator:
         class:     EVT\ApiBundle\Security\ApiKeyAuthenticator
-        arguments: [@evt_api_key_user_provider]
+        arguments: [@evt.api_key.user_provider]
