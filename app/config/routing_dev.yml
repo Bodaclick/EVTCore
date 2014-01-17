@@ -12,3 +12,9 @@ _configurator:
 
 _main:
     resource: routing.yml
+
+evt_api:
+    resource: "@EVTApiBundle/Controller/"
+    type:     annotation
+    prefix:   /
+    schemes:  [https,http]
