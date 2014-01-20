@@ -70,3 +70,25 @@ swiftmailer:
 
 evt_api:
     apikeys: "%apikeys%"
+
+sensio_framework_extra:
+    view:
+        annotations: false
+
+fos_rest:
+    routing_loader:
+        default_format:       json
+        include_format:       false
+    view:
+        view_response_listener: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: php
+        formats:
+            json: true
+            xml: false
+            rss: false
+    body_listener:
+        decoders:
+            json: fos_rest.decoder.json
+    param_fetcher_listener: force
+    allowed_methods_listener: true

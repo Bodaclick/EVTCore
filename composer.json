@@ -19,7 +19,10 @@
         "sensio/framework-extra-bundle": "~3.0",
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
-        "egulias/email-validator": "1.1.*"
+        "egulias/email-validator": "1.1.*",
+        "friendsofsymfony/rest-bundle": "1.1.*",
+        "jms/serializer-bundle": "0.13.*@dev",
+        "jms/di-extra-bundle": "1.4.*@dev"
     },
     "scripts": {
         "post-install-cmd": [
