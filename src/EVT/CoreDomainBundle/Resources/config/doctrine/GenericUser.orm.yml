@@ -1,0 +1,54 @@
+EVT\CoreDomainBundle\Entity\User:
+    type: entity
+    table: generic_user
+    repositoryClass: EVT\CoreDomainBundle\Repository\UserRepository
+    uniqueConstraints:
+        id_UNIQUE:
+            columns:
+                - id
+        email_UNIQUE:
+            columns:
+                - email
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        email:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+        name:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+            comment: ''
+        surnames:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+            comment: ''
+        phone:
+            type: string
+            nullable: true
+            length: 30
+            fixed: false
+            comment: ''
+    manyToMany:
+        provider:
+            targetEntity: Provider
+            cascade: {  }
+            mappedBy: genericUser
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

@@ -1,0 +1,95 @@
+EVT\CoreDomainBundle\Entity\Provider:
+    type: entity
+    table: provider
+    uniqueConstraints:
+        id_UNIQUE:
+            columns:
+                - id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+            comment: ''
+        phone:
+            type: string
+            nullable: true
+            length: 20
+            fixed: false
+            comment: \n
+        locationAdminLevel1:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+            column: location_admin_level_1
+        locationAdminLevel2:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+            column: location_admin_level_2
+        locationCountry:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+            column: location_country
+        locationLat:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            comment: ''
+            column: location_lat
+        locationLong:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            comment: ''
+            column: location_long
+        notificationEmails:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: 'Serialized EmailCollection'
+            column: notification_emails
+        slug:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+    manyToMany:
+        genericUser:
+            targetEntity: GenericUser
+            cascade: {  }
+            mappedBy: null
+            inversedBy: provider
+            joinTable:
+                name: provider_generic_users
+                joinColumns:
+                    -
+                        name: provider_id
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: generic_user_id
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }

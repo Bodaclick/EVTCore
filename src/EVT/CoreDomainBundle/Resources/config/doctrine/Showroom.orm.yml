@@ -1,0 +1,72 @@
+EVT\CoreDomainBundle\Entity\Showroom:
+    type: entity
+    table: showroom
+    indexes:
+        fk_showroom_vertical_idx:
+            columns:
+                - vertical_id
+        fk_showroom_provider_idx:
+            columns:
+                - provider_id
+        score_idx:
+            columns:
+                - score
+    uniqueConstraints:
+        id_UNIQUE:
+            columns:
+                - id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 60
+            fixed: false
+            comment: ''
+        phone:
+            type: string
+            nullable: true
+            length: 20
+            fixed: false
+            comment: ''
+        slug:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+        score:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+            comment: ''
+            default: '0'
+    manyToOne:
+        vertical:
+            targetEntity: Vertical
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                vertical_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        provider:
+            targetEntity: Provider
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                provider_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
