@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="EVT\CoreDomainBundle\Entity\Lead" table="lead">
+    <indexes>
+      <index name="fk_lead_information_idx" columns="lead_information_id"/>
+      <index name="event_location_admin_level_1_idx" columns="event_location_admin_level_1"/>
+      <index name="event_type_idx" columns="event_type"/>
+      <index name="user_email_idx" columns="user_email"/>
+      <index name="fk_lead_showroom_idx" columns="showroom_id"/>
+    </indexes>
+    <unique-constraints>
+      <unique-constraint name="id_UNIQUE" columns="id"/>
+    </unique-constraints>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="eventDate" type="datetime" column="event_date" nullable="true"/>
+    <field name="eventType" type="string" column="event_type" length="255" nullable="false"/>
+    <field name="eventLocationAdminLevel1" type="string" column="event_location_admin_level_1" length="60" nullable="false"/>
+    <field name="eventLocationAdminLevel2" type="string" column="event_location_admin_level_2" length="60" nullable="false"/>
+    <field name="eventLocationCountry" type="string" column="event_location_country" length="30" nullable="false"/>
+    <field name="eventLocationLat" type="float" column="event_location_lat" precision="10" scale="0" nullable="false"/>
+    <field name="eventLocationLong" type="float" column="event_location_long" precision="10" scale="0" nullable="false"/>
+    <field name="userName" type="string" column="user_name" length="60" nullable="false"/>
+    <field name="userSurnames" type="string" column="user_surnames" length="60" nullable="false"/>
+    <field name="userPhone" type="string" column="user_phone" length="20" nullable="false"/>
+    <field name="userEmail" type="string" column="user_email" length="60" nullable="false"/>
+    <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
+    <field name="updatedAt" type="datetime" column="updated_at" nullable="false"/>
+    <field name="read" type="datetime" column="read" nullable="true"/>
+    <many-to-one field="showroom" target-entity="Showroom">
+      <join-columns>
+        <join-column name="showroom_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="leadInformation" target-entity="LeadInformation">
+      <join-columns>
+        <join-column name="lead_information_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="EVT\CoreDomainBundle\Entity\Provider" table="provider">
+    <unique-constraints>
+      <unique-constraint name="id_UNIQUE" columns="id"/>
+    </unique-constraints>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="name" type="string" column="name" length="60" nullable="false"/>
+    <field name="phone" type="string" column="phone" length="20" nullable="true"/>
+    <field name="locationAdminLevel1" type="string" column="location_admin_level_1" length="45" nullable="true"/>
+    <field name="locationAdminLevel2" type="string" column="location_admin_level_2" length="45" nullable="true"/>
+    <field name="locationCountry" type="string" column="location_country" length="45" nullable="true"/>
+    <field name="locationLat" type="float" column="location_lat" precision="10" scale="0" nullable="true"/>
+    <field name="locationLong" type="float" column="location_long" precision="10" scale="0" nullable="true"/>
+    <field name="notificationEmails" type="text" column="notification_emails" nullable="true"/>
+    <field name="slug" type="string" column="slug" length="45" nullable="true"/>
+    <many-to-many field="genericUser" target-entity="GenericUser" inversed-by="provider">
+      <join-table name="provider_generic_users">
+        <join-columns>
+          <join-column name="provider_id" referenced-column-name="id"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="generic_user_id" referenced-column-name="id"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+  </entity>
+</doctrine-mapping>

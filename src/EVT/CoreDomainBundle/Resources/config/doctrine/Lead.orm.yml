@@ -1,0 +1,143 @@
+EVT\CoreDomainBundle\Entity\Lead:
+    type: entity
+    table: lead
+    indexes:
+        fk_lead_information_idx:
+            columns:
+                - lead_information_id
+        event_location_admin_level_1_idx:
+            columns:
+                - event_location_admin_level_1
+        event_type_idx:
+            columns:
+                - event_type
+        user_email_idx:
+            columns:
+                - user_email
+        fk_lead_showroom_idx:
+            columns:
+                - showroom_id
+    uniqueConstraints:
+        id_UNIQUE:
+            columns:
+                - id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        eventDate:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: event_date
+        eventType:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            column: event_type
+        eventLocationAdminLevel1:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+            comment: ''
+            column: event_location_admin_level_1
+        eventLocationAdminLevel2:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+            comment: ''
+            column: event_location_admin_level_2
+        eventLocationCountry:
+            type: string
+            nullable: false
+            length: 30
+            fixed: false
+            comment: ''
+            column: event_location_country
+        eventLocationLat:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+            comment: ''
+            column: event_location_lat
+        eventLocationLong:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+            comment: ''
+            column: event_location_long
+        userName:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+            comment: ''
+            column: user_name
+        userSurnames:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+            comment: ''
+            column: user_surnames
+        userPhone:
+            type: string
+            nullable: false
+            length: 20
+            fixed: false
+            comment: ''
+            column: user_phone
+        userEmail:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+            comment: ''
+            column: user_email
+        createdAt:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            default: CURRENT_TIMESTAMP
+            column: updated_at
+        read:
+            type: datetime
+            nullable: true
+            comment: ''
+    manyToOne:
+        leadInformation:
+            targetEntity: LeadInformation
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lead_information_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        showroom:
+            targetEntity: Showroom
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                showroom_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -15,6 +15,7 @@ abstract class GenericUser
 {
     protected $personalInfo;
     protected $email;
+    protected $id;
 
     /**
      * Create a new GenericUser
@@ -38,5 +39,10 @@ abstract class GenericUser
     public function getEmail()
     {
         return $this->email->getEmail();
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 }
