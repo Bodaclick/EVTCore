@@ -6,6 +6,7 @@ use EVT\CoreDomain\Lead\Event;
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\User\User;
 use EVT\CoreDomain\User\PersonalInformation;
+use EVT\CoreDomain\Email;
 
 /**
  * Lead
@@ -20,6 +21,7 @@ class Lead
     private $showroom;
     private $informationBag;
     private $createdAt;
+    private $email;
     protected $id;
 
     /**
@@ -27,16 +29,24 @@ class Lead
      *
      * @param LeadId              $id
      * @param PersonalInformation $user
+     * @param Email               $email
      * @param Showroom            $showroom
      * @param Event               $event
      */
-    public function __construct(LeadId $id, PersonalInformation $personalInfo, Showroom $showroom, Event $event)
-    {
+    public function __construct(
+        LeadId $id,
+        PersonalInformation $personalInfo,
+        Email $email,
+        Showroom $showroom,
+        Event $event
+    ) {
         $this->id           = $id->getValue();
         $this->showroom     = $showroom;
         $this->personalInfo = $personalInfo;
         $this->event        = $event;
         $this->createdAt    = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->email        = $email;
+
     }
 
     public function setInformationBag($informationBag)
@@ -72,5 +82,10 @@ class Lead
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
     }
 }
