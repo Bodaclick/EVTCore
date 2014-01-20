@@ -34,6 +34,7 @@ class LeadToEntityMappingTest extends \PHPUnit_Framework_TestCase
         $mapping = new LeadToEntityMapping($showroomMapper, $infoBagMapper);
 
         $entity = $mapping->map($lead);
+        $this->assertInstanceOf('EVT\CoreDomainBundle\Entity\Lead', $entity);
         $this->assertEquals($personalInfo->name, $entity->getUserName());
         $this->assertEquals($personalInfo->surnames, $entity->getUserSurnames());
         $this->assertEquals($personalInfo->phone, $entity->getUserPhone());

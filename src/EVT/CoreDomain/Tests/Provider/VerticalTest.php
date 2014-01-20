@@ -28,8 +28,7 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
         $provider = new Provider(new ProviderId(''), "Test Name", new EmailCollection(new Email('valid@email.com')));
 
         $showroom = $vertical->addShowroom($provider, 1);
-        $this->assertEquals($vertical, $showroom->getVertical());
-        $this->assertEquals($provider, $showroom->getProvider());
+        $this->assertInstanceOf('EVT\CoreDomain\Provider\Showroom', $showroom);
         $this->assertEquals(1, $showroom->getScore());
     }
 
@@ -40,8 +39,9 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
         $provider2 = new Provider(new ProviderId(''), "Test2", new EmailCollection(new Email('valid2@email.com')));
 
         $showroom1 = $vertical->addShowroom($provider, 1);
-        $showroom1 = $vertical->addShowroom($provider2, 0);
-        $showroom2 = $vertical->addShowroom($provider, 1);
-        $this->assertNull($showroom2);
+        $vertical->addShowroom($provider2, 0);
+
+        $showroom3 = $vertical->addShowroom($provider, 1);
+        $this->assertEquals($showroom1, $showroom3);
     }
 }

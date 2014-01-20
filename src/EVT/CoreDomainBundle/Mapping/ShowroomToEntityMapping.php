@@ -17,7 +17,7 @@ class ShowroomToEntityMapping
     public function map(Showroom $showroom)
     {
         $entity = new ORMShowroom();
-        $entity->setUrl($showroom->getUrl());
+        $entity->setSlug($showroom->getSlug());
         return $entity;
     }
 }

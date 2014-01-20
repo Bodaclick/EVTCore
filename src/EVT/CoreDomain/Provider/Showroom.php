@@ -10,9 +10,12 @@ namespace EVT\CoreDomain\Provider;
 class Showroom
 {
     private $slug;
+    private $phone;
+    private $name;
     private $score;
     private $provider;
     private $vertical;
+    private $id;
 
     public function __construct(Provider $provider, Vertical $vertical, $score = 0)
     {
@@ -26,14 +29,29 @@ class Showroom
         $this->slug = $slug;
     }
 
-    public function getProvider()
+    public function changeName($name)
     {
-        return $this->provider;
+        $this->name = $name;
     }
 
-    public function getVertical()
+    public function changePhone($phone)
     {
-        return $this->vertical;
+        $this->phone = $phone;
+    }
+
+    public function getSlug()
+    {
+        return ($this->slug)?:$this->provider->getSlug();
+    }
+
+    public function getPhone()
+    {
+        return ($this->slug)?:$this->provider->getSlug();
+    }
+
+    public function getName()
+    {
+        return ($this->slug)?:$this->provider->getSlug();
     }
 
     public function getUrl()
@@ -44,6 +62,11 @@ class Showroom
         }
 
         return $this->vertical->getDomain() . '/' . $slug;
+    }
+
+    public function belongsToProvider(Provider $provider)
+    {
+        return $this->provider->getId() === $provider->getId();
     }
 
     public function getScore()

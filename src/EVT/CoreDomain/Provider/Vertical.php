@@ -11,13 +11,13 @@ class Vertical
 {
     private $domain;
     private $showrooms;
-    
+
     public function __construct($domain)
     {
         $this->domain = $domain;
         $this->showrooms = new \ArrayObject();
     }
-    
+
     public function addShowroom(Provider $provider, $score)
     {
         $iterator = new ShowroomsProviderFilter($this->showrooms->getIterator(), $provider);
@@ -27,7 +27,9 @@ class Vertical
             $this->showrooms->append($showroom);
             return $showroom;
         }
-        return null;
+        foreach ($iterator as $showroom) {
+            return $showroom;
+        }
     }
 
     public function getDomain()
