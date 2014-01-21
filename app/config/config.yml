@@ -24,6 +24,12 @@ framework:
     fragments:       ~
     http_method_override: true
 
+monolog:
+    handlers:
+        lead:
+            type:   stream
+            path:   "%kernel.logs_dir%/leads.%kernel.environment%.log"
+            level:  notice
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
