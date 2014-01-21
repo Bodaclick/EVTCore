@@ -5,6 +5,12 @@ namespace EVT\ApiBundle\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 
+/**
+ * LeadControllerTest
+ *
+ * @author    Marco Ferrari <marco.ferrari@bodaclick.com>
+ * @copyright 2014 Bodaclick S.A
+ */
 class LeadControllerTest extends WebTestCase
 {
     /**
@@ -41,8 +47,17 @@ class LeadControllerTest extends WebTestCase
                 $this->returnvalue(true)
             );
 
+        $userRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\UserRepository')
+            ->disableOriginalConstructor()->getMock();
+        $userRepo->expects($this->once())
+            ->method('save')
+            ->will(
+                $this->returnvalue(true)
+            );
+
         $this->client->getContainer()->set('evt.repository.showroom', $showroomRepo);
         $this->client->getContainer()->set('evt.repository.lead', $leadRepo);
+        $this->client->getContainer()->set('evt.repository.user', $userRepo);
     }
 
     public function testCrateLeadOK()

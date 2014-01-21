@@ -2,7 +2,6 @@
 
 namespace EVT\ApiBundle\Factory;
 
-use Symfony\Component\Validator\Constraints\All;
 use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\Lead\Lead;
 use EVT\CoreDomain\Lead\EventType;
@@ -86,35 +85,27 @@ class LeadFactory
 
     private function validateFirstLevel($array)
     {
-        $elements = ['user','event','showroom'];
-        $this->validateArray($array, $elements);
+        $arrayValidator = new ArrayValidator(['user', 'event', 'showroom']);
+        $arrayValidator->validate($array);
     }
 
     private function validateShowroom($array)
     {
-        $elements = ['id'];
-        $this->validateArray($array, $elements);
+        $arrayValidator = new ArrayValidator(['id']);
+        $arrayValidator->validate($array);
     }
 
     private function validateEvent($array)
     {
-        $elements = ['date','type','location'];
-        $this->validateArray($array, $elements);
+        $arrayValidator = new ArrayValidator(['date', 'type', 'location']);
+        $arrayValidator->validate($array);
+
         $this->validateLocation($array['location']);
     }
 
     private function validateLocation($array)
     {
-        $elements = ['lat','long','admin_level_1','admin_level_2','country'];
-        $this->validateArray($array, $elements);
-    }
-
-    private function validateArray($array, $mustExist)
-    {
-        foreach ($mustExist as $element) {
-            if (!isset($array[$element])) {
-                throw new \InvalidArgumentException($element. ' not found');
-            }
-        }
+        $arrayValidator = new ArrayValidator(['lat', 'long', 'admin_level_1', 'admin_level_2', 'country']);
+        $arrayValidator->validate($array);
     }
 }

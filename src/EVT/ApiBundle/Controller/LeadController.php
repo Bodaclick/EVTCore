@@ -32,25 +32,29 @@ class LeadController extends Controller
      */
     public function postLeadAction(Request $request)
     {
-        $evtLeadFactory = $this->get('evt.lead.factory');
+        $evtLeadFactory = $this->get('evt.factory.lead');
+        $evtUserFactory = $this->get('evt.factory.user');
         $evtUserRepo = $this->get('evt.repository.user');
 
-        // TODO Create the user
-        $user = new User('valid@email.com', new PersonalInformation());
+        $leadDatas = $request->request->get('lead');
+
+        if (!isset($leadDatas['user'])) {
+            throw new \InvalidArgumentException('user not found');
+        }
+
+        $user = $evtUserFactory->createUserFromArray($leadDatas['user']);
 
         try {
-
-            $data = $evtLeadFactory->createLead($user, $request->request->get('lead'));
+            $data = $evtLeadFactory->createLead($user, $leadDatas);
 
         } catch (\InvalidArgumentException $e) {
-
             $view = new FOSView($e->getMessage());
             $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
             return $view;
 
         }
 
-        // TODO $evtUserRepo->save($user);
+        $evtUserRepo->save($user);
 
         //TODO return url lead
         return $data;
