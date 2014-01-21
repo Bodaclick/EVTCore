@@ -3,7 +3,7 @@
 namespace EVT\CoreDomain\Tests\User;
 
 use EVT\CoreDomain\User\User;
-use EVT\CoreDomain\InformationBag;
+use EVT\CoreDomain\Lead\LeadInformationBag;
 use EVT\CoreDomain\User\PersonalInformation;
 use EVT\CoreDomain\Email;
 
@@ -15,7 +15,7 @@ class UserDoesLeadTest extends \PHPUnit_Framework_TestCase
         $user = new User($email, new PersonalInformation());
         $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
-        $informationBag = new InformationBag(['key' => 'value']);
+        $informationBag = new LeadInformationBag(['key' => 'value']);
         $lead = $user->doLead($showroom, $event, $informationBag);
         $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $lead);
         $this->assertEquals('value', $lead->getInformationBag()->get('key'));
@@ -30,6 +30,6 @@ class UserDoesLeadTest extends \PHPUnit_Framework_TestCase
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
         $lead = $user->doLead($showroom, $event);
         $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $lead);
-        $this->assertNull($lead->getInformationBag());
+        $this->assertCount(0, $lead->getInformationBag());
     }
 }

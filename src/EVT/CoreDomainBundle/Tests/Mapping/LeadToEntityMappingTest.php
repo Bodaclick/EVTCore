@@ -8,7 +8,7 @@ use EVT\CoreDomain\Email;
 use EVT\CoreDomain\Lead\Event;
 use EVT\CoreDomain\Lead\EventType;
 use EVT\CoreDomain\Lead\Location;
-use EVT\CoreDomain\InformationBag;
+use EVT\CoreDomain\Lead\LeadInformationBag;
 use EVT\CoreDomainBundle\Mapping\LeadToEntityMapping;
 use EVT\CoreDomainBundle\Entity\Showroom as ORMShowroom;
 use EVT\CoreDomainBundle\Entity\LeadInformation as ORMLeadInformation;
@@ -22,7 +22,7 @@ class LeadToEntityMappingTest extends \PHPUnit_Framework_TestCase
         $event = new Event(new EventType('test'), new Location(10, 10, 'admin1', 'admin2', 'ES'), new \DateTime('now'));
         $personalInfo = new PersonalInformation('name');
         $user = new User(new Email('valid@email.com'), $personalInfo);
-        $infoBag = new InformationBag(['observations' => 'test']);
+        $infoBag = new LeadInformationBag(['observations' => 'test']);
         $lead = $user->doLead($showroom, $event, $infoBag);
 
         $mapping = new LeadToEntityMapping();

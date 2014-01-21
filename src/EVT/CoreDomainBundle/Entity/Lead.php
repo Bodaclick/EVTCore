@@ -82,7 +82,7 @@ class Lead
     /**
      * @var \DateTime
      */
-    private $read;
+    private $readAt;
 
     /**
      * @var \EVT\CoreDomainBundle\Entity\Showroom
@@ -412,26 +412,26 @@ class Lead
     }
 
     /**
-     * Set read
+     * Set readAt
      *
-     * @param \DateTime $read
+     * @param \DateTime $readAt
      * @return Lead
      */
-    public function setRead($read)
+    public function setRead($readAt)
     {
-        $this->read = $read;
+        $this->readAt = $readAt;
 
         return $this;
     }
 
     /**
-     * Get read
+     * Get readAt
      *
      * @return \DateTime
      */
-    public function getRead()
+    public function getReadAt()
     {
-        return $this->read;
+        return $this->readAt;
     }
 
     /**
