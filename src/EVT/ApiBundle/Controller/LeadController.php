@@ -38,13 +38,13 @@ class LeadController extends Controller
 
         $leadDatas = $request->request->get('lead');
 
-        if (!isset($leadDatas['user'])) {
-            throw new \InvalidArgumentException('user not found');
-        }
-
-        $user = $evtUserFactory->createUserFromArray($leadDatas['user']);
-
         try {
+            if (!isset($leadDatas['user'])) {
+                throw new \InvalidArgumentException('user not found');
+            }
+
+            $user = $evtUserFactory->createUserFromArray($leadDatas['user']);
+
             $data = $evtLeadFactory->createLead($user, $leadDatas);
 
         } catch (\InvalidArgumentException $e) {
