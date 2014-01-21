@@ -36,6 +36,7 @@
                 <directory>../src/*/Bundle/*Bundle/Resources</directory>
                 <directory>../src/*/Bundle/*Bundle/Tests</directory>
                 <directory>../src/*/*Domain/Tests</directory>
+                <directory>../src/*/*/Entity</directory>
             </exclude>
         </whitelist>
     </filter>

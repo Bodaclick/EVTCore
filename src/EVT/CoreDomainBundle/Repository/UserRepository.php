@@ -16,7 +16,7 @@ class UserRepository extends EntityRepository implements DomainRepository
 {
     public function save($user)
     {
-        if (!$user instanceOf \EVT\CoreDomain\User\User) {
+        if (!$user instanceof \EVT\CoreDomain\User\User) {
             throw new \InvalidArgumentException('Wrong object in UserRepository');
         }
 

@@ -18,7 +18,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
 {
     public function save($lead)
     {
-        if (!$lead instanceOf \EVT\CoreDomain\Lead\Lead) {
+        if (!$lead instanceof \EVT\CoreDomain\Lead\Lead) {
             throw new \InvalidArgumentException('Wrong object in LeadRepository');
         }
 
