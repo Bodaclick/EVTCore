@@ -55,10 +55,19 @@ class LeadFactory
      */
     public function createLead(User $user, $lead)
     {
-        $showroom = $this->showroomRepo->find($lead['showroom']['id']);
+        // Validate the array throw InvalidArgumentException if any error
+        $this->validateFirstLevel($lead);
+        $this->validateShowroom($lead['showroom']);
 
+        $showroom = $this->showroomRepo->find($lead['showroom']['id']);
+        if (null === $showroom) {
+            throw new \InvalidArgumentException('Showroom not found');
+        }
+
+        // Validate the array throw InvalidArgumentException if any error
+        $this->validateEvent($lead['event']);
         $event = new Event(
-            new EventType('wedding'),
+            new EventType($lead['event']['type']),
             new Location(
                 $lead['event']['location']['lat'],
                 $lead['event']['location']['long'],
@@ -73,5 +82,39 @@ class LeadFactory
         $this->leadRepo->save($lead);
 
         return $lead;
+    }
+
+    private function validateFirstLevel($array)
+    {
+        $elements = ['user','event','showroom'];
+        $this->validateArray($array, $elements);
+    }
+
+    private function validateShowroom($array)
+    {
+        $elements = ['id'];
+        $this->validateArray($array, $elements);
+    }
+
+    private function validateEvent($array)
+    {
+        $elements = ['date','type','location'];
+        $this->validateArray($array, $elements);
+        $this->validateLocation($array['location']);
+    }
+
+    private function validateLocation($array)
+    {
+        $elements = ['lat','long','admin_level_1','admin_level_2','country'];
+        $this->validateArray($array, $elements);
+    }
+
+    private function validateArray($array, $mustExist)
+    {
+        foreach ($mustExist as $element) {
+            if (!isset($array[$element])) {
+                throw new \InvalidArgumentException($element. ' not found');
+            }
+        }
     }
 }

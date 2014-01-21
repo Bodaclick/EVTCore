@@ -5,7 +5,7 @@ namespace EVT\ApiBundle\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 
-class LeadControllerTest extends WebTestCase
+class LeadControllerNoShowroomFoundTest extends WebTestCase
 {
     /**
      * @var \Symfony\Bundle\FrameworkBundle\Client
@@ -20,7 +20,10 @@ class LeadControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->header = ['Content-Type' => 'application/x-www-form-urlencoded'];
+    }
 
+    public function testCretareFailShowroomNotFound()
+    {
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')
             ->disableOriginalConstructor()->getMock();
 
@@ -30,23 +33,10 @@ class LeadControllerTest extends WebTestCase
         $showroomRepo->expects($this->once())
             ->method('find')
             ->will(
-                $this->returnValue($showroom)
+                $this->returnValue(null)
             );
-
-        $leadRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\LeadRepository')
-            ->disableOriginalConstructor()->getMock();
-        $leadRepo->expects($this->once())
-            ->method('save')
-            ->will(
-                $this->returnvalue(true)
-            );
-
         $this->client->getContainer()->set('evt.repository.showroom', $showroomRepo);
-        $this->client->getContainer()->set('evt.repository.lead', $leadRepo);
-    }
 
-    public function testCrateLeadOK()
-    {
         $params = [
             'lead' => [
                 'user' => [
@@ -80,6 +70,7 @@ class LeadControllerTest extends WebTestCase
             $this->header
         );
 
-        $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals('"Showroom not found"', $this->client->getResponse()->getContent());
     }
 }
