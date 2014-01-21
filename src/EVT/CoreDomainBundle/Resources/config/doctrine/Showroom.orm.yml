@@ -15,6 +15,10 @@ EVT\CoreDomainBundle\Entity\Showroom:
         id_UNIQUE:
             columns:
                 - id
+        vertical_provider_idx:
+            columns:
+                - provider_id
+                - vertical_id
     id:
         id:
             type: integer

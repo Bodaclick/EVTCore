@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Provider
 {
     /**
+     * @var integer
+     */
+    private $id;
+
+    /**
      * @var string
      */
     private $name;
@@ -55,11 +60,6 @@ class Provider
     private $slug;
 
     /**
-     * @var integer
-     */
-    private $id;
-
-    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $genericUser;
@@ -70,6 +70,16 @@ class Provider
     public function __construct()
     {
         $this->genericUser = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -277,16 +287,6 @@ class Provider
     public function getSlug()
     {
         return $this->slug;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

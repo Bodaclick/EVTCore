@@ -10,15 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 class Vertical
 {
     /**
-     * @var string
-     */
-    private $domain;
-
-    /**
      * @var integer
      */
     private $id;
 
+    /**
+     * @var string
+     */
+    private $domain;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set domain
@@ -41,15 +51,5 @@ class Vertical
     public function getDomain()
     {
         return $this->domain;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 }

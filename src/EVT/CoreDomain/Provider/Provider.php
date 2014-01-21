@@ -15,6 +15,7 @@ class Provider
     private $id;
     private $name;
     private $slug;
+    private $phone;
     private $notificationEmails;
     private $managers;
 
@@ -40,6 +41,11 @@ class Provider
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    public function getPhone()
+    {
+        return $this->phone;
     }
 
     public function getNotificationEmails()

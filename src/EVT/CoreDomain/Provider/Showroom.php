@@ -46,12 +46,12 @@ class Showroom
 
     public function getPhone()
     {
-        return ($this->slug)?:$this->provider->getSlug();
+        return ($this->phone)?:$this->provider->getPhone();
     }
 
     public function getName()
     {
-        return ($this->slug)?:$this->provider->getSlug();
+        return ($this->name)?:$this->provider->getName();
     }
 
     public function getUrl()

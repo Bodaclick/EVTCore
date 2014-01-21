@@ -2,13 +2,18 @@
 
 namespace EVT\CoreDomainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use EVT\CoreDomain\Provider\Showroom as DomainShowroom;
 
 /**
  * Showroom
  */
-class Showroom
+class Showroom extends DomainShowroom
 {
+    /**
+     * @var integer
+     */
+    private $id;
+
     /**
      * @var string
      */
@@ -30,20 +35,25 @@ class Showroom
     private $score;
 
     /**
-     * @var integer
+     * @var \EVT\CoreDomainBundle\Entity\Vertical
      */
-    private $id;
+    private $vertical;
 
     /**
      * @var \EVT\CoreDomainBundle\Entity\Provider
      */
     private $provider;
 
-    /**
-     * @var \EVT\CoreDomainBundle\Entity\Vertical
-     */
-    private $vertical;
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set name
@@ -61,7 +71,7 @@ class Showroom
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -84,7 +94,7 @@ class Showroom
     /**
      * Get phone
      *
-     * @return string 
+     * @return string
      */
     public function getPhone()
     {
@@ -107,7 +117,7 @@ class Showroom
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -130,44 +140,11 @@ class Showroom
     /**
      * Get score
      *
-     * @return float 
+     * @return float
      */
     public function getScore()
     {
         return $this->score;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set provider
-     *
-     * @param \EVT\CoreDomainBundle\Entity\Provider $provider
-     * @return Showroom
-     */
-    public function setProvider(\EVT\CoreDomainBundle\Entity\Provider $provider = null)
-    {
-        $this->provider = $provider;
-
-        return $this;
-    }
-
-    /**
-     * Get provider
-     *
-     * @return \EVT\CoreDomainBundle\Entity\Provider 
-     */
-    public function getProvider()
-    {
-        return $this->provider;
     }
 
     /**
@@ -186,10 +163,33 @@ class Showroom
     /**
      * Get vertical
      *
-     * @return \EVT\CoreDomainBundle\Entity\Vertical 
+     * @return \EVT\CoreDomainBundle\Entity\Vertical
      */
     public function getVertical()
     {
         return $this->vertical;
+    }
+
+    /**
+     * Set provider
+     *
+     * @param \EVT\CoreDomainBundle\Entity\Provider $provider
+     * @return Showroom
+     */
+    public function setProvider(\EVT\CoreDomainBundle\Entity\Provider $provider = null)
+    {
+        $this->provider = $provider;
+
+        return $this;
+    }
+
+    /**
+     * Get provider
+     *
+     * @return \EVT\CoreDomainBundle\Entity\Provider
+     */
+    public function getProvider()
+    {
+        return $this->provider;
     }
 }

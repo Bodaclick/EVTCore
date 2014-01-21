@@ -1,7 +1,6 @@
-EVT\CoreDomainBundle\Entity\User:
+EVT\CoreDomainBundle\Entity\GenericUser:
     type: entity
     table: generic_user
-    repositoryClass: EVT\CoreDomainBundle\Repository\UserRepository
     uniqueConstraints:
         id_UNIQUE:
             columns:
@@ -22,25 +21,25 @@ EVT\CoreDomainBundle\Entity\User:
         email:
             type: string
             nullable: false
-            length: 100
+            length: 60
             fixed: false
             comment: ''
         name:
             type: string
             nullable: true
-            length: 100
+            length: 60
             fixed: false
             comment: ''
         surnames:
             type: string
             nullable: true
-            length: 100
+            length: 60
             fixed: false
             comment: ''
         phone:
             type: string
             nullable: true
-            length: 30
+            length: 20
             fixed: false
             comment: ''
     manyToMany:
