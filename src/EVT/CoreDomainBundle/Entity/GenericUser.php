@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 class GenericUser
 {
     /**
+     * @var integer
+     */
+    private $id;
+
+    /**
      * @var string
      */
     private $email;
@@ -30,11 +35,6 @@ class GenericUser
     private $phone;
 
     /**
-     * @var integer
-     */
-    private $id;
-
-    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $provider;
@@ -45,6 +45,16 @@ class GenericUser
     public function __construct()
     {
         $this->provider = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -137,16 +147,6 @@ class GenericUser
     public function getPhone()
     {
         return $this->phone;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

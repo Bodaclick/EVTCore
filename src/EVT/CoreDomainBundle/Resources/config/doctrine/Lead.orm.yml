@@ -2,9 +2,6 @@ EVT\CoreDomainBundle\Entity\Lead:
     type: entity
     table: lead
     indexes:
-        fk_lead_information_idx:
-            columns:
-                - lead_information_id
         event_location_admin_level_1_idx:
             columns:
                 - event_location_admin_level_1
@@ -33,14 +30,14 @@ EVT\CoreDomainBundle\Entity\Lead:
     fields:
         eventDate:
             type: datetime
-            nullable: true
+            nullable: false
             comment: ''
+            default: CURRENT_TIMESTAMP
             column: event_date
         eventType:
-            type: string
+            type: integer
             nullable: false
-            length: 255
-            fixed: false
+            unsigned: false
             comment: ''
             column: event_type
         eventLocationAdminLevel1:
@@ -113,24 +110,18 @@ EVT\CoreDomainBundle\Entity\Lead:
             column: created_at
         updatedAt:
             type: datetime
-            nullable: false
+            nullable: true
             comment: ''
-            default: CURRENT_TIMESTAMP
             column: updated_at
         read:
             type: datetime
             nullable: true
             comment: ''
-    manyToOne:
-        leadInformation:
+    oneToMany:
+        lead_information:
             targetEntity: LeadInformation
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                lead_information_id:
-                    referencedColumnName: id
-            orphanRemoval: false
+            mappedBy: Lead
+    manyToOne:
         showroom:
             targetEntity: Showroom
             cascade: {  }

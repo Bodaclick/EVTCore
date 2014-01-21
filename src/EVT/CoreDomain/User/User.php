@@ -26,7 +26,7 @@ class User extends GenericUser
      */
     public function doLead(Showroom $showroom, Event $event, InformationBag $infoBag = null)
     {
-        $lead = new Lead(new LeadId(''), $this->personalInfo, $showroom, $event);
+        $lead = new Lead(new LeadId(''), $this->personalInfo, $this->email, $showroom, $event);
 
         $lead->setInformationBag($infoBag);
         return $lead;

@@ -14,6 +14,9 @@ class InformationBag implements \IteratorAggregate, \Countable
 
     public function __construct(array $parameters = null)
     {
+        if (null === $parameters) {
+            $parameters = [];
+        }
         $this->parameters = $parameters;
     }
 

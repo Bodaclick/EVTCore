@@ -1,6 +1,10 @@
 EVT\CoreDomainBundle\Entity\LeadInformation:
     type: entity
     table: lead_information
+    indexes:
+        fk_lead_information_lead_idx:
+            columns:
+                - lead_id
     uniqueConstraints:
         id_UNIQUE:
             columns:
@@ -27,4 +31,14 @@ EVT\CoreDomainBundle\Entity\LeadInformation:
             length: null
             fixed: false
             comment: ''
+    manyToOne:
+        lead:
+            targetEntity: Lead
+            cascade: {  }
+            mappedBy: null
+            inversedBy: lead_information
+            joinColumns:
+                lead_id:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -21,7 +21,7 @@ class ShowroomsProviderFilter extends \FilterIterator
     public function accept()
     {
         $showroom = $this->getInnerIterator()->current();
-        if ($showroom->getProvider()->getId() == $this->providerFilter->getId()) {
+        if ($showroom->belongsToProvider($this->providerFilter)) {
             return true;
         }
         return false;

@@ -9,15 +9,17 @@ use EVT\CoreDomain\Lead\EventType;
 use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\Lead\LeadInformationBag;
 use EVT\CoreDomain\User\PersonalInformation;
+use EVT\CoreDomain\Email;
 
 class LeadTest extends \PHPUnit_Framework_TestCase
 {
     public function testLeadCreation()
     {
+        $email = new Email('email@mail.com');
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
         $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
         $personalInfo = new PersonalInformation();
-        $lead = new Lead(new LeadId(''), $personalInfo, $showroom, $event);
+        $lead = new Lead(new LeadId(''), $personalInfo, $email, $showroom, $event);
         $this->assertEquals('', $lead->getId());
         $this->assertEquals($event, $lead->getEvent());
         $this->assertEquals($personalInfo, $lead->getPersonalInformation());
@@ -28,6 +30,7 @@ class LeadTest extends \PHPUnit_Framework_TestCase
 
     public function testLeadInformationBag()
     {
+        $email = new Email('email@mail.com');
         $personalInfo = new PersonalInformation();
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
         $event = new Event(
@@ -35,7 +38,7 @@ class LeadTest extends \PHPUnit_Framework_TestCase
             new Location(10, 10, 'Madrid', 'Madrid', 'Spain'),
             new \DateTime('now')
         );
-        $lead = new Lead(new LeadId(''), $personalInfo, $showroom, $event);
+        $lead = new Lead(new LeadId(''), $personalInfo, $email, $showroom, $event);
         $informationBag = new LeadInformationBag();
         $lead->setInformationBag($informationBag);
         $this->assertEquals($informationBag, $lead->getInformationBag());

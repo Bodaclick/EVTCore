@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 class LeadInformation
 {
     /**
+     * @var integer
+     */
+    private $id;
+
+    /**
      * @var string
      */
     private $key;
@@ -20,10 +25,20 @@ class LeadInformation
     private $value;
 
     /**
-     * @var integer
+     * @var \EVT\CoreDomainBundle\Entity\Lead
      */
-    private $id;
+    private $lead;
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set key
@@ -72,12 +87,25 @@ class LeadInformation
     }
 
     /**
-     * Get id
+     * Set lead
      *
-     * @return integer 
+     * @param \EVT\CoreDomainBundle\Entity\Lead $lead
+     * @return LeadInformation
      */
-    public function getId()
+    public function setLead(\EVT\CoreDomainBundle\Entity\Lead $lead = null)
     {
-        return $this->id;
+        $this->lead = $lead;
+
+        return $this;
+    }
+
+    /**
+     * Get lead
+     *
+     * @return \EVT\CoreDomainBundle\Entity\Lead 
+     */
+    public function getLead()
+    {
+        return $this->lead;
     }
 }

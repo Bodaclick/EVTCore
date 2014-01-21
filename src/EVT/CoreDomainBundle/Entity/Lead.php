@@ -10,12 +10,17 @@ use Doctrine\ORM\Mapping as ORM;
 class Lead
 {
     /**
+     * @var integer
+     */
+    private $id;
+
+    /**
      * @var \DateTime
      */
     private $eventDate;
 
     /**
-     * @var string
+     * @var integer
      */
     private $eventType;
 
@@ -80,20 +85,32 @@ class Lead
     private $read;
 
     /**
-     * @var integer
-     */
-    private $id;
-
-    /**
      * @var \EVT\CoreDomainBundle\Entity\Showroom
      */
     private $showroom;
 
     /**
-     * @var \EVT\CoreDomainBundle\Entity\LeadInformation
+     * @var \Doctrine\Common\Collections\Collection
      */
-    private $leadInformation;
+    private $lead_information;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->lead_information = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set eventDate
@@ -111,7 +128,7 @@ class Lead
     /**
      * Get eventDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEventDate()
     {
@@ -121,7 +138,7 @@ class Lead
     /**
      * Set eventType
      *
-     * @param string $eventType
+     * @param integer $eventType
      * @return Lead
      */
     public function setEventType($eventType)
@@ -134,7 +151,7 @@ class Lead
     /**
      * Get eventType
      *
-     * @return string 
+     * @return integer
      */
     public function getEventType()
     {
@@ -157,7 +174,7 @@ class Lead
     /**
      * Get eventLocationAdminLevel1
      *
-     * @return string 
+     * @return string
      */
     public function getEventLocationAdminLevel1()
     {
@@ -180,7 +197,7 @@ class Lead
     /**
      * Get eventLocationAdminLevel2
      *
-     * @return string 
+     * @return string
      */
     public function getEventLocationAdminLevel2()
     {
@@ -203,7 +220,7 @@ class Lead
     /**
      * Get eventLocationCountry
      *
-     * @return string 
+     * @return string
      */
     public function getEventLocationCountry()
     {
@@ -226,7 +243,7 @@ class Lead
     /**
      * Get eventLocationLat
      *
-     * @return float 
+     * @return float
      */
     public function getEventLocationLat()
     {
@@ -249,7 +266,7 @@ class Lead
     /**
      * Get eventLocationLong
      *
-     * @return float 
+     * @return float
      */
     public function getEventLocationLong()
     {
@@ -272,7 +289,7 @@ class Lead
     /**
      * Get userName
      *
-     * @return string 
+     * @return string
      */
     public function getUserName()
     {
@@ -295,7 +312,7 @@ class Lead
     /**
      * Get userSurnames
      *
-     * @return string 
+     * @return string
      */
     public function getUserSurnames()
     {
@@ -318,7 +335,7 @@ class Lead
     /**
      * Get userPhone
      *
-     * @return string 
+     * @return string
      */
     public function getUserPhone()
     {
@@ -341,7 +358,7 @@ class Lead
     /**
      * Get userEmail
      *
-     * @return string 
+     * @return string
      */
     public function getUserEmail()
     {
@@ -364,7 +381,7 @@ class Lead
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -387,7 +404,7 @@ class Lead
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -410,21 +427,11 @@ class Lead
     /**
      * Get read
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getRead()
     {
         return $this->read;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -443,7 +450,7 @@ class Lead
     /**
      * Get showroom
      *
-     * @return \EVT\CoreDomainBundle\Entity\Showroom 
+     * @return \EVT\CoreDomainBundle\Entity\Showroom
      */
     public function getShowroom()
     {
@@ -451,25 +458,35 @@ class Lead
     }
 
     /**
-     * Set leadInformation
+     * Add lead_information
      *
      * @param \EVT\CoreDomainBundle\Entity\LeadInformation $leadInformation
      * @return Lead
      */
-    public function setLeadInformation(\EVT\CoreDomainBundle\Entity\LeadInformation $leadInformation = null)
+    public function addLeadInformation(\EVT\CoreDomainBundle\Entity\LeadInformation $leadInformation)
     {
-        $this->leadInformation = $leadInformation;
+        $this->lead_information[] = $leadInformation;
 
         return $this;
     }
 
     /**
-     * Get leadInformation
+     * Remove lead_information
      *
-     * @return \EVT\CoreDomainBundle\Entity\LeadInformation 
+     * @param \EVT\CoreDomainBundle\Entity\LeadInformation $leadInformation
+     */
+    public function removeLeadInformation(\EVT\CoreDomainBundle\Entity\LeadInformation $leadInformation)
+    {
+        $this->lead_information->removeElement($leadInformation);
+    }
+
+    /**
+     * Get lead_information
+     *
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getLeadInformation()
     {
-        return $this->leadInformation;
+        return $this->lead_information;
     }
 }
