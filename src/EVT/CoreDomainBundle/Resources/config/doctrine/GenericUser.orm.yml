@@ -1,4 +1,5 @@
 EVT\CoreDomainBundle\Entity\GenericUser:
+    repositoryClass: EVT\CoreDomainBundle\Repository\UserRepository
     type: entity
     table: generic_user
     uniqueConstraints:

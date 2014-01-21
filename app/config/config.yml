@@ -72,8 +72,8 @@ evt_api:
     apikeys: "%apikeys%"
 
 sensio_framework_extra:
-    view:
-        annotations: false
+    view:    { annotations: false }
+    router:  { annotations: true }
 
 fos_rest:
     routing_loader:
@@ -87,8 +87,11 @@ fos_rest:
             json: true
             xml: false
             rss: false
+        jsonp_handler: ~
     body_listener:
         decoders:
             json: fos_rest.decoder.json
-    param_fetcher_listener: force
-    allowed_methods_listener: true
+    param_fetcher_listener: true
+    access_denied_listener:
+        # all requests using the 'json' format will return a 403 on an access denied violation
+        json: true

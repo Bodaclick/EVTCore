@@ -1,4 +1,5 @@
 EVT\CoreDomainBundle\Entity\Showroom:
+    repositoryClass: EVT\CoreDomainBundle\Repository\ShowroomRepository
     type: entity
     table: showroom
     indexes:

@@ -6,3 +6,7 @@ services:
     evt.api_key.authenticator:
         class:     EVT\ApiBundle\Security\ApiKeyAuthenticator
         arguments: [@evt.api_key.user_provider]
+
+    evt.lead.factory:
+        class:     EVT\ApiBundle\Factory\LeadFactory
+        arguments: [@evt.repository.showroom, @evt.repository.lead]

@@ -74,6 +74,9 @@ class Lead
         return $this->showroom;
     }
 
+    /**
+     * @return LeadId The id of the lead
+     */
     public function getId()
     {
         return $this->id;
