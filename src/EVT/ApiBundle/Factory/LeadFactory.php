@@ -2,7 +2,6 @@
 
 namespace EVT\ApiBundle\Factory;
 
-use Symfony\Component\Validator\Constraints\All;
 use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\Lead\Lead;
 use EVT\CoreDomain\Lead\EventType;
@@ -55,10 +54,19 @@ class LeadFactory
      */
     public function createLead(User $user, $lead)
     {
-        $showroom = $this->showroomRepo->find($lead['showroom']['id']);
+        // Validate the array throw InvalidArgumentException if any error
+        $this->validateFirstLevel($lead);
+        $this->validateShowroom($lead['showroom']);
 
+        $showroom = $this->showroomRepo->find($lead['showroom']['id']);
+        if (null === $showroom) {
+            throw new \InvalidArgumentException('Showroom not found');
+        }
+
+        // Validate the array throw InvalidArgumentException if any error
+        $this->validateEvent($lead['event']);
         $event = new Event(
-            new EventType('wedding'),
+            new EventType($lead['event']['type']),
             new Location(
                 $lead['event']['location']['lat'],
                 $lead['event']['location']['long'],
@@ -73,5 +81,31 @@ class LeadFactory
         $this->leadRepo->save($lead);
 
         return $lead;
+    }
+
+    private function validateFirstLevel($array)
+    {
+        $arrayValidator = new ArrayValidator(['user', 'event', 'showroom']);
+        $arrayValidator->validate($array);
+    }
+
+    private function validateShowroom($array)
+    {
+        $arrayValidator = new ArrayValidator(['id']);
+        $arrayValidator->validate($array);
+    }
+
+    private function validateEvent($array)
+    {
+        $arrayValidator = new ArrayValidator(['date', 'type', 'location']);
+        $arrayValidator->validate($array);
+
+        $this->validateLocation($array['location']);
+    }
+
+    private function validateLocation($array)
+    {
+        $arrayValidator = new ArrayValidator(['lat', 'long', 'admin_level_1', 'admin_level_2', 'country']);
+        $arrayValidator->validate($array);
     }
 }

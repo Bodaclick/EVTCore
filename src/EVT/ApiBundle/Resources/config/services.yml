@@ -7,6 +7,9 @@ services:
         class:     EVT\ApiBundle\Security\ApiKeyAuthenticator
         arguments: [@evt.api_key.user_provider]
 
-    evt.lead.factory:
+    evt.factory.lead:
         class:     EVT\ApiBundle\Factory\LeadFactory
         arguments: [@evt.repository.showroom, @evt.repository.lead]
+
+    evt.factory.user:
+        class:     EVT\ApiBundle\Factory\UserFactory
