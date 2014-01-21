@@ -1,1 +1,19 @@
 services:
+    evt.repository:
+        abstract:  true
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+
+    evt.repository.user:
+        parent: evt.repository
+        arguments: [EVTCoreDomainBundle:GenericUser]
+
+    evt.repository.lead:
+        parent: evt.repository
+        arguments: [EVTCoreDomainBundle:Lead]
+
+    evt.repository.showroom:
+        parent: evt.repository
+        arguments: [EVTCoreDomainBundle:Showroom]
+    

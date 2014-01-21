@@ -16,12 +16,12 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new EVT\ApiBundle\EVTApiBundle(),
-            new EVT\CoreDomainBundle\EVTCoreDomainBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\RestBundle\FOSRestBundle(),
+            new EVT\ApiBundle\EVTApiBundle(),
+            new EVT\CoreDomainBundle\EVTCoreDomainBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace EVT\CoreDomain\Provider;
 
 use EVT\CoreDomain\RepositoryInterface;
@@ -9,7 +10,7 @@ use EVT\CoreDomain\RepositoryInterface;
  * @author    Marco Ferrari <marco.ferrari@bodaclick.com>
  * @copyright 2014 Bodaclick S.A
  */
-interface ShowroomRepository extends RepositoryInterface
+interface ShowroomRepositoryInterface extends RepositoryInterface
 {
-    public function find($domain);
+    public function find($id);
 }

@@ -1,7 +1,10 @@
-evt_api:
-    resource: "@EVTApiBundle/Controller/"
-    type:     annotation
+evt_api_home:
+    resource: EVT\ApiBundle\Controller\DefaultController 
     prefix:   /
     schemes:  [https]
 
-
+evt_api:
+    resource: "@EVTApiBundle/Resources/config/routing.yml"
+    type:     rest
+    prefix:   /api/
+    schemes:  [https]
