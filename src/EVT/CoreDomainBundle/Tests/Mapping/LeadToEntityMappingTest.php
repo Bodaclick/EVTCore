@@ -17,21 +17,15 @@ class LeadToEntityMappingTest extends \PHPUnit_Framework_TestCase
 {
     public function testEntityIsMapped()
     {
-        $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()
+        $showroom = $this->getMockBuilder('EVT\CoreDomainBundle\Entity\Showroom')->disableOriginalConstructor()
             ->getMock();
         $event = new Event(new EventType('test'), new Location(10, 10, 'admin1', 'admin2', 'ES'), new \DateTime('now'));
         $personalInfo = new PersonalInformation('name');
         $user = new User(new Email('valid@email.com'), $personalInfo);
         $infoBag = new InformationBag(['observations' => 'test']);
         $lead = $user->doLead($showroom, $event, $infoBag);
-        $showroomMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\ShowroomToEntityMapping')
-            ->disableOriginalConstructor()->getMock();
-        $infoBagMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\InformationBagToEntityMapping')
-            ->setMethods(['map'])->disableOriginalConstructor()->getMock();
-        $showroomMapper->expects($this->once())->method('map')->will($this->returnValue(new ORMShowroom()));
-        $infoBagMapper->expects($this->once())->method('map')->will($this->returnValue(new ORMLeadInformation()));
 
-        $mapping = new LeadToEntityMapping($showroomMapper, $infoBagMapper);
+        $mapping = new LeadToEntityMapping();
 
         $entity = $mapping->map($lead);
         $this->assertInstanceOf('EVT\CoreDomainBundle\Entity\Lead', $entity);
@@ -47,6 +41,6 @@ class LeadToEntityMappingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($event->getLocation()->getAdminLevel2(), $entity->getEventLocationAdminLevel2());
         $this->assertEquals($event->getLocation()->getCountry(), $entity->getEventLocationCountry());
         $this->assertInstanceOf('EVT\CoreDomainBundle\Entity\Showroom', $entity->getShowroom());
-        $this->assertInstanceOf('EVT\CoreDomainBundle\Entity\LeadInformation', $entity->getLeadInformation());
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $entity->getLeadInformation());
     }
 }

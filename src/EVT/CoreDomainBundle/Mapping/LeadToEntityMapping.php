@@ -4,8 +4,7 @@ namespace EVT\CoreDomainBundle\Mapping;
 
 use EVT\CoreDomain\Lead\Lead;
 use EVT\CoreDomainBundle\Entity\Lead as ORMLead;
-use EVT\CoreDomainBundle\Entity\Showroom as ORMShowroom;
-use EVT\CoreDomainBundle\Mapping\ShowroomToEntityMapping;
+use EVT\CoreDomainBundle\Entity\LeadInformation as ORMLeadInformation;
 
 /**
  * LeadToEntityMapping
@@ -15,16 +14,6 @@ use EVT\CoreDomainBundle\Mapping\ShowroomToEntityMapping;
  */
 class LeadToEntityMapping
 {
-
-    protected $showroomMapper;
-    protected $infoBagMapper;
-
-    public function __construct(ShowroomToEntityMapping $showroomMapper, InformationBagToEntityMapping $infoBagMapper)
-    {
-        $this->showroomMapper = $showroomMapper;
-        $this->infoBagMapper = $infoBagMapper;
-    }
-
     /**
      * map
      *
@@ -45,8 +34,14 @@ class LeadToEntityMapping
         $entity->setEventLocationAdminLevel1($lead->getEvent()->getLocation()->getAdminLevel1());
         $entity->setEventLocationAdminLevel2($lead->getEvent()->getLocation()->getAdminLevel2());
         $entity->setEventLocationCountry($lead->getEvent()->getLocation()->getCountry());
-        $entity->setShowroom($this->showroomMapper->map($lead->getShowroom()));
-        $entity->setLeadInformation($this->infoBagMapper->map($lead->getInformationBag()));
+        $entity->setShowroom($lead->getShowroom());
+        $leadInfo = $lead->getInformationBag();
+        foreach ($leadInfo as $key => $element) {
+            $infoEntity = new ORMLeadInformation();
+            $infoEntity->setKey($key);
+            $infoEntity->setValue($element);
+            $entity->addLeadInformation($infoEntity);
+        }
         return $entity;
     }
 }
