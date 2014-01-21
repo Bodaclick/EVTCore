@@ -114,10 +114,11 @@ EVT\CoreDomainBundle\Entity\Lead:
             nullable: true
             comment: ''
             column: updated_at
-        read:
+        readAt:
             type: datetime
             nullable: true
             comment: ''
+            column: read_at
     oneToMany:
         lead_information:
             targetEntity: LeadInformation

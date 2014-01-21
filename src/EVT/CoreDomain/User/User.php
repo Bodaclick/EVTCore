@@ -4,7 +4,7 @@ namespace EVT\CoreDomain\User;
 
 use EVT\CoreDomain\Lead\LeadId;
 use EVT\CoreDomain\Provider\Showroom;
-use EVT\CoreDomain\InformationBag;
+use EVT\CoreDomain\Lead\LeadInformationBag;
 use EVT\CoreDomain\Lead\Event;
 use EVT\CoreDomain\Lead\Lead;
 
@@ -24,11 +24,13 @@ class User extends GenericUser
      * @param InformationBag $infoBag
      * @return Lead
      */
-    public function doLead(Showroom $showroom, Event $event, InformationBag $infoBag = null)
+    public function doLead(Showroom $showroom, Event $event, LeadInformationBag $infoBag = null)
     {
         $lead = new Lead(new LeadId(''), $this->personalInfo, $this->email, $showroom, $event);
+        if (null !== $infoBag) {
+            $lead->setInformationBag($infoBag);
+        }
 
-        $lead->setInformationBag($infoBag);
         return $lead;
     }
 }

@@ -3,6 +3,7 @@
 namespace EVT\CoreDomain\Lead;
 
 use EVT\CoreDomain\Lead\Event;
+use EVT\CoreDomain\Lead\LeadInformationBag;
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\User\User;
 use EVT\CoreDomain\User\PersonalInformation;
@@ -40,16 +41,16 @@ class Lead
         Showroom $showroom,
         Event $event
     ) {
-        $this->id           = $id->getValue();
-        $this->showroom     = $showroom;
-        $this->personalInfo = $personalInfo;
-        $this->event        = $event;
-        $this->createdAt    = new \DateTime('now', new \DateTimeZone('UTC'));
-        $this->email        = $email;
-
+        $this->id             = $id->getValue();
+        $this->showroom       = $showroom;
+        $this->personalInfo   = $personalInfo;
+        $this->event          = $event;
+        $this->createdAt      = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->email          = $email;
+        $this->informationBag = new LeadInformationBag();
     }
 
-    public function setInformationBag($informationBag)
+    public function setInformationBag(LeadInformationBag $informationBag)
     {
         $this->informationBag = $informationBag;
     }

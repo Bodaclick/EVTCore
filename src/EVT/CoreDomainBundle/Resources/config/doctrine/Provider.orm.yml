@@ -26,7 +26,7 @@ EVT\CoreDomainBundle\Entity\Provider:
             nullable: true
             length: 20
             fixed: false
-            comment: \n
+            comment: ''
         locationAdminLevel1:
             type: string
             nullable: true
@@ -67,7 +67,7 @@ EVT\CoreDomainBundle\Entity\Provider:
             nullable: true
             length: null
             fixed: false
-            comment: 'Serialized EmailCollection'
+            comment: ''
             column: notification_emails
         slug:
             type: string
