@@ -17,7 +17,7 @@ security:
 
         apikey_secured_area:
             pattern: ^/
-            stateless: false
+            stateless: true
             anonymous: false
             simple_preauth:
                 authenticator: evt.api_key.authenticator
