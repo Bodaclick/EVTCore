@@ -37,15 +37,6 @@ class LeadsEndpointCheck extends Check
                     case Logger::WARNING:
                         $this->levels['warning']++;
                         break;
-                    case Logger::ERROR:
-                        $this->levels['error']++;
-                        break;
-                    case Logger::ALERT:
-                        $this->levels['alert']++;
-                        break;
-                    case Logger::CRITICAL:
-                        $this->levels['critical']++;
-                        break;
                     case Logger::EMERGENCY:
                         $this->levels['emergency']++;
                         break;
@@ -69,21 +60,6 @@ class LeadsEndpointCheck extends Check
         if ($this->levels['emergency'] >= 1) {
             $this->result = $this->buildResult(sprintf('EMERGENCY: %s', $msg), CheckResult::CRITICAL);
             $this->rotateLog('EMERGENCY');
-            throw new \RuntimeException($msg);
-        }
-        if ($this->levels['critical'] >= 1) {
-            $this->result = $this->buildResult(sprintf('CRITICAL: %s', $msg), CheckResult::CRITICAL);
-            $this->rotateLog('CRITICAL');
-            throw new \RuntimeException($msg);
-        }
-        if ($this->levels['alert'] >= 1) {
-            $this->result = $this->buildResult(sprintf('ALERT: %s', $msg), CheckResult::CRITICAL);
-            $this->rotateLog('ALERT');
-            throw new \RuntimeException($msg);
-        }
-        if ($this->levels['error'] >= 2) {
-            $this->result = $this->buildResult(sprintf('ERROR: %s', $msg), CheckResult::CRITICAL);
-            $this->rotateLog('ERROR');
             throw new \RuntimeException($msg);
         }
         if ($this->levels['warning'] >= 5) {
