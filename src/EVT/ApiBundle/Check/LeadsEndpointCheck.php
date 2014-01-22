@@ -11,6 +11,7 @@ class LeadsEndpointCheck extends Check
 {
     protected $logPath;
     protected $result;
+    protected $levels = array('warning' => 0, 'error' => 0, 'alert' => 0, 'critical' => 0, 'emergency' => 0);
 
     public function __construct($path)
     {
@@ -20,36 +21,38 @@ class LeadsEndpointCheck extends Check
 
     public function check()
     {
-        $fh = fopen($this->logPath, 'r');
-        $warnings = 0;
-        $errors = 0;
-        $alerts = 0;
-        $crits = 0;
-        $emergencies = 0;
+        $fh = @fopen($this->logPath, 'r');
+        if (!$fh) {
+            $err = $this->getLastError();
+            if ($err) {
+                return $err;
+            }
+            return $this->result;
+        }
 
         try {
             while ($line = fgets($fh)) {
                 $log = json_decode($line, true);
                 switch ($log['level']) {
                     case Logger::WARNING:
-                        $warnings++;
+                        $this->levels['warning']++;
                         break;
                     case Logger::ERROR:
-                        $errors++;
+                        $this->levels['error']++;
                         break;
                     case Logger::ALERT:
-                        $alerts++;
+                        $this->levels['alert']++;
                         break;
                     case Logger::CRITICAL:
-                        $crits++;
+                        $this->levels['critical']++;
                         break;
                     case Logger::EMERGENCY:
-                        $emergencies++;
+                        $this->levels['emergency']++;
                         break;
                 }
-                $this->checkThreshold($log['message'], $warnings, $errors, $alerts, $crits, $emergencies);
+                $this->checkThreshold($log['message']);
             }
-            return $this->result;
+            return ($this->getLastError())?:$this->result;
         } catch (\Exception $e) {
         }
         fclose($fh);
@@ -61,27 +64,31 @@ class LeadsEndpointCheck extends Check
         return 'EVT Leads monitor';
     }
 
-    protected function checkThreshold($msg, $warnings, $errors, $alerts, $crits, $emergencies)
+    protected function checkThreshold($msg)
     {
-        if ($emergencies >= 1) {
+        if ($this->levels['emergency'] >= 1) {
             $this->result = $this->buildResult(sprintf('EMERGENCY: %s', $msg), CheckResult::CRITICAL);
             $this->rotateLog('EMERGENCY');
             throw new \RuntimeException($msg);
         }
-        if ($crits >= 1) {
+        if ($this->levels['critical'] >= 1) {
             $this->result = $this->buildResult(sprintf('CRITICAL: %s', $msg), CheckResult::CRITICAL);
+            $this->rotateLog('CRITICAL');
             throw new \RuntimeException($msg);
         }
-        if ($alerts >= 1) {
+        if ($this->levels['alert'] >= 1) {
             $this->result = $this->buildResult(sprintf('ALERT: %s', $msg), CheckResult::CRITICAL);
+            $this->rotateLog('ALERT');
             throw new \RuntimeException($msg);
         }
-        if ($errors >= 2) {
+        if ($this->levels['error'] >= 2) {
             $this->result = $this->buildResult(sprintf('ERROR: %s', $msg), CheckResult::CRITICAL);
+            $this->rotateLog('ERROR');
             throw new \RuntimeException($msg);
         }
-        if ($warnings >= 5) {
+        if ($this->levels['warning'] >= 5) {
             $this->result = $this->buildResult(sprintf('WARNING: %s', $msg), CheckResult::WARNING);
+            $this->rotateLog('WARNING');
             throw new \RuntimeException($msg);
         }
     }
@@ -98,5 +105,39 @@ class LeadsEndpointCheck extends Check
         }
 
         rename($this->logPath, "$dir/$level.$prev.$name");
+    }
+
+    protected function getLastError()
+    {
+        $info = [];
+        $name = basename($this->logPath);
+        $dir = dirname($this->logPath);
+        foreach ($this->levels as $level => $value) {
+            $level = strtolower($level);
+            $total = 0;
+            $latest = 0;
+            foreach (glob($dir . '/' . $level . '.*.' . $name) as $found) {
+                $total++;
+            }
+            if (!$total) {
+                continue;
+            }
+            $file = "$dir/$level.$total.$name";
+            if (@filemtime($file) > $latest) {
+                $latest         = filemtime($file);
+                $lastLevel      = $level;
+                $info['level']  = $lastLevel;
+                $info['time']   = $latest;
+                $info['status'] = CheckResult::WARNING;
+            }
+        }
+        if (empty($info)) {
+            return false;
+        }
+
+        return $this->buildResult(
+            sprintf('Last status was %s at %s', $info['level'], date('Y-m-d H:i:s', $info['time'])),
+            $info['status']
+        );
     }
 }

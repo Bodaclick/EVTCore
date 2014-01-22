@@ -30,7 +30,7 @@ monolog:
             type:   stream
             path:   "%kernel.logs_dir%/leads.%kernel.environment%.log"
             level:  warning
-            formatter: monolog.formatter.json
+            formatter: api.monolog.json_formatter
         main:
             type:  fingers_crossed
             path:  %kernel.logs_dir%/%kernel.environment%.log
@@ -113,4 +113,4 @@ fos_rest:
 
 liip_monitor:
     checks:
-        php_extensions: [apc, xdebug]
+        php_extensions: [intl]
