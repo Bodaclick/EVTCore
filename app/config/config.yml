@@ -29,7 +29,12 @@ monolog:
         lead:
             type:   stream
             path:   "%kernel.logs_dir%/leads.%kernel.environment%.log"
-            level:  notice
+            level:  warning
+            formatter: monolog.formatter.json
+        main:
+            type:  fingers_crossed
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: critical
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"

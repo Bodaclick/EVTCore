@@ -11,16 +11,22 @@ use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Provider\ShowroomRepositoryInterface;
 use EVT\CoreDomain\User\PersonalInformation;
 use EVT\CoreDomain\User\User;
+use Symfony\Bridge\Monolog\Logger;
 
 class LeadFactory
 {
     protected $showroomRepo;
     protected $leadRepo;
+    protected $logger;
 
-    public function __construct(ShowroomRepositoryInterface $showroomRepo, LeadRepositoryInterface $leadRepo)
-    {
+    public function __construct(
+        ShowroomRepositoryInterface $showroomRepo,
+        LeadRepositoryInterface $leadRepo,
+        Logger $logger
+    ) {
         $this->showroomRepo = $showroomRepo;
         $this->leadRepo = $leadRepo;
+        $this->logger = $logger;
     }
 
     /**
@@ -60,6 +66,7 @@ class LeadFactory
 
         $showroom = $this->showroomRepo->find($lead['showroom']['id']);
         if (null === $showroom) {
+            $this->logger->emergency(sprintf('Showroom id %s not found', $lead['showroom']['id']));
             throw new \InvalidArgumentException('Showroom not found');
         }
 
@@ -77,8 +84,12 @@ class LeadFactory
             new \DateTime($lead['event']['date'], new \DateTimeZone('UTC'))
         );
 
-        $lead = $user->doLead($showroom, $event);
-        $this->leadRepo->save($lead);
+        try {
+            $lead = $user->doLead($showroom, $event);
+            $this->leadRepo->save($lead);
+        } catch (\Exception $e) {
+            $this->logger->emergency('Lead Error, run for your life: ' . $e->getTraceAsString());
+        }
 
         return $lead;
     }

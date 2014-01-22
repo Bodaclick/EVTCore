@@ -9,7 +9,9 @@ services:
 
     evt.factory.lead:
         class:     EVT\ApiBundle\Factory\LeadFactory
-        arguments: [@evt.repository.showroom, @evt.repository.lead]
+        arguments: [@evt.repository.showroom, @evt.repository.lead, @logger]
+        tags:
+            - { name: monolog.logger, channel: lead }
 
     evt.factory.user:
         class:     EVT\ApiBundle\Factory\UserFactory

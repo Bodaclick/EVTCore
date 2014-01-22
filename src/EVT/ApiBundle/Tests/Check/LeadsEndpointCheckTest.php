@@ -25,7 +25,19 @@ class LeadsEndpointCheckTest extends \PHPUnit_Framework_TestCase
     {
         $formatter = new JsonFormatter();
         $fh = fopen('/tmp/check.test.log', 'w+');
-        $record = ['level' => Logger::WARNING, 'msg' => 'test'];
+        $record = array(
+            'message' => 'test',
+            'context' => [],
+            'level' => 300,
+            'level_name' => 'WARNING',
+            'channel' => 'lead',
+            'datetime' => \DateTime::createFromFormat(
+                'U.u',
+                sprintf('%.6F', microtime(true)),
+                new \DateTimeZone('UTC')
+            )->setTimezone(new \DateTimeZone('UTC')),
+            'extra' => array(),
+        );
 
         fwrite($fh, $formatter->format($record) . PHP_EOL);
         fwrite($fh, $formatter->format($record) . PHP_EOL);
@@ -42,7 +54,19 @@ class LeadsEndpointCheckTest extends \PHPUnit_Framework_TestCase
     {
         $formatter = new JsonFormatter();
         $fh = fopen('/tmp/check.test.log', 'w+');
-        $record = ['level' => Logger::EMERGENCY, 'msg' => 'test'];
+        $record = array(
+            'message' => 'test',
+            'context' => [],
+            'level' => 600,
+            'level_name' => 'EMERGENCY',
+            'channel' => 'lead',
+            'datetime' => \DateTime::createFromFormat(
+                'U.u',
+                sprintf('%.6F', microtime(true)),
+                new \DateTimeZone('UTC')
+            )->setTimezone(new \DateTimeZone('UTC')),
+            'extra' => array(),
+        );
 
         fwrite($fh, $formatter->format($record) . PHP_EOL);
 

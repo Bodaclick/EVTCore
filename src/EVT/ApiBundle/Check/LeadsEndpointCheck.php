@@ -47,7 +47,7 @@ class LeadsEndpointCheck extends Check
                         $emergencies++;
                         break;
                 }
-                $this->checkThreshold($log['msg'], $warnings, $errors, $alerts, $crits, $emergencies);
+                $this->checkThreshold($log['message'], $warnings, $errors, $alerts, $crits, $emergencies);
             }
             return $this->result;
         } catch (\Exception $e) {
