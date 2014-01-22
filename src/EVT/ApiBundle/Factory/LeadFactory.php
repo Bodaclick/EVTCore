@@ -73,7 +73,7 @@ class LeadFactory
         // Validate the array throw InvalidArgumentException if any error
         $this->validateEvent($lead['event']);
         $event = new Event(
-            new EventType($lead['event']['type']),
+            new EventType((int)$lead['event']['type']),
             new Location(
                 $lead['event']['location']['lat'],
                 $lead['event']['location']['long'],

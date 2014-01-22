@@ -72,7 +72,7 @@ class LeadControllerTest extends WebTestCase
                 ],
                 'event' => [
                     'date' => '2015/12/31',
-                    'type' => '1',
+                    'type' => 1,
                     'location' => [
                        'lat' => 10,
                        'long' => 10,

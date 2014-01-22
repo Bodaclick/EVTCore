@@ -10,15 +10,30 @@ namespace EVT\CoreDomain\Lead;
  */
 class EventType
 {
+
+    const BIRTHDAY = 1;
+
     private $type;
 
     public function __construct($type)
     {
+        if (!$this->isValidType($type)) {
+            throw new \InvalidArgumentException("$type is not a valid type");
+        }
         $this->type = $type;
     }
 
     public function getType()
     {
         return $this->type;
+    }
+
+    protected function isValidType($type)
+    {
+        $rfl = new \ReflectionClass($this);
+        if (!array_search($type, $rfl->getConstants())) {
+            return false;
+        }
+        return true;
     }
 }
