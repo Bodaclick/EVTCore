@@ -100,6 +100,7 @@ class Lead
     public function __construct()
     {
         $this->lead_information = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdAt = new \DateTime(null, new \DateTimeZone('UTC'));
     }
 
     /**
