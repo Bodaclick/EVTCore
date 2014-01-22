@@ -17,4 +17,44 @@ class PersonalInformationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('surnames', $personalInfo->surnames);
         $this->assertEquals('phone', $personalInfo->phone);
     }
+
+    /**
+     *  @expectedException PHPUnit_Framework_Error_Warning
+     */
+    public function testNotOptionalValues()
+    {
+        new PersonalInformation();
+    }
+
+    public function emptiesProvider()
+    {
+        return [[''], [null]];
+    }
+
+    /**
+     *  @expectedException InvalidArgumentException
+     *  @dataProvider emptiesProvider
+     */
+    public function testNameNotEmpty($value)
+    {
+        new PersonalInformation($value, 'a', 'b');
+    }
+
+    /**
+     *  @expectedException InvalidArgumentException
+     *  @dataProvider emptiesProvider
+     */
+    public function testSurnameNotEmpty($value)
+    {
+        new PersonalInformation('c', $value, 'b');
+    }
+
+    /**
+     *  @expectedException InvalidArgumentException
+     *  @dataProvider emptiesProvider
+     */
+    public function testPhoneNotEmpty($value)
+    {
+        new PersonalInformation('c', 'a', $value);
+    }
 }

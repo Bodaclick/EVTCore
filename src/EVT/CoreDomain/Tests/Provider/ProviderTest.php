@@ -28,13 +28,13 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     {
         $testName = "TestName";
         $provider = new Provider(new ProviderId(''), $testName, new EmailCollection(new Email('valid@email.com')));
-        $provider->addManager(new Manager('valid@email.com', new PersonalInformation()));
+        $provider->addManager(new Manager('valid@email.com', new PersonalInformation('a', 'b', 'c')));
 
         $managers = $provider->getManagers();
         $this->assertCount(1, $managers);
 
 
-        $provider->addManager(new Manager('valid@email.com', new PersonalInformation()));
+        $provider->addManager(new Manager('valid@email.com', new PersonalInformation('a', 'b', 'c')));
 
         $managers = $provider->getManagers();
         $this->assertCount(1, $managers);

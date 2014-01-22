@@ -76,7 +76,7 @@ class LeadsEndpointCheck extends Check
         $dir = dirname($this->logPath);
         $prev = 1;
 
-        foreach (glob($dir . '/' . $level . '.*.' . $name) as $name) {
+        foreach (glob($dir . '/' . $level . '.*.' . $name) as $file) {
             $prev++;
         }
 

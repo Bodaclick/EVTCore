@@ -25,7 +25,7 @@ class UserRepositoryTest extends \PHPUnit_Framework_TestCase
                 }
             )
         );
-        $user = new User(new Email('valid@email.com'), new PersonalInformation('name'));
+        $user = new User(new Email('valid@email.com'), new PersonalInformation('a', 'b', 'c'));
         $repo = new UserRepository($em, $metadata);
         $repo->save($user);
         $this->assertEquals(1, $user->getId());
