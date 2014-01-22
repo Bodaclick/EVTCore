@@ -26,14 +26,11 @@ class PersonalInformation implements IteratorAggregate
      */
     public function __construct($name, $surnames, $phone)
     {
-        if (empty($name)) {
-            throw new \InvalidArgumentException('User name Required');
-        }
-        if (empty($surnames)) {
-            throw new \InvalidArgumentException('User surnames Required');
-        }
-        if (empty($phone)) {
-            throw new \InvalidArgumentException('User phone Required');
+        $args = func_get_args();
+        foreach ($args as $val => $arg) {
+            if (empty($arg)) {
+                throw new \InvalidArgumentException('Args ' . $val . ' is Required');
+            }
         }
         $this->name     = $name;
         $this->surnames = $surnames;
