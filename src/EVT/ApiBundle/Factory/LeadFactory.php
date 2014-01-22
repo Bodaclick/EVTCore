@@ -11,7 +11,7 @@ use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Provider\ShowroomRepositoryInterface;
 use EVT\CoreDomain\User\PersonalInformation;
 use EVT\CoreDomain\User\User;
-use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class LeadFactory
 {
@@ -22,7 +22,7 @@ class LeadFactory
     public function __construct(
         ShowroomRepositoryInterface $showroomRepo,
         LeadRepositoryInterface $leadRepo,
-        Logger $logger
+        LoggerInterface $logger
     ) {
         $this->showroomRepo = $showroomRepo;
         $this->leadRepo = $leadRepo;

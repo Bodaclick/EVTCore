@@ -10,6 +10,7 @@ class LeadFactoryTest extends \PHPUnit_Framework_TestCase
 {
     private $showroomRepo;
     private $leadRepo;
+    private $logger;
 
     public function setUp()
     {
@@ -32,6 +33,9 @@ class LeadFactoryTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnvalue(true)
             );
+
+        $this->logger = $this->getMockBuilder('Symfony\Component\HttpKernel\Log\LoggerInterface')
+            ->disableOriginalConstructor()->getMock();
     }
 
     public function tearDown()
@@ -65,7 +69,7 @@ class LeadFactoryTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $factory = new LeadFactory($this->showroomRepo, $this->leadRepo);
+        $factory = new LeadFactory($this->showroomRepo, $this->leadRepo, $this->logger);
         $lead = $factory->createLead(new User('valid@email.com', new PersonalInformation()), $lead);
     }
 
@@ -94,7 +98,7 @@ class LeadFactoryTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $factory = new LeadFactory($this->showroomRepo, $this->leadRepo);
+        $factory = new LeadFactory($this->showroomRepo, $this->leadRepo, $this->logger);
         $lead = $factory->createLead(new User('valid@email.com', new PersonalInformation()), $lead);
     }
 }
