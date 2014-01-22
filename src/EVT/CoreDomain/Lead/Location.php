@@ -18,8 +18,16 @@ class Location
 
     public function __construct($lat, $long, $adminLevel1, $adminLevel2, $country)
     {
-        $this->lat = $lat;
-        $this->long = $long;
+        $args = func_get_args();
+
+        foreach ($args as $val => $arg) {
+            if (empty($arg)) {
+                throw new \InvalidArgumentException('Args ' . $val . ' is Required');
+            }
+        }
+
+        $this->lat = (int)$lat;
+        $this->long = (int)$long;
         $this->adminLevel1 = $adminLevel1;
         $this->adminLevel2 = $adminLevel2;
         $this->country = $country;

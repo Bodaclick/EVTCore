@@ -110,6 +110,9 @@ class LeadFactory
     {
         $arrayValidator = new ArrayValidator(['date', 'type', 'location']);
         $arrayValidator->validate($array);
+        if (empty($array['date'])) {
+            throw new \InvalidArgumentException('Date can not be empty');
+        }
 
         $this->validateLocation($array['location']);
     }
