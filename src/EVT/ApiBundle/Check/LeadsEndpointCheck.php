@@ -134,7 +134,9 @@ class LeadsEndpointCheck extends Check
         if (empty($info)) {
             return false;
         }
-
+        if (time() - 1800 >= $latest) {
+            return false;
+        }
         return $this->buildResult(
             sprintf('Last status was %s at %s', $info['level'], date('Y-m-d H:i:s', $info['time'])),
             $info['status']
