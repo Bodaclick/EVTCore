@@ -5,7 +5,7 @@ namespace EVT\ApiBundle\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 
-class LeadControllerBadDatasTest extends WebTestCase
+class LeadControllerBadDataTest extends WebTestCase
 {
     /**
      * @var \Symfony\Bundle\FrameworkBundle\Client

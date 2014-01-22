@@ -1,5 +1,9 @@
+_monitor:
+    resource: "@LiipMonitorBundle/Resources/config/routing.yml"
+    prefix: monitor/health
+
 evt_api_home:
-    resource: EVT\ApiBundle\Controller\DefaultController 
+    resource: EVT\ApiBundle\Controller\DefaultController
     prefix:   /
     schemes:  [https]
 

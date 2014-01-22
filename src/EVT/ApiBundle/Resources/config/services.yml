@@ -9,7 +9,17 @@ services:
 
     evt.factory.lead:
         class:     EVT\ApiBundle\Factory\LeadFactory
-        arguments: [@evt.repository.showroom, @evt.repository.lead]
-
+        arguments: [@evt.repository.showroom, @evt.repository.lead, @logger]
+        tags:
+            - { name: monolog.logger, channel: lead }
     evt.factory.user:
         class:     EVT\ApiBundle\Factory\UserFactory
+
+    api.monolog.json_formatter:
+        class: Monolog\Formatter\JsonFormatter
+
+    api.monitor.check.leads:
+        class: EVT\ApiBundle\Check\LeadsEndpointCheck
+        arguments: ["%kernel.logs_dir%/leads.%kernel.environment%.log"]
+        tags:
+           - { name: liip_monitor.check}

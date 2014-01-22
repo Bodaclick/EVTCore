@@ -24,8 +24,14 @@ class PersonalInformation implements IteratorAggregate
      * @param mixed $surnames
      * @param mixed $phone
      */
-    public function __construct($name = '', $surnames = '', $phone = '')
+    public function __construct($name, $surnames, $phone)
     {
+        $args = func_get_args();
+        foreach ($args as $val => $arg) {
+            if (empty($arg)) {
+                throw new \InvalidArgumentException('Args ' . $val . ' is Required');
+            }
+        }
         $this->name     = $name;
         $this->surnames = $surnames;
         $this->phone    = $phone;

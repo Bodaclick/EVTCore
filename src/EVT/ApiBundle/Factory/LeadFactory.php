@@ -11,16 +11,22 @@ use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Provider\ShowroomRepositoryInterface;
 use EVT\CoreDomain\User\PersonalInformation;
 use EVT\CoreDomain\User\User;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class LeadFactory
 {
     protected $showroomRepo;
     protected $leadRepo;
+    protected $logger;
 
-    public function __construct(ShowroomRepositoryInterface $showroomRepo, LeadRepositoryInterface $leadRepo)
-    {
+    public function __construct(
+        ShowroomRepositoryInterface $showroomRepo,
+        LeadRepositoryInterface $leadRepo,
+        LoggerInterface $logger
+    ) {
         $this->showroomRepo = $showroomRepo;
         $this->leadRepo = $leadRepo;
+        $this->logger = $logger;
     }
 
     /**
@@ -60,13 +66,14 @@ class LeadFactory
 
         $showroom = $this->showroomRepo->find($lead['showroom']['id']);
         if (null === $showroom) {
+            $this->logger->emergency(sprintf('Showroom id %s not found', $lead['showroom']['id']));
             throw new \InvalidArgumentException('Showroom not found');
         }
 
         // Validate the array throw InvalidArgumentException if any error
         $this->validateEvent($lead['event']);
         $event = new Event(
-            new EventType($lead['event']['type']),
+            new EventType((int)$lead['event']['type']),
             new Location(
                 $lead['event']['location']['lat'],
                 $lead['event']['location']['long'],
@@ -77,8 +84,12 @@ class LeadFactory
             new \DateTime($lead['event']['date'], new \DateTimeZone('UTC'))
         );
 
-        $lead = $user->doLead($showroom, $event);
-        $this->leadRepo->save($lead);
+        try {
+            $lead = $user->doLead($showroom, $event);
+            $this->leadRepo->save($lead);
+        } catch (\Exception $e) {
+            $this->logger->emergency('Lead Error, run for your life: ' . $e->getTraceAsString());
+        }
 
         return $lead;
     }
@@ -99,6 +110,9 @@ class LeadFactory
     {
         $arrayValidator = new ArrayValidator(['date', 'type', 'location']);
         $arrayValidator->validate($array);
+        if (empty($array['date'])) {
+            throw new \InvalidArgumentException('Date can not be empty');
+        }
 
         $this->validateLocation($array['location']);
     }

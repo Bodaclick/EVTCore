@@ -32,8 +32,12 @@ class LeadRepositoryTest extends \PHPUnit_Framework_TestCase
 
         $showroom = $this->getMockBuilder('EVT\CoreDomainBundle\Entity\Showroom')->disableOriginalConstructor()
             ->getMock();
-        $event = new Event(new EventType('test'), new Location(10, 10, 'admin1', 'admin2', 'ES'), new \DateTime('now'));
-        $user = new User(new Email('valid@email.com'), new PersonalInformation('name'));
+        $event = new Event(
+            new EventType(EventType::BIRTHDAY),
+            new Location(10, 10, 'admin1', 'admin2', 'ES'),
+            new \DateTime('now')
+        );
+        $user = new User(new Email('valid@email.com'), new PersonalInformation('name', 'surname', 'phone'));
         $lead = $user->doLead($showroom, $event, new LeadInformationBag());
         $repo = new LeadRepository($em, $metadata);
         $repo->save($lead);

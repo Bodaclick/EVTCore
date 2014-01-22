@@ -19,8 +19,12 @@ class LeadToEntityMappingTest extends \PHPUnit_Framework_TestCase
     {
         $showroom = $this->getMockBuilder('EVT\CoreDomainBundle\Entity\Showroom')->disableOriginalConstructor()
             ->getMock();
-        $event = new Event(new EventType('test'), new Location(10, 10, 'admin1', 'admin2', 'ES'), new \DateTime('now'));
-        $personalInfo = new PersonalInformation('name');
+        $event = new Event(
+            new EventType(EventType::BIRTHDAY),
+            new Location(10, 10, 'admin1', 'admin2', 'ES'),
+            new \DateTime('now')
+        );
+        $personalInfo = new PersonalInformation('name', 'surname', 'phone');
         $user = new User(new Email('valid@email.com'), $personalInfo);
         $infoBag = new LeadInformationBag(['observations' => 'test']);
         $lead = $user->doLead($showroom, $event, $infoBag);
