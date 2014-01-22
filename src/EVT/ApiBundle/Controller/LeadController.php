@@ -18,11 +18,11 @@ class LeadController extends Controller
     /**
      * The lead creation form
      *
-     * @View()
+     * @Template()
      */
-    public function newLeadAction()
+    public function newLeadAction(Request $request)
     {
-
+        return array('apikey' => $request->query->get('apikey'));
     }
 
     /**
@@ -54,9 +54,12 @@ class LeadController extends Controller
 
         }
 
-        $evtUserRepo->save($user);
+        try {
+            $evtUserRepo->save($user);
+        } catch (\Exception $e) {
+            // User already exists
+        }
 
-        //TODO return url lead
-        return $data;
+        return $this->generateUrl('post_lead').'/'.$data->getId();
     }
 }
