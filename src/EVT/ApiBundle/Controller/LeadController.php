@@ -36,16 +36,16 @@ class LeadController extends Controller
         $evtUserFactory = $this->get('evt.factory.user');
         $evtUserRepo = $this->get('evt.repository.user');
 
-        $leadDatas = $request->request->get('lead');
+        $leadData = $request->request->get('lead');
 
         try {
-            if (!isset($leadDatas['user'])) {
+            if (!isset($leadData['user'])) {
                 throw new \InvalidArgumentException('user not found');
             }
 
-            $user = $evtUserFactory->createUserFromArray($leadDatas['user']);
+            $user = $evtUserFactory->createUserFromArray($leadData['user']);
 
-            $data = $evtLeadFactory->createLead($user, $leadDatas);
+            $lead = $evtLeadFactory->createLead($user, $leadData);
 
         } catch (\InvalidArgumentException $e) {
             $view = new FOSView($e->getMessage());
@@ -60,6 +60,6 @@ class LeadController extends Controller
             // User already exists
         }
 
-        return $this->generateUrl('post_lead').'/'.$data->getId();
+        return $this->generateUrl('post_lead').'/'.$lead->getId();
     }
 }

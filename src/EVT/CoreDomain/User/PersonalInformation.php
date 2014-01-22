@@ -24,8 +24,17 @@ class PersonalInformation implements IteratorAggregate
      * @param mixed $surnames
      * @param mixed $phone
      */
-    public function __construct($name = '', $surnames = '', $phone = '')
+    public function __construct($name, $surnames, $phone)
     {
+        if (empty($name)) {
+            throw new \InvalidArgumentException('Required');
+        }
+        if (empty($surnames)) {
+            throw new \InvalidArgumentException('Required');
+        }
+        if (empty($phone)) {
+            throw new \InvalidArgumentException('Required');
+        }
         $this->name     = $name;
         $this->surnames = $surnames;
         $this->phone    = $phone;

@@ -70,7 +70,7 @@ class LeadFactoryTest extends \PHPUnit_Framework_TestCase
         ];
 
         $factory = new LeadFactory($this->showroomRepo, $this->leadRepo, $this->logger);
-        $lead = $factory->createLead(new User('valid@email.com', new PersonalInformation()), $lead);
+        $lead = $factory->createLead(new User('valid@email.com', new PersonalInformation('a', 'b', 'c')), $lead);
     }
 
     public function testLeadCreationFail()
@@ -99,6 +99,6 @@ class LeadFactoryTest extends \PHPUnit_Framework_TestCase
         ];
 
         $factory = new LeadFactory($this->showroomRepo, $this->leadRepo, $this->logger);
-        $lead = $factory->createLead(new User('valid@email.com', new PersonalInformation()), $lead);
+        $lead = $factory->createLead(new User('valid@email.com', new PersonalInformation('a', 'b', 'c')), $lead);
     }
 }
