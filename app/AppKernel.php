@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\RestBundle\FOSRestBundle(),
+            new Liip\MonitorBundle\LiipMonitorBundle(),
             new EVT\ApiBundle\EVTApiBundle(),
             new EVT\CoreDomainBundle\EVTCoreDomainBundle(),
         );
