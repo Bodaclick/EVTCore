@@ -3,9 +3,6 @@ EVT\CoreDomainBundle\Entity\GenericUser:
     type: entity
     table: generic_user
     uniqueConstraints:
-        id_UNIQUE:
-            columns:
-                - id
         email_UNIQUE:
             columns:
                 - email

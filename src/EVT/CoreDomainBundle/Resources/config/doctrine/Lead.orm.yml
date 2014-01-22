@@ -15,10 +15,6 @@ EVT\CoreDomainBundle\Entity\Lead:
         fk_lead_showroom_idx:
             columns:
                 - showroom_id
-    uniqueConstraints:
-        id_UNIQUE:
-            columns:
-                - id
     id:
         id:
             type: integer

@@ -13,9 +13,6 @@ EVT\CoreDomainBundle\Entity\Showroom:
             columns:
                 - score
     uniqueConstraints:
-        id_UNIQUE:
-            columns:
-                - id
         vertical_provider_idx:
             columns:
                 - provider_id

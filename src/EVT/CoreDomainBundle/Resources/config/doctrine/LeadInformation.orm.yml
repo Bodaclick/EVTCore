@@ -5,10 +5,6 @@ EVT\CoreDomainBundle\Entity\LeadInformation:
         fk_lead_information_lead_idx:
             columns:
                 - lead_id
-    uniqueConstraints:
-        id_UNIQUE:
-            columns:
-                - id
     id:
         id:
             type: integer

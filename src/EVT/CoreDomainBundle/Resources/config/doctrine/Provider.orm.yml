@@ -1,10 +1,6 @@
 EVT\CoreDomainBundle\Entity\Provider:
     type: entity
     table: provider
-    uniqueConstraints:
-        id_UNIQUE:
-            columns:
-                - id
     id:
         id:
             type: integer
