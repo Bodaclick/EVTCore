@@ -38,7 +38,7 @@ class LeadRepositoryTest extends \PHPUnit_Framework_TestCase
             new \DateTime('now')
         );
         $user = new User(new Email('valid@email.com'), new PersonalInformation('name', 'surname', 'phone'));
-        $lead = $user->doLead($showroom, $event, new LeadInformationBag());
+        $lead = $user->doLead($showroom, $event, new LeadInformationBag(['observations' => 'test']));
         $repo = new LeadRepository($em, $metadata);
         $repo->save($lead);
         $this->assertEquals(1, $lead->getId());

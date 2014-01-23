@@ -4,7 +4,6 @@ namespace EVT\CoreDomainBundle\Mapping;
 
 use EVT\CoreDomain\Lead\Lead;
 use EVT\CoreDomainBundle\Entity\Lead as ORMLead;
-use EVT\CoreDomainBundle\Entity\LeadInformation as ORMLeadInformation;
 
 /**
  * LeadToEntityMapping
@@ -35,13 +34,6 @@ class LeadToEntityMapping
         $entity->setEventLocationAdminLevel2($lead->getEvent()->getLocation()->getAdminLevel2());
         $entity->setEventLocationCountry($lead->getEvent()->getLocation()->getCountry());
         $entity->setShowroom($lead->getShowroom());
-        $leadInfo = $lead->getInformationBag();
-        foreach ($leadInfo as $key => $element) {
-            $infoEntity = new ORMLeadInformation();
-            $infoEntity->setKey($key);
-            $infoEntity->setValue($element);
-            $entity->addLeadInformation($infoEntity);
-        }
         return $entity;
     }
 }

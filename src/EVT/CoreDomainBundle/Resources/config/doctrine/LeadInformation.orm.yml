@@ -16,6 +16,7 @@ EVT\CoreDomainBundle\Entity\LeadInformation:
                 strategy: IDENTITY
     fields:
         key:
+            column: "`key`"
             type: string
             nullable: false
             length: 50
@@ -30,11 +31,11 @@ EVT\CoreDomainBundle\Entity\LeadInformation:
     manyToOne:
         lead:
             targetEntity: Lead
-            cascade: {  }
+            column: lead_id
             mappedBy: null
             inversedBy: lead_information
-            joinColumns:
-                lead_id:
-                    referencedColumnName: id
+            joinColumn:
+                name: lead_id
+                referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

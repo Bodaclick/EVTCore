@@ -5,6 +5,7 @@ namespace EVT\CoreDomainBundle\Repository;
 use EVT\CoreDomain\Lead\LeadRepositoryInterface as DomainRepository;
 use EVT\CoreDomain\Lead\LeadId;
 use EVT\CoreDomainBundle\Entity\Lead;
+use EVT\CoreDomainBundle\Entity\LeadInformation as ORMLeadInformation;
 use EVT\CoreDomainBundle\Mapping\LeadToEntityMapping;
 use Doctrine\ORM\EntityRepository;
 
@@ -23,11 +24,18 @@ class LeadRepository extends EntityRepository implements DomainRepository
         }
 
         $mapper = new LeadToEntityMapping();
-
-        $entity = $mapper->map($lead);
-        $this->_em->persist($entity);
+        $leadEntity = $mapper->map($lead);
+        $leadInfo = $lead->getInformationBag();
+        foreach ($leadInfo as $key => $element) {
+            $infoEntity = new ORMLeadInformation();
+            $infoEntity->setKey($key);
+            $infoEntity->setValue($element);
+            $infoEntity->setLead($leadEntity);
+        }
+        $this->_em->persist($leadEntity);
+        $this->_em->persist($infoEntity);
         $this->_em->flush();
-        $this->setLeadId($entity->getId(), $lead);
+        $this->setLeadId($leadEntity->getId(), $lead);
     }
 
     public function delete($lead)

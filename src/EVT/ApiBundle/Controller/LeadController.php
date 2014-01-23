@@ -42,13 +42,10 @@ class LeadController extends Controller
             if (!isset($leadData['user'])) {
                 throw new \InvalidArgumentException('user not found');
             }
-
             $user = $evtUserFactory->createUserFromArray($leadData['user']);
-
             $lead = $evtLeadFactory->createLead($user, $leadData);
-
         } catch (\InvalidArgumentException $e) {
-            $view = new FOSView($e->getMessage());
+            $view = new FOSView('Something went wrong, please try again later');
             $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
             return $view;
 
