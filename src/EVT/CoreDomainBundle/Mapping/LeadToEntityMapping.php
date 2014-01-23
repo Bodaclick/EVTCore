@@ -22,9 +22,9 @@ class LeadToEntityMapping
     public function map(Lead $lead)
     {
         $entity = new ORMLead();
-        $entity->setUserName($lead->getPersonalInformation()->name);
-        $entity->setUserSurnames($lead->getPersonalInformation()->surnames);
-        $entity->setUserPhone($lead->getPersonalInformation()->phone);
+        $entity->setUserName($lead->getPersonalInformation()->getName());
+        $entity->setUserSurnames($lead->getPersonalInformation()->getSurnames());
+        $entity->setUserPhone($lead->getPersonalInformation()->getPhone());
         $entity->setUserEmail($lead->getEmail()->getEmail());
         $entity->setEventType($lead->getEvent()->getEventType()->getType());
         $entity->setEventDate($lead->getEvent()->getDate());

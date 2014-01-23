@@ -22,9 +22,9 @@ class UserRepository extends EntityRepository implements DomainRepository
 
         $entity = new GenericUser();
         $entity->setEmail($user->getEmail());
-        $entity->setName($user->getPersonalInformation()->name);
-        $entity->setSurnames($user->getPersonalInformation()->surnames);
-        $entity->setPhone($user->getPersonalInformation()->phone);
+        $entity->setName($user->getPersonalInformation()->getName());
+        $entity->setSurnames($user->getPersonalInformation()->getSurnames());
+        $entity->setPhone($user->getPersonalInformation()->getPhone());
         $this->_em->persist($entity);
         $this->_em->flush();
         $this->setUserId($entity->getId(), $user);
