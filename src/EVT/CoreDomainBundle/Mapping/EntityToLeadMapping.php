@@ -3,7 +3,6 @@
 namespace EVT\CoreDomainBundle\Mapping;
 
 use EVT\CoreDomain\Lead\EventType;
-
 use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\InformationBag;
 use EVT\CoreDomain\Lead\Event;
