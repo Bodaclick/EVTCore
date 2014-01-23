@@ -3,7 +3,6 @@
 namespace EVT\CoreDomainBundle\Repository;
 
 use EVT\CoreDomainBundle\Mapping\EntityToLeadMapping;
-
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Lead\LeadRepositoryInterface as DomainRepository;
 use EVT\CoreDomain\Lead\LeadId;
@@ -74,14 +73,14 @@ class LeadRepository extends EntityRepository implements DomainRepository
     {
         $leads = $this->_em->createQueryBuilder()
             ->select('l')
-            ->from('EVTCoreDomainBunle:Lead', 'l')
+            ->from('EVTCoreDomainBundle:Lead', 'l')
             ->where('l.userEmail = :email')
             ->andWhere('l.showroom = :showroomId')
             ->andWhere('l.createdAt BETWEEN :fromDate AND :toDate')
             ->setParameter('email', $email)
             ->setParameter('showroomId', $showroom->getId())
-            ->setParameter('fromDate', \DateTime('-'.$seconds.' second'))
-            ->setParameter('toDate', \DateTime())
+            ->setParameter('fromDate', new \DateTime('-'.$seconds.' second'))
+            ->setParameter('toDate', new \DateTime())
             ->getQuery()
             ->getResult();
         
