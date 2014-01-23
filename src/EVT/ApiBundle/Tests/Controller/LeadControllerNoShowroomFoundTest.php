@@ -71,6 +71,9 @@ class LeadControllerNoShowroomFoundTest extends WebTestCase
         );
 
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
-        $this->assertEquals('"Showroom not found"', $this->client->getResponse()->getContent());
+        $this->assertEquals(
+            'Showroom not found',
+            json_decode($this->client->getResponse()->getContent(), true)[0]['message']
+        );
     }
 }

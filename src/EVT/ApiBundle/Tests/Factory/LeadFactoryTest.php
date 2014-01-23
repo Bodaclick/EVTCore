@@ -66,6 +66,9 @@ class LeadFactoryTest extends \PHPUnit_Framework_TestCase
             ],
             'showroom' => [
                 'id' => '1'
+                ],
+            'info' => [
+                'observations' => 'test'
             ]
         ];
 
@@ -95,6 +98,9 @@ class LeadFactoryTest extends \PHPUnit_Framework_TestCase
             ],
             'showroom' => [
                 'id' => '1'
+            ],
+            'info' => [
+                'observations' => 'test'
             ]
         ];
 

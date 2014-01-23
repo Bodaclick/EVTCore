@@ -118,11 +118,11 @@ EVT\CoreDomainBundle\Entity\Lead:
     oneToMany:
         lead_information:
             targetEntity: LeadInformation
-            mappedBy: Lead
+            mappedBy: lead
     manyToOne:
         showroom:
             targetEntity: Showroom
-            cascade: {  }
+            cascade: ["persist"]
             mappedBy: null
             inversedBy: null
             joinColumns:

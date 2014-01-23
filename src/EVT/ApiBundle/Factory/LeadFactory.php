@@ -6,6 +6,7 @@ use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\Lead\Lead;
 use EVT\CoreDomain\Lead\EventType;
 use EVT\CoreDomain\Lead\Event;
+use EVT\CoreDomain\Lead\LeadInformationBag;
 use EVT\CoreDomain\Lead\LeadRepositoryInterface;
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Provider\ShowroomRepositoryInterface;
@@ -61,6 +62,7 @@ class LeadFactory
     public function createLead(User $user, $lead)
     {
         // Validate the array throw InvalidArgumentException if any error
+
         $this->validateFirstLevel($lead);
         $this->validateShowroom($lead['showroom']);
 
@@ -83,12 +85,17 @@ class LeadFactory
             ),
             new \DateTime($lead['event']['date'], new \DateTimeZone('UTC'))
         );
+        $leadInfo = [];
+        if (isset($lead['info'])) {
+            $leadInfo = $lead['info'];
+        }
 
         try {
-            $lead = $user->doLead($showroom, $event);
+            $lead = $user->doLead($showroom, $event, new LeadInformationBag($leadInfo));
             $this->leadRepo->save($lead);
         } catch (\Exception $e) {
             $this->logger->emergency('Lead Error, run for your life: ' . $e->getTraceAsString());
+            throw $e;
         }
 
         return $lead;

@@ -19,7 +19,7 @@ class LeadRepositoryTest extends \PHPUnit_Framework_TestCase
         $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
             ->disableOriginalConstructor()->getMock();
         $em->expects($this->once())->method('flush')->will($this->returnValue(null));
-        $em->expects($this->once())->method('persist')->will(
+        $em->expects($this->any())->method('persist')->will(
             $this->returnCallback(
                 function ($entity) {
                     $rflUser = new \ReflectionClass($entity);
@@ -38,7 +38,7 @@ class LeadRepositoryTest extends \PHPUnit_Framework_TestCase
             new \DateTime('now')
         );
         $user = new User(new Email('valid@email.com'), new PersonalInformation('name', 'surname', 'phone'));
-        $lead = $user->doLead($showroom, $event, new LeadInformationBag());
+        $lead = $user->doLead($showroom, $event, new LeadInformationBag(['observations' => 'test']));
         $repo = new LeadRepository($em, $metadata);
         $repo->save($lead);
         $this->assertEquals(1, $lead->getId());

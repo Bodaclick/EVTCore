@@ -25,8 +25,12 @@ class LeadControllerTest extends WebTestCase
     public function setUp()
     {
         $this->client = static::createClient();
-        $this->header = ['Content-Type' => 'application/x-www-form-urlencoded'];
+        $this->header = ['Content-Type' => 'application/x-www-form-urlencoded', 'Accept' => 'application/json'];
 
+    }
+
+    public function mockContainer()
+    {
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')
             ->disableOriginalConstructor()->getMock();
 
@@ -60,7 +64,7 @@ class LeadControllerTest extends WebTestCase
         $this->client->getContainer()->set('evt.repository.user', $userRepo);
     }
 
-    public function testCrateLeadOK()
+    public function testCreateLead()
     {
         $params = [
             'lead' => [
@@ -87,14 +91,29 @@ class LeadControllerTest extends WebTestCase
             ]
         ];
 
+        $this->mockContainer();
         $this->client->request(
             'POST',
             '/api/leads?apikey=apikeyValue',
             $params,
             [],
-            $this->header
+            ['Content-Type' => 'application/json', 'Accept' => 'application/json']
         );
 
         $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testNewLead()
+    {
+        $crawler = $this->client->request(
+            'GET',
+            '/api/leads/new?apikey=apikeyValue',
+            [],
+            [],
+            ['Content-Type' => 'text/html', 'Accept' => 'text/html']
+        );
+
+        $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertCount(1, $crawler->filter('button'));
     }
 }
