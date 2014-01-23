@@ -14,18 +14,15 @@
         bootstrap                   = "bootstrap.php.cache" >
 
     <testsuites>
-        <testsuite name="EVT Test Suite">
-          <directory>../src/*/*Bundle/Tests</directory>
-          <directory>../src/*/Bundle/*Bundle/Tests</directory>
-          <directory>../src/*/*Domain/Tests</directory>
+        <testsuite name="EVT Functional Test Suite">
+          <directory>../src/*/*Bundle/Tests/Functional</directory>
+          <directory>../src/*/Bundle/*Bundle/Tests/Functional</directory>
         </testsuite>
     </testsuites>
     <filter>
       <whitelist>
         <directory>../src</directory>
         <exclude>
-          <directory>../src/*/*Bundle/Tests/Functional</directory>
-          <directory>../src/*/Bundle/*Bundle/Tests/Functional</directory>
           <directory>../src/*/*Bundle/Resources</directory>
           <directory>../src/*/*Bundle/Tests</directory>
           <directory>../src/*/Bundle/*Bundle/Resources</directory>
@@ -35,4 +32,6 @@
         </exclude>
       </whitelist>
     </filter>
+
+
 </phpunit>
