@@ -23,7 +23,9 @@
         "friendsofsymfony/rest-bundle": "1.1.*",
         "jms/serializer-bundle": "0.13.*@dev",
         "jms/di-extra-bundle": "1.4.*@dev",
-        "liip/monitor-bundle": "dev-master"
+        "liip/monitor-bundle": "dev-master",
+        "liip/functional-test-bundle": "1.0.x-dev",
+        "doctrine/doctrine-fixtures-bundle": "v2.2.0"
     },
     "scripts": {
         "post-install-cmd": [

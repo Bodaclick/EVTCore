@@ -16,8 +16,11 @@ class EmailCollection extends \ArrayObject
         $this->append($email);
     }
 
-    public function append(Email $value)
+    public function append($value)
     {
+        if (!$value instanceof Email) {
+            throw new \InvalidArgumentException();
+        }
         parent::append($value);
     }
 }

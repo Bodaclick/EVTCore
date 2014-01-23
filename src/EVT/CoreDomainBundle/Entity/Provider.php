@@ -2,8 +2,6 @@
 
 namespace EVT\CoreDomainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Provider
  */
@@ -75,7 +73,7 @@ class Provider
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -98,7 +96,7 @@ class Provider
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -121,7 +119,7 @@ class Provider
     /**
      * Get phone
      *
-     * @return string 
+     * @return string
      */
     public function getPhone()
     {
@@ -144,7 +142,7 @@ class Provider
     /**
      * Get locationAdminLevel1
      *
-     * @return string 
+     * @return string
      */
     public function getLocationAdminLevel1()
     {
@@ -167,7 +165,7 @@ class Provider
     /**
      * Get locationAdminLevel2
      *
-     * @return string 
+     * @return string
      */
     public function getLocationAdminLevel2()
     {
@@ -190,7 +188,7 @@ class Provider
     /**
      * Get locationCountry
      *
-     * @return string 
+     * @return string
      */
     public function getLocationCountry()
     {
@@ -213,7 +211,7 @@ class Provider
     /**
      * Get locationLat
      *
-     * @return float 
+     * @return float
      */
     public function getLocationLat()
     {
@@ -236,7 +234,7 @@ class Provider
     /**
      * Get locationLong
      *
-     * @return float 
+     * @return float
      */
     public function getLocationLong()
     {
@@ -259,7 +257,7 @@ class Provider
     /**
      * Get notificationEmails
      *
-     * @return string 
+     * @return string
      */
     public function getNotificationEmails()
     {
@@ -282,7 +280,7 @@ class Provider
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -315,7 +313,7 @@ class Provider
     /**
      * Get genericUser
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGenericUser()
     {

@@ -31,10 +31,6 @@ monolog:
             path:   "%kernel.logs_dir%/leads.%kernel.environment%.log"
             level:  warning
             formatter: api.monolog.json_formatter
-        main:
-            type:  fingers_crossed
-            path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: critical
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
