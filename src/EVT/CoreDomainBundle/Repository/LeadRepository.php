@@ -26,14 +26,14 @@ class LeadRepository extends EntityRepository implements DomainRepository
         $mapper = new LeadToEntityMapping();
         $leadEntity = $mapper->map($lead);
         $leadInfo = $lead->getInformationBag();
+        $this->_em->persist($leadEntity);
         foreach ($leadInfo as $key => $element) {
             $infoEntity = new ORMLeadInformation();
             $infoEntity->setKey($key);
             $infoEntity->setValue($element);
             $infoEntity->setLead($leadEntity);
+            $this->_em->persist($infoEntity);
         }
-        $this->_em->persist($leadEntity);
-        $this->_em->persist($infoEntity);
         $this->_em->flush();
         $this->setLeadId($leadEntity->getId(), $lead);
     }

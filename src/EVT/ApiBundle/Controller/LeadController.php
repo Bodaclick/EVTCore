@@ -7,7 +7,7 @@ use EVT\CoreDomain\User\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\View\View as FOSView;
 use FOS\RestBundle\Util\Codes;
@@ -18,7 +18,7 @@ class LeadController extends Controller
     /**
      * The lead creation form
      *
-     * @Template()
+     * @View()
      */
     public function newLeadAction(Request $request)
     {
@@ -41,14 +41,12 @@ class LeadController extends Controller
         try {
             if (!isset($leadData['user'])) {
                 throw new \InvalidArgumentException('user not found');
+                throw new \Symfony\Component\HttpKernel\Exception\BadRequestHttpException('user not found');
             }
             $user = $evtUserFactory->createUserFromArray($leadData['user']);
             $lead = $evtLeadFactory->createLead($user, $leadData);
         } catch (\InvalidArgumentException $e) {
-            $view = new FOSView('Something went wrong, please try again later');
-            $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
-            return $view;
-
+            throw new \Symfony\Component\HttpKernel\Exception\BadRequestHttpException($e->getMessage());
         }
 
         try {
@@ -56,7 +54,6 @@ class LeadController extends Controller
         } catch (\Exception $e) {
             // User already exists
         }
-
-        return $this->generateUrl('post_lead').'/'.$lead->getId();
+        return array('lead' => $this->generateUrl('post_lead').'/'.$lead->getId());
     }
 }

@@ -19,7 +19,7 @@ class LeadControllerBadDataTest extends WebTestCase
     public function setUp()
     {
         $this->client = static::createClient();
-        $this->header = ['Content-Type' => 'application/x-www-form-urlencoded'];
+        $this->header = ['Content-Type' => 'application/x-www-form-urlencoded', 'Accept' => 'application/json'];
 
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')
             ->disableOriginalConstructor()->getMock();
@@ -40,7 +40,7 @@ class LeadControllerBadDataTest extends WebTestCase
     {
         return [
             [
-                '"date not found"',
+                'date not found',
                 ['lead' => [
                     'user' => [
                         'name' => 'noDate',
@@ -64,7 +64,7 @@ class LeadControllerBadDataTest extends WebTestCase
                 ]]
             ],
             [
-                '"type not found"',
+                'type not found',
                 ['lead' => [
                     'user' => [
                         'name' => 'noType',
@@ -88,7 +88,7 @@ class LeadControllerBadDataTest extends WebTestCase
                 ]]
             ],
             [
-                '"location not found"',
+                'location not found',
                 ['lead' => [
                     'user' => [
                         'name' => 'noLocation',
@@ -106,7 +106,7 @@ class LeadControllerBadDataTest extends WebTestCase
                 ]]
             ],
             [
-                '"lat not found"',
+                'lat not found',
                 ['lead' => [
                     'user' => [
                         'name' => 'noLat',
@@ -146,6 +146,6 @@ class LeadControllerBadDataTest extends WebTestCase
         );
 
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
-        $this->assertEquals($message, $this->client->getResponse()->getContent());
+        $this->assertEquals($message, json_decode($this->client->getResponse()->getContent(), true)[0]['message']);
     }
 }

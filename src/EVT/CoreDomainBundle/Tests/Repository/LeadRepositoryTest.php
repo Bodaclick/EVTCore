@@ -19,7 +19,7 @@ class LeadRepositoryTest extends \PHPUnit_Framework_TestCase
         $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
             ->disableOriginalConstructor()->getMock();
         $em->expects($this->once())->method('flush')->will($this->returnValue(null));
-        $em->expects($this->once())->method('persist')->will(
+        $em->expects($this->any())->method('persist')->will(
             $this->returnCallback(
                 function ($entity) {
                     $rflUser = new \ReflectionClass($entity);
