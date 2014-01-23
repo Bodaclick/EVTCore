@@ -36,12 +36,11 @@ class LeadController extends Controller
         $evtUserRepo = $this->get('evt.repository.user');
 
         $leadData = $request->request->get('lead');
+        if (!isset($leadData['user'])) {
+            throw new \Symfony\Component\HttpKernel\Exception\BadRequestHttpException('user not found');
+        }
 
         try {
-            if (!isset($leadData['user'])) {
-                throw new \InvalidArgumentException('user not found');
-                throw new \Symfony\Component\HttpKernel\Exception\BadRequestHttpException('user not found');
-            }
             $user = $evtUserFactory->createUserFromArray($leadData['user']);
             $lead = $evtLeadFactory->createLead($user, $leadData);
         } catch (\InvalidArgumentException $e) {
