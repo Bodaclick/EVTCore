@@ -79,16 +79,17 @@ class LeadRepository extends EntityRepository implements DomainRepository
             ->andWhere('l.createdAt BETWEEN :fromDate AND :toDate')
             ->setParameter('email', $email)
             ->setParameter('showroomId', $showroom->getId())
-            ->setParameter('fromDate', new \DateTime('-'.$seconds.' second'))
-            ->setParameter('toDate', new \DateTime())
+            ->setParameter('fromDate', new \DateTime('-'.$seconds.' second', new \DateTimeZone('UTC')))
+            ->setParameter('toDate', new \DateTime(null, new \DateTimeZone('UTC')))
             ->getQuery()
             ->getResult();
-        
+
         $domainLeads = [];
-        
+
         $entityMapper = new EntityToLeadMapping();
         foreach ($leads as $lead) {
             array_push($domainLeads, $entityMapper->map($lead));
         }
+        return $domainLeads;
     }
 }

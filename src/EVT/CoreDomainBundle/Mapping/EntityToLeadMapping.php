@@ -2,6 +2,7 @@
 
 namespace EVT\CoreDomainBundle\Mapping;
 
+use EVT\CoreDomain\Lead\EventType;
 use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\InformationBag;
 use EVT\CoreDomain\Lead\Event;
@@ -33,7 +34,7 @@ class EntityToLeadMapping
             new Email($lead->getUserEmail()),
             $lead->getShowroom(),
             new Event(
-                $lead->getEventType(),
+                new EventType($lead->getEventType()),
                 new Location(
                     $lead->getEventLocationLat(),
                     $lead->getEventLocationLong(),
@@ -41,7 +42,7 @@ class EntityToLeadMapping
                     $lead->getEventLocationAdminLevel2(),
                     $lead->getEventLocationCountry()
                 ),
-                new \DateTime($lead->getEventDate(), new \DateTimeZone('UTC'))
+                $lead->getEventDate()
             )
         );
 
