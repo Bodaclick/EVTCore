@@ -13,9 +13,9 @@ use \ArrayIterator;
  */
 class PersonalInformation implements IteratorAggregate
 {
-    public $name;
-    public $surnames;
-    public $phone;
+    private $name;
+    private $surnames;
+    private $phone;
 
     /**
      * __construct
@@ -35,6 +35,21 @@ class PersonalInformation implements IteratorAggregate
         $this->name     = $name;
         $this->surnames = $surnames;
         $this->phone    = $phone;
+    }
+    
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getSurnames()
+    {
+        return $this->surnames;
+    }
+
+    public function getPhone()
+    {
+        return $this->phone;
     }
 
     /**

@@ -16,7 +16,7 @@ class GenericUserTest extends \PHPUnit_Framework_TestCase
     public function testUserCreation()
     {
         $user = new User('email@mail.com', new PersonalInformation('name', 'b', 'c'));
-        $this->assertEquals('name', $user->getPersonalInformation()->name);
+        $this->assertEquals('name', $user->getPersonalInformation()->getName());
         $this->assertEquals('email@mail.com', $user->getEmail());
     }
 

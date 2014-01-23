@@ -2,41 +2,41 @@
 
 namespace EVT\CoreDomainBundle\Test\Mapping;
 
-use EVT\CoreDomain\User\User;
-use EVT\CoreDomain\User\PersonalInformation;
-use EVT\CoreDomain\Email;
-use EVT\CoreDomain\Lead\Event;
-use EVT\CoreDomain\Lead\EventType;
-use EVT\CoreDomain\Lead\Location;
-use EVT\CoreDomain\Lead\LeadInformationBag;
-use EVT\CoreDomainBundle\Mapping\LeadToEntityMapping;
-use EVT\CoreDomainBundle\Entity\Showroom as ORMShowroom;
-use EVT\CoreDomainBundle\Entity\LeadInformation as ORMLeadInformation;
+use EVT\CoreDomainBundle\Entity\Lead;
+use EVT\CoreDomainBundle\Mapping\EntityToLeadMapping;
 
-class LeadToEntityMappingTest extends \PHPUnit_Framework_TestCase
+class EntityToLeadMappingTest extends \PHPUnit_Framework_TestCase
 {
-    public function testEntityIsMapped()
+    public function testLeadIsMapped()
     {
         $showroom = $this->getMockBuilder('EVT\CoreDomainBundle\Entity\Showroom')->disableOriginalConstructor()
             ->getMock();
-        $event = new Event(
-            new EventType(EventType::BIRTHDAY),
-            new Location(10, 10, 'admin1', 'admin2', 'ES'),
-            new \DateTime('now')
-        );
-        $personalInfo = new PersonalInformation('name', 'surname', 'phone');
-        $user = new User(new Email('valid@email.com'), $personalInfo);
-        $infoBag = new LeadInformationBag(['observations' => 'test']);
-        $lead = $user->doLead($showroom, $event, $infoBag);
 
-        $mapping = new LeadToEntityMapping();
+        $entity = new Lead();
+        $entity->setUserName('name');
+        $entity->setUserSurnames('surname');
+        $entity->setUserPhone('phone');
+        $entity->setUserEmail('valid@email.com');
+        $entity->setEventType(1);
+        $entity->setEventDate(new \DateTime('2014-10-15', new \DateTimeZone('UTC')));
+        $entity->setEventLocationLat(15);
+        $entity->setEventLocationLong(10);
+        $entity->setEventLocationAdminLevel1('Mostoles');
+        $entity->setEventLocationAdminLevel2('Madrid');
+        $entity->setEventLocationCountry('spain');
+        $entity->setShowroom($showroom);
 
-        $entity = $mapping->map($lead);
+        $mapping = new EntityToLeadMapping();
+        $lead = $mapping->map($entity);
+
+        $personalInfo = $lead->getPersonalInformation();
+        $event = $lead->getEvent();
+
         $this->assertInstanceOf('EVT\CoreDomainBundle\Entity\Lead', $entity);
         $this->assertEquals($personalInfo->getName(), $entity->getUserName());
         $this->assertEquals($personalInfo->getSurnames(), $entity->getUserSurnames());
         $this->assertEquals($personalInfo->getPhone(), $entity->getUserPhone());
-        $this->assertEquals($user->getEmail()->getEmail(), $entity->getUserEmail());
+        $this->assertEquals($lead->getEmail(), $entity->getUserEmail());
         $this->assertEquals($event->getEventType()->getType(), $entity->getEventType());
         $this->assertEquals($event->getDate(), $entity->getEventDate());
         $this->assertEquals($event->getLocation()->getLatLong()['lat'], $entity->getEventLocationLat());
