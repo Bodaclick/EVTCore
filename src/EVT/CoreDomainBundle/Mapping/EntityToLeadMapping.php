@@ -3,11 +3,8 @@
 namespace EVT\CoreDomainBundle\Mapping;
 
 use EVT\CoreDomain\Lead\Location;
-
 use EVT\CoreDomain\InformationBag;
-
 use EVT\CoreDomain\Lead\Event;
-
 use EVT\CoreDomain\User\PersonalInformation;
 use EVT\CoreDomain\Email;
 use EVT\CoreDomain\Lead\LeadId;
@@ -44,10 +41,10 @@ class EntityToLeadMapping
                     $lead->getEventLocationAdminLevel2(),
                     $lead->getEventLocationCountry()
                 ),
-                new \DateTime($lead->getEventDate(), \DateTimeZone::UTC)
+                new \DateTime($lead->getEventDate(), new \DateTimeZone('UTC'))
             )
         );
-        
+
         return $domain;
     }
 }
