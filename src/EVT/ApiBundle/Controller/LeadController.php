@@ -7,7 +7,6 @@ use EVT\CoreDomain\User\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\View\View as FOSView;
 use FOS\RestBundle\Util\Codes;
