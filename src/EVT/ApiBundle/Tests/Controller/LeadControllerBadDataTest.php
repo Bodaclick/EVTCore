@@ -135,7 +135,7 @@ class LeadControllerBadDataTest extends WebTestCase
     /**
      * @dataProvider provider
      */
-    public function testCrateLeadKO($message, $params)
+    public function testWrongLeadData($message, $params)
     {
         $this->client->request(
             'POST',
