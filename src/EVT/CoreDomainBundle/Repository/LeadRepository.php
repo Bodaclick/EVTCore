@@ -2,6 +2,8 @@
 
 namespace EVT\CoreDomainBundle\Repository;
 
+use EVT\CoreDomainBundle\Mapping\EntityToLeadMapping;
+
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Lead\LeadRepositoryInterface as DomainRepository;
 use EVT\CoreDomain\Lead\LeadId;
@@ -70,7 +72,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
 
     public function findByShowroomEmailSeconds(Showroom $showroom, $email, $seconds)
     {
-        $this->_em->createQueryBuilder()
+        $leads = $this->_em->createQueryBuilder()
             ->select('l')
             ->from('EVTCoreDomainBunle:Lead', 'l')
             ->where('l.userEmail = :email')
@@ -82,5 +84,12 @@ class LeadRepository extends EntityRepository implements DomainRepository
             ->setParameter('toDate', \DateTime())
             ->getQuery()
             ->getResult();
+        
+        $domainLeads = [];
+        
+        $entityMapper = new EntityToLeadMapping();
+        foreach ($leads as $lead) {
+            array_push($domainLeads, $entityMapper->map($lead));
+        }
     }
 }

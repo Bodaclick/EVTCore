@@ -3,7 +3,6 @@
 namespace EVT\ApiBundle\Factory;
 
 use EVT\CoreDomain\Lead\Specifications\TwinSpecification;
-
 use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\Lead\Lead;
 use EVT\CoreDomain\Lead\EventType;
