@@ -39,6 +39,11 @@ class Showroom
         $this->phone = $phone;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getSlug()
     {
         return ($this->slug)?:$this->provider->getSlug();

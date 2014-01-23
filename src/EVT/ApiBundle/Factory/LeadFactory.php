@@ -2,6 +2,7 @@
 
 namespace EVT\ApiBundle\Factory;
 
+use EVT\CoreDomain\Lead\Specifications\TwinSpecification;
 use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\Lead\Lead;
 use EVT\CoreDomain\Lead\EventType;
@@ -92,7 +93,14 @@ class LeadFactory
 
         try {
             $lead = $user->doLead($showroom, $event, new LeadInformationBag($leadInfo));
-            $this->leadRepo->save($lead);
+
+            $isTwin = new TwinSpecification($this->leadRepo);
+            if (!$isTwin->isSatisfiedBy($lead)) {
+                $this->leadRepo->save($lead);
+            } else {
+                $lead = $isTwin->getTwin();
+            }
+
         } catch (\Exception $e) {
             $this->logger->emergency('Lead Error, run for your life: ' . $e->getTraceAsString());
             throw $e;
