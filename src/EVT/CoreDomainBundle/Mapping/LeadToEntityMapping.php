@@ -8,8 +8,8 @@ use EVT\CoreDomainBundle\Entity\Lead as ORMLead;
 /**
  * LeadToEntityMapping
  *
- * @author Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
- * @copyright Bodaclick S.A
+ * @author    Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
+ * @copyright 2014 Bodaclick S.A
  */
 class LeadToEntityMapping
 {

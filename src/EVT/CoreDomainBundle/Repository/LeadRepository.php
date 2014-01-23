@@ -2,6 +2,8 @@
 
 namespace EVT\CoreDomainBundle\Repository;
 
+use EVT\CoreDomainBundle\Mapping\EntityToLeadMapping;
+use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Lead\LeadRepositoryInterface as DomainRepository;
 use EVT\CoreDomain\Lead\LeadId;
 use EVT\CoreDomainBundle\Entity\Lead;
@@ -65,5 +67,29 @@ class LeadRepository extends EntityRepository implements DomainRepository
         $rflId = $rflLead->getProperty('id');
         $rflId->setAccessible(true);
         $rflId->setValue($lead, $lid->getValue());
+    }
+
+    public function findByShowroomEmailSeconds(Showroom $showroom, $email, $seconds)
+    {
+        $leads = $this->_em->createQueryBuilder()
+            ->select('l')
+            ->from('EVTCoreDomainBundle:Lead', 'l')
+            ->where('l.userEmail = :email')
+            ->andWhere('l.showroom = :showroomId')
+            ->andWhere('l.createdAt BETWEEN :fromDate AND :toDate')
+            ->setParameter('email', $email)
+            ->setParameter('showroomId', $showroom->getId())
+            ->setParameter('fromDate', new \DateTime('-'.$seconds.' second', new \DateTimeZone('UTC')))
+            ->setParameter('toDate', new \DateTime(null, new \DateTimeZone('UTC')))
+            ->getQuery()
+            ->getResult();
+
+        $domainLeads = [];
+
+        $entityMapper = new EntityToLeadMapping();
+        foreach ($leads as $lead) {
+            array_push($domainLeads, $entityMapper->map($lead));
+        }
+        return $domainLeads;
     }
 }
