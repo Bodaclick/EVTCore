@@ -7,6 +7,7 @@ use EVT\CoreDomain\User\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\View\View as FOSView;
 use FOS\RestBundle\Util\Codes;
@@ -37,14 +38,14 @@ class LeadController extends Controller
 
         $leadData = $request->request->get('lead');
         if (!isset($leadData['user'])) {
-            throw new \Symfony\Component\HttpKernel\Exception\BadRequestHttpException('user not found');
+            throw new BadRequestHttpException('user not found');
         }
 
         try {
             $user = $evtUserFactory->createUserFromArray($leadData['user']);
             $lead = $evtLeadFactory->createLead($user, $leadData);
         } catch (\InvalidArgumentException $e) {
-            throw new \Symfony\Component\HttpKernel\Exception\BadRequestHttpException($e->getMessage());
+            throw new BadRequestHttpException($e->getMessage());
         }
 
         try {
