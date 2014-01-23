@@ -13,9 +13,9 @@ class PersonalInformationTest extends \PHPUnit_Framework_TestCase
         $this->assertClassHasAttribute('name', 'EVT\CoreDomain\User\PersonalInformation');
         $this->assertClassHasAttribute('surnames', 'EVT\CoreDomain\User\PersonalInformation');
         $this->assertClassHasAttribute('phone', 'EVT\CoreDomain\User\PersonalInformation');
-        $this->assertEquals('name', $personalInfo->name);
-        $this->assertEquals('surnames', $personalInfo->surnames);
-        $this->assertEquals('phone', $personalInfo->phone);
+        $this->assertEquals('name', $personalInfo->getName());
+        $this->assertEquals('surnames', $personalInfo->getSurnames());
+        $this->assertEquals('phone', $personalInfo->getPhone());
     }
 
     /**
