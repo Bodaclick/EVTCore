@@ -88,6 +88,10 @@ class Lead
         return $this->createdAt;
     }
 
+    /**
+     *
+     * @return Email the email
+     */
     public function getEmail()
     {
         return $this->email;
