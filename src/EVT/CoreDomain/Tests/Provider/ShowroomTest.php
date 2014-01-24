@@ -22,7 +22,7 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
         $vertical = new Vertical("testDomain.test");
 
         $showroom = new Showroom($provider, $vertical);
-        $this->assertEquals('testDomain.test/testName', $showroom->getUrl());
+        $this->assertEquals('testDomain.test/testname', $showroom->getUrl());
     }
 
     public function testUrlChange()
@@ -34,7 +34,7 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
 
         $showroom->changeSlug('newSlug');
 
-        $this->assertEquals('testName', $provider->getSlug());
+        $this->assertEquals('testname', $provider->getSlug());
         $this->assertEquals('testDomain.test/newSlug', $showroom->getUrl());
     }
 }

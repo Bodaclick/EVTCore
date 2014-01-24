@@ -21,7 +21,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $testName = "TestName";
         $provider = new Provider(new ProviderId(''), $testName, new EmailCollection(new Email('valid@email.com')));
         $this->assertEquals($testName, $provider->getName());
-        $this->assertEquals($testName, $provider->getSlug());
+        $this->assertEquals('testname', $provider->getSlug());
     }
 
     public function testAddManager()
