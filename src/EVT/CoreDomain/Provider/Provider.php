@@ -1,4 +1,5 @@
 <?php
+
 namespace EVT\CoreDomain\Provider;
 
 use EVT\CoreDomain\User\Manager;
@@ -23,7 +24,7 @@ class Provider
     {
         $this->id = $id;
         $this->name = $name;
-        $this->slug = $name; // TODO Slugify
+        $this->slugify();
         $this->notificationEmails = $notificationEmails;
         $this->managers = new \ArrayObject();
     }
@@ -63,5 +64,16 @@ class Provider
     public function getManagers()
     {
         return $this->managers;
+    }
+
+    private function slugify()
+    {
+        // Code from https://github.com/KnpLabs/DoctrineBehaviors
+        $this->slug = strtolower(trim(preg_replace(
+            "/[^a-zA-Z0-9\/_|+ -]/",
+            '',
+            iconv('UTF-8', 'ASCII//TRANSLIT', $this->name)
+        ), '-'));
+        $this->slug = preg_replace("/[\/_|+ -]+/", '-', $this->slug);
     }
 }

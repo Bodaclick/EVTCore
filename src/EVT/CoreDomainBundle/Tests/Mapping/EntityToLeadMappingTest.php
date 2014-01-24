@@ -33,17 +33,17 @@ class EntityToLeadMappingTest extends \PHPUnit_Framework_TestCase
         $event = $lead->getEvent();
 
         $this->assertInstanceOf('EVT\CoreDomainBundle\Entity\Lead', $entity);
-        $this->assertEquals($personalInfo->getName(), $entity->getUserName());
-        $this->assertEquals($personalInfo->getSurnames(), $entity->getUserSurnames());
-        $this->assertEquals($personalInfo->getPhone(), $entity->getUserPhone());
-        $this->assertEquals($lead->getEmail(), $entity->getUserEmail());
-        $this->assertEquals($event->getEventType()->getType(), $entity->getEventType());
-        $this->assertEquals($event->getDate(), $entity->getEventDate());
-        $this->assertEquals($event->getLocation()->getLatLong()['lat'], $entity->getEventLocationLat());
-        $this->assertEquals($event->getLocation()->getLatLong()['long'], $entity->getEventLocationLong());
-        $this->assertEquals($event->getLocation()->getAdminLevel1(), $entity->getEventLocationAdminLevel1());
-        $this->assertEquals($event->getLocation()->getAdminLevel2(), $entity->getEventLocationAdminLevel2());
-        $this->assertEquals($event->getLocation()->getCountry(), $entity->getEventLocationCountry());
+        $this->assertEquals($entity->getUserName(), $personalInfo->getName());
+        $this->assertEquals($entity->getUserSurnames(), $personalInfo->getSurnames());
+        $this->assertEquals($entity->getUserPhone(), $personalInfo->getPhone());
+        $this->assertEquals($entity->getUserEmail(), $lead->getEmail());
+        $this->assertEquals($entity->getEventType(), $event->getEventType()->getType());
+        $this->assertEquals($entity->getEventDate(), $event->getDate());
+        $this->assertEquals($entity->getEventLocationLat(), $event->getLocation()->getLatLong()['lat']);
+        $this->assertEquals($entity->getEventLocationLong(), $event->getLocation()->getLatLong()['long']);
+        $this->assertEquals($entity->getEventLocationAdminLevel1(), $event->getLocation()->getAdminLevel1());
+        $this->assertEquals($entity->getEventLocationAdminLevel2(), $event->getLocation()->getAdminLevel2());
+        $this->assertEquals($entity->getEventLocationCountry(), $event->getLocation()->getCountry());
         $this->assertInstanceOf('EVT\CoreDomainBundle\Entity\Showroom', $entity->getShowroom());
         $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $entity->getLeadInformation());
     }
