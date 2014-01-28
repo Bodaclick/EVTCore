@@ -30,7 +30,6 @@ class ManagerController extends Controller
         $form->handleRequest($request);
 
         if($form->isValid()) {
-            echo 'valid';
             $userManager->updateUser($user);
             return sprintf('/api/managers/%d?apikey=%s', $user->getId(), $request->query->get('apikey'));
         }
