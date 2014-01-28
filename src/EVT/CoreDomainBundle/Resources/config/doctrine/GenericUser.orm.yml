@@ -16,12 +16,6 @@ EVT\CoreDomainBundle\Entity\GenericUser:
             generator:
                 strategy: IDENTITY
     fields:
-        email:
-            type: string
-            nullable: false
-            length: 60
-            fixed: false
-            comment: ''
         name:
             type: string
             nullable: true

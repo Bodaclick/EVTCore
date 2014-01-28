@@ -21,6 +21,7 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "egulias/email-validator": "1.1.*",
         "friendsofsymfony/rest-bundle": "1.1.*",
+        "friendsofsymfony/user-bundle": "~2.0@dev",
         "jms/serializer-bundle": "0.13.*@dev",
         "jms/di-extra-bundle": "1.4.*@dev",
         "liip/monitor-bundle": "dev-master",
