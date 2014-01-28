@@ -30,8 +30,7 @@ class ProviderFormHandler
         $this->form->bind($this->request);
 
         if ($this->form->isValid()) {
-            $this->em->persist($this->form->getData());
-            $this->em->flush();
+            $this->em->save($this->form->getData());
 
             return true;
         }

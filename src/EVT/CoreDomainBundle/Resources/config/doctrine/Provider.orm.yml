@@ -1,4 +1,5 @@
 EVT\CoreDomainBundle\Entity\Provider:
+    repositoryClass: EVT\CoreDomainBundle\Repository\ProviderRepository
     type: entity
     table: provider
     id:

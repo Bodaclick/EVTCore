@@ -39,7 +39,7 @@ class ProviderController extends Controller
     public function postProviderAction(Request $request)
     {
         $form = $this->createForm(new ProviderFormType());
-        $formHandler = new ProviderFormHandler($form, $request, $this->getDoctrine()->getEntityManager());
+        $formHandler = new ProviderFormHandler($form, $request, $this->getDoctrine()->getManager());
 
         if ($formHandler->process()) {
             return ['provider' => $form->getData()->getId()];
