@@ -18,7 +18,6 @@ class ManagerController extends Controller
      */
     public function postManagerAction(Request $request)
     {
-
         $userManager = $this->container->get('fos_user.user_manager');
 
         $user = $userManager->createUser();

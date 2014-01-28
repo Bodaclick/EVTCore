@@ -2,6 +2,7 @@
 
 namespace EVT\CoreDomainBundle\Test\Repository;
 
+use EVT\CoreDomainBundle\Entity\GenericUser;
 use EVT\CoreDomainBundle\Repository\UserRepository;
 use EVT\CoreDomain\User\User;
 use EVT\CoreDomain\User\PersonalInformation;
@@ -25,8 +26,13 @@ class UserRepositoryTest extends \PHPUnit_Framework_TestCase
                 }
             )
         );
+        $userManagerMock = $this->getMockBuilder('FOS\UserBundle\Model\UserManager')
+            ->disableOriginalConstructor()->getMock();
+        $userManagerMock->expects($this->once())->method('createUser')->will($this->returnValue(new GenericUser()));
+        $userManagerMock->expects($this->once())->method('updateUser')->will($this->returnValue(true));
         $user = new User(new Email('valid@email.com'), new PersonalInformation('a', 'b', 'c'));
         $repo = new UserRepository($em, $metadata);
+        $repo->setUserManager($userManagerMock);
         $repo->save($user);
         $this->assertEquals(1, $user->getId());
     }

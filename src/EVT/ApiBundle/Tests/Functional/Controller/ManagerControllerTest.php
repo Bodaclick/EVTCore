@@ -34,7 +34,11 @@ class ManagerControllerTest extends WebTestCase
     public function testCreate()
     {
         $params = [
-            'user' => ['email' => 'valid@email.com', 'username' => 'username_manager', 'plainPassword' => ['first' => '1234', 'second' => '1234'] ]
+            'user' =>  [
+                'email' => 'valid@email.com',
+                'username' => 'username_manager',
+                'plainPassword' => ['first' => '1234', 'second' => '1234']
+            ]
         ];
 
         $this->client->request(
@@ -52,5 +56,6 @@ class ManagerControllerTest extends WebTestCase
             ->getRepository('EVTCoreDomainBundle:GenericUser')
             ->findOneById($id);
         $this->assertNotNull($eUser);
+        $this->assertTrue(false !== array_search('ROLE_MANAGER', $eUser->getRoles()));
     }
 }
