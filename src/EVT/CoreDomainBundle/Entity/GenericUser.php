@@ -2,8 +2,8 @@
 
 namespace EVT\CoreDomainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * GenericUser
@@ -41,7 +41,7 @@ class GenericUser extends BaseUSer
     public function __construct()
     {
         parent::__construct();
-        $this->provider = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->provider = new ArrayCollection();
     }
 
     /**

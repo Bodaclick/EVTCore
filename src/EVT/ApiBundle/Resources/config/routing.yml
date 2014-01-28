@@ -1,3 +1,6 @@
 evt_api_lead:
-    resource: EVT\ApiBundle\Controller\LeadController 
+    resource: EVT\ApiBundle\Controller\LeadController
+    type: rest
+evt_api_manager:
+    resource: EVT\ApiBundle\Controller\ManagerController
     type: rest

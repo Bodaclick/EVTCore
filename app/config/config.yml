@@ -65,7 +65,11 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+        entity_managers:
+            default:
+                connection: default
+                mappings:
+                    EVTCoreDomainBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -110,6 +114,7 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: EVT\CoreDomainBundle\Entity\GenericUser
+    use_listener: false
 
 liip_monitor:
     checks:
