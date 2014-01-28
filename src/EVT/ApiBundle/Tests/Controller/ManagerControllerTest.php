@@ -52,7 +52,11 @@ class ManagerControllerTest extends WebTestCase
     public function testCreateManager()
     {
         $params = [
-            'user' => ['email' => 'valid@email.com', 'username' => 'username_manager', 'plainPassword' => ['first' => '1234', 'second' => '1234'] ]
+            'user' => [
+                'email' => 'valid@email.com',
+                'username' => 'username_manager',
+                'plainPassword' => ['first' => '1234', 'second' => '1234']
+            ]
         ];
 
         $this->mockContainer();
@@ -63,11 +67,15 @@ class ManagerControllerTest extends WebTestCase
             [],
             $this->header
         );
-        $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode(), $this->client->getResponse()->getContent());
+        $this->assertEquals(
+            Codes::HTTP_CREATED,
+            $this->client->getResponse()->getStatusCode(),
+            $this->client->getResponse()->getContent()
+        );
 
         $this->assertRegExp(
             '/\/api\/managers\/\d+/',
-            json_decode($this->client->getResponse()->getContent()),
+            json_decode($this->client->getResponse()->getContent(), true)['manager'],
             $this->client->getResponse()->getContent()
         );
     }
@@ -92,7 +100,6 @@ class ManagerControllerTest extends WebTestCase
      */
     public function testManagerDataIsInvalid($params)
     {
-//        $this->mockContainer();
         $this->client->request(
             'POST',
             '/api/managers?apikey=apikeyValue',
@@ -101,6 +108,11 @@ class ManagerControllerTest extends WebTestCase
             $this->header
         );
 
-        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode(), $this->client->getResponse()->getContent());
+        $this->assertEquals(
+            Codes::HTTP_BAD_REQUEST,
+            $this->client->getResponse()->getStatusCode(),
+            $this->client->getResponse()->getContent()
+        );
     }
+
 }

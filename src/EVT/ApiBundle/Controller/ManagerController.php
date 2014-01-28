@@ -5,12 +5,23 @@ namespace EVT\ApiBundle\Controller;
 use EVT\CoreDomainBundle\Form\Type\GenericUserFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\Annotations as FOS;
 
+/**
+ * Class ManagerController
+ * @author Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
+ * @copyright 2014 Bodaclick
+ */
 class ManagerController extends Controller
 {
+    /**
+     * @FOS\View()
+     */
+    public function newManagerAction()
+    {
+        return [];
+    }
+
     /**
      * Create a new manager
      *
@@ -30,7 +41,7 @@ class ManagerController extends Controller
 
         if($form->isValid()) {
             $userManager->updateUser($user);
-            return sprintf('/api/managers/%d?apikey=%s', $user->getId(), $request->query->get('apikey'));
+            return ['manager' => sprintf('/api/managers/%d', $user->getId())];
         }
         return $form;
     }
