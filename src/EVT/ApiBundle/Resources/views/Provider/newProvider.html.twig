@@ -1,0 +1,4 @@
+<form class="form-horizontal" action="{{ path('post_provider') }}?apikey={{ apikey }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit" class="btn" value="Create">
+</form>
