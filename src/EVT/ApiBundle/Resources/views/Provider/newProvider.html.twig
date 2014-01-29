@@ -1,4 +1,66 @@
-<form class="form-horizontal" action="{{ path('post_provider') }}?apikey={{ apikey }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <input type="submit" class="btn" value="Create">
-</form>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Provider</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+  <h2>New Provider</h2>
+    <form role="form" action="{{ url('post_provider') }}?apikey={{ app.request.query.get('apikey') }}" method="POST">
+      <fieldset>
+        <legend>Provider:</legend>
+        <div class="form-group">
+          <label for="provider_manager_id">manager id</label>
+          <input type="text" class="form-control" id="provider_manager_id" name="provider[genericUser]" placeholder="Enter manager id"  value="1">
+        </div>
+        <div class="form-group">
+            <label for="provider_name">name</label>
+            <input type="text" class="form-control" id="provider_name" name="provider[name]" placeholder="Enter name"  value="nombre">
+        </div>
+        <div class="form-group">
+          <label for="provider_phone">phone</label>
+          <input type="text" class="form-control" id="provider_phone" name="provider[phone]" placeholder="Enter phone"  value="0123546 as">
+        </div>
+        <div class="form-group">
+          <label for="provider_slug">slug</label>
+          <input type="text" class="form-control" id="provider_slug" name="provider[slug]" placeholder="Enter slug"  value="">
+        </div>
+        <div class="form-group">
+          <label for="provider_level1">locationAdminLevel1</label>
+          <input type="text" class="form-control" id="provider_level1" name="provider[locationAdminLevel1]" placeholder="Enter locationAdminLevel1"  value="locationAdminLevel1">
+        </div>
+        <div class="form-group">
+          <label for="provider_level2">locationAdminLevel2</label>
+          <input type="text" class="form-control" id="provider_level2" name="provider[locationAdminLevel2]" placeholder="Enter locationAdminLevel2"  value="locationAdminLevel2">
+        </div>
+        <div class="form-group">
+          <label for="provider_country">country</label>
+          <input type="text" class="form-control" id="provider_country" name="provider[locationCountry]" placeholder="Enter country"  value="Spain">
+        </div>
+        <div class="form-group">
+          <label for="provider_lat">lat</label>
+          <input type="integer" class="form-control" id="provider_lat" name="provider[locationLat]" placeholder="Enter lat"  value="10">
+        </div>
+        <div class="form-group">
+          <label for="provider_long">long</label>
+          <input type="integer" class="form-control" id="provider_long" name="provider[locationLong]" placeholder="Enter long"  value="10">
+        </div>
+      </fieldset>
+      <button type="submit" class="btn btn-default btn-primary">Submit</button>
+    </form>
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  </body>
+</html>

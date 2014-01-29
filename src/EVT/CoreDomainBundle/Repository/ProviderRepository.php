@@ -15,6 +15,12 @@ class ProviderRepository extends EntityRepository implements DomainRepository
 {
     public function save($provider)
     {
+        if (!$provider instanceof \EVT\CoreDomainBundle\Entity\Provider) {
+            throw new \InvalidArgumentException('Wrong object in LeadRepository');
+        }
+
+        $this->_em->persist($provider);
+        $this->_em->flush();
     }
 
     public function delete($provider)

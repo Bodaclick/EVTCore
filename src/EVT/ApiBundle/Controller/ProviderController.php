@@ -2,6 +2,8 @@
 
 namespace EVT\ApiBundle\Controller;
 
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+
 use EVT\CoreDomainBundle\Form\Type\ProviderFormType;
 use EVT\CoreDomainBundle\Form\Handler\ProviderFormHandler;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,8 +29,7 @@ class ProviderController extends Controller
      */
     public function newProviderAction(Request $request)
     {
-        $form = $this->createForm(new ProviderFormType());
-        return ['form' => $form->createView(), 'apikey' => $request->query->get('apikey')];
+        return ['apikey' => $request->query->get('apikey')];
     }
 
     /**
@@ -38,13 +39,22 @@ class ProviderController extends Controller
      */
     public function postProviderAction(Request $request)
     {
-        $form = $this->createForm(new ProviderFormType());
-        $formHandler = new ProviderFormHandler($form, $request, $this->getDoctrine()->getManager());
-
-        if ($formHandler->process()) {
-            return ['provider' => $form->getData()->getId()];
+        $form = $this->createForm($this->get('evt.form.provider'));
+        
+        try {
+            $form->handleRequest($request);
+        } catch(\Exception $e) {
+            throw new ConflictHttpException('Provider already exists');
+        }
+        
+        if ($form->isValid()) {
+            $providerRepo = $this->get('evt.repository.provider');
+            $provider = $form->getData();
+            $providerRepo->save($provider);
+            
+            return ['provider' => '/api/providers/' .$provider->getId()];
         }
 
-        return '{"ko"}';
+        return $form;
     }
 }

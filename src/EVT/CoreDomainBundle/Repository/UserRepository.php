@@ -58,4 +58,9 @@ class UserRepository extends EntityRepository implements DomainRepository
     {
         $this->userManager = $userManager;
     }
+    
+    public function getRetriveManagersQueryBuilder()
+    {
+        return $this->createQueryBuilder('u');
+    }
 }

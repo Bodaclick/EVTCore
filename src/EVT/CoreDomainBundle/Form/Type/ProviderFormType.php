@@ -2,6 +2,8 @@
 
 namespace EVT\CoreDomainBundle\Form\Type;
 
+use EVT\CoreDomainBundle\Repository\UserRepository;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,6 +17,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProviderFormType extends AbstractType
 {
+    private $userRepo;
+    
+    public function __construct(UserRepository $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -24,9 +33,9 @@ class ProviderFormType extends AbstractType
                 [
                     'class' => 'EVTCoreDomainBundle:GenericUser',
                     'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('u');
+                        return $this->userRepo->getRetriveManagersQueryBuilder();
                     },
-                    'expanded'  => true,
+                    'expanded'  => false,
                     'multiple'  => true,
                     'property' => 'id',
                     'error_bubbling' => true

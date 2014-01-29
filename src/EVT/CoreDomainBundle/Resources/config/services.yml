@@ -15,12 +15,14 @@ services:
         parent: evt.repository
         arguments: [EVTCoreDomainBundle:Lead]
 
-
     evt.repository.showroom:
         parent: evt.repository
         arguments: [EVTCoreDomainBundle:Showroom]
-    
+
     evt.repository.provider:
         parent: evt.repository
         arguments: [EVTCoreDomainBundle:Provider]
-    
+
+    evt.form.provider:
+        class: EVT\CoreDomainBundle\Form\Type\ProviderFormType
+        arguments: [@evt.repository.user]
