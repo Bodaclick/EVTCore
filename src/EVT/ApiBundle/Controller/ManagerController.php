@@ -6,6 +6,7 @@ use EVT\CoreDomainBundle\Form\Type\GenericUserFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations as FOS;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 /**
  * Class ManagerController
@@ -37,7 +38,11 @@ class ManagerController extends Controller
 
         $form = $this->createForm(new GenericUserFormType());
         $form->setData($user);
-        $form->handleRequest($request);
+        try {
+            $form->handleRequest($request);
+        } catch(\Exception $e) {
+            throw new ConflictHttpException('User already exists');
+        }
 
         if($form->isValid()) {
             $userManager->updateUser($user);

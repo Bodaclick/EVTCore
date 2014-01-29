@@ -115,4 +115,40 @@ class ManagerControllerTest extends WebTestCase
         );
     }
 
+    public function testManagerAlreadyExists()
+    {
+        $params = [
+            'user' => [
+                'email' => 'valid@email.com',
+                'username' => 'username_manager',
+                'plainPassword' => ['first' => '1234', 'second' => '1234']
+            ]
+        ];
+        //$this->mockContainer();
+
+        $formMock = $this->getMockBuilder('EVT\CoreDomainBundle\Form\Type\GenericUserFormType')
+            ->setMethods(['setData', 'handleRequest'])->disableOriginalConstructor()->getMock();
+        $formMock->expects($this->once())->method('setData')->will($this->returnValue(true));
+        $formMock->expects($this->once())->method('handleRequest')->will($this->throwException(new \PDOException()));
+
+        $factoryMock = $this->getMockBuilder('Symfony\Component\Form\FormFactory')->disableOriginalConstructor()
+            ->getMock();
+        $factoryMock->expects($this->once())->method('create')->will($this->returnValue($formMock));
+
+        $this->client->getContainer()->set('form.factory', $factoryMock);
+
+        $this->client->request(
+            'POST',
+            '/api/managers?apikey=apikeyValue',
+            $params,
+            [],
+            $this->header
+        );
+
+        $this->assertEquals(
+            Codes::HTTP_CONFLICT,
+            $this->client->getResponse()->getStatusCode(),
+            $this->client->getResponse()->getContent()
+        );
+    }
 }
