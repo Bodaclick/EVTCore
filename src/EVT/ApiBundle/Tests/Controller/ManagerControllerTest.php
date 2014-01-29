@@ -124,7 +124,6 @@ class ManagerControllerTest extends WebTestCase
                 'plainPassword' => ['first' => '1234', 'second' => '1234']
             ]
         ];
-        //$this->mockContainer();
 
         $formMock = $this->getMockBuilder('EVT\CoreDomainBundle\Form\Type\GenericUserFormType')
             ->setMethods(['setData', 'handleRequest'])->disableOriginalConstructor()->getMock();
