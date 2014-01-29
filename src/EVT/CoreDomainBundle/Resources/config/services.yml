@@ -8,6 +8,8 @@ services:
     evt.repository.user:
         parent: evt.repository
         arguments: [EVTCoreDomainBundle:GenericUser]
+        calls:
+            - [setUserManager, [@fos_user.user_manager]]
 
     evt.repository.lead:
         parent: evt.repository

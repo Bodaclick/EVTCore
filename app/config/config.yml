@@ -65,7 +65,11 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+        entity_managers:
+            default:
+                connection: default
+                mappings:
+                    EVTCoreDomainBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -87,7 +91,7 @@ fos_rest:
         default_format:       json
         include_format:       false
     view:
-        view_response_listener: true
+        view_response_listener: force
         failed_validation: HTTP_BAD_REQUEST
         default_engine: twig
         formats:
@@ -106,6 +110,11 @@ fos_rest:
         rules:
             - { path: '^/api', priorities: ['json', 'html'], fallback_format: json, prefer_extension: false }
             - { path: '^/', priorities: [ 'text/html'], fallback_format: html, prefer_extension: true }
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: EVT\CoreDomainBundle\Entity\GenericUser
+    use_listener: false
 
 liip_monitor:
     checks:

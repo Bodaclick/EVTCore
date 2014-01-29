@@ -11,35 +11,25 @@ EVT\CoreDomainBundle\Entity\GenericUser:
             type: integer
             nullable: false
             unsigned: false
-            comment: ''
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: AUTO
     fields:
-        email:
-            type: string
-            nullable: false
-            length: 60
-            fixed: false
-            comment: ''
         name:
             type: string
             nullable: true
             length: 60
             fixed: false
-            comment: ''
         surnames:
             type: string
             nullable: true
             length: 60
             fixed: false
-            comment: ''
         phone:
             type: string
             nullable: true
             length: 20
             fixed: false
-            comment: ''
     manyToMany:
         provider:
             targetEntity: Provider

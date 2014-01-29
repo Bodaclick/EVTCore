@@ -2,22 +2,18 @@
 
 namespace EVT\CoreDomainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * GenericUser
  */
-class GenericUser
+class GenericUser extends BaseUSer
 {
     /**
      * @var integer
      */
-    private $id;
-
-    /**
-     * @var string
-     */
-    private $email;
+    protected $id;
 
     /**
      * @var string
@@ -44,17 +40,8 @@ class GenericUser
      */
     public function __construct()
     {
-        $this->provider = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
+        parent::__construct();
+        $this->provider = new ArrayCollection();
     }
 
     /**

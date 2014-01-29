@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Liip\MonitorBundle\LiipMonitorBundle(),
             new EVT\ApiBundle\EVTApiBundle(),
             new EVT\CoreDomainBundle\EVTCoreDomainBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
