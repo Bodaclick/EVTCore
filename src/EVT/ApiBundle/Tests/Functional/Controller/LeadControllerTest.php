@@ -28,7 +28,7 @@ class LeadControllerTest extends WebTestCase
         $this->client = static::createClient();
         $this->header = ['Content-Type' => 'application/x-www-form-urlencoded', 'Accept' => 'application/json'];
         $this->loadFixtures(
-            ['EVT\ApiBundle\DataFixtures\ORM\LoadShowroomData']
+            ['EVT\ApiBundle\Tests\DataFixtures\ORM\LoadShowroomData']
         );
 
     }

@@ -58,4 +58,13 @@ class UserRepository extends EntityRepository implements DomainRepository
     {
         $this->userManager = $userManager;
     }
+
+    public function getRetriveManagersQueryBuilder()
+    {
+        $managersQB = $this->createQueryBuilder('u');
+        $managersQB->select('u')
+            ->where('u.roles LIKE :roles')
+            ->setParameter('roles', '%"ROLE_MANAGER"%');
+        return $managersQB;
+    }
 }

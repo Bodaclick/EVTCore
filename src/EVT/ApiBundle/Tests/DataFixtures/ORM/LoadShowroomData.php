@@ -1,6 +1,6 @@
 <?php
 
-namespace EVT\ApiBundle\DataFixtures\ORM;
+namespace EVT\ApiBundle\Tests\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;

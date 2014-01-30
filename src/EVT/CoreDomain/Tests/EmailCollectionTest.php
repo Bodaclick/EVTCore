@@ -3,7 +3,6 @@
 namespace EVT\CoreDomain\Tests;
 
 use EVT\CoreDomain\Email;
-
 use EVT\CoreDomain\EmailCollection;
 
 /**

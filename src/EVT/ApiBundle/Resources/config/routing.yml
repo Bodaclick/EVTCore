@@ -4,3 +4,7 @@ evt_api_lead:
 evt_api_manager:
     resource: EVT\ApiBundle\Controller\ManagerController
     type: rest
+
+evt_api_provider:
+    resource: EVT\ApiBundle\Controller\ProviderController 
+    type: rest
