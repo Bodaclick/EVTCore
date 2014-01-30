@@ -48,7 +48,7 @@ class ProviderControllerTest extends WebTestCase
                 'locationLong' => 10
             ]
         ];
-        
+
         $this->client->request(
             'POST',
             '/api/providers?apikey=apikeyValue',
@@ -58,7 +58,10 @@ class ProviderControllerTest extends WebTestCase
         );
 
         $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
-        $id = explode('?', explode('/', json_decode($this->client->getResponse()->getContent(), true)['provider'])[3])[0];
+        $id = explode(
+            '?',
+            explode('/', json_decode($this->client->getResponse()->getContent(), true)['provider'])[3]
+        )[0];
         $this->assertEquals(1, $id);
         $eProvider = $this->getContainer()->get('doctrine.orm.default_entity_manager')
             ->getRepository('EVTCoreDomainBundle:Provider')
@@ -66,5 +69,54 @@ class ProviderControllerTest extends WebTestCase
         $this->assertNotNull($eProvider);
         $this->assertEquals('providerName', $eProvider->getName());
         $this->assertEquals('providerSlug', $eProvider->getSlug());
+    }
+
+    public function provider()
+    {
+        return [
+            [
+                [
+                    'provider' => [
+                        'genericUser' => [2],
+                        'name' => 'providerName',
+                        'phone' => 'asdf',
+                        'slug' => 'providerSlug',
+                        'locationAdminLevel1' => 'asdf',
+                        'locationAdminLevel2' => 'asdf',
+                        'locationCountry' => 'asdf',
+                        'locationLat' => 10,
+                        'locationLong' => 10
+                    ]
+                ],
+                [
+                    'provider' => [
+                        'genericUser' => [1],
+                        'phone' => 'asdf',
+                        'slug' => 'providerSlug',
+                        'locationAdminLevel1' => 'asdf',
+                        'locationAdminLevel2' => 'asdf',
+                        'locationCountry' => 'asdf',
+                        'locationLat' => 10,
+                        'locationLong' => 10
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider provider
+     */
+    public function testWrongData($params)
+    {
+        $this->client->request(
+            'POST',
+            '/api/providers?apikey=apikeyValue',
+            $params,
+            [],
+            $this->header
+        );
+
+        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 }

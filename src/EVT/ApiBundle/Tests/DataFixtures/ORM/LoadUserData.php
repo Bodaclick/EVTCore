@@ -13,7 +13,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
      * @var ContainerInterface
      */
     private $container;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -21,18 +21,26 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
     {
         $this->container = $container;
     }
-    
+
     public function load(ObjectManager $manager)
     {
         $userManager = $this->container->get('fos_user.user_manager');
-        
+
+        $manager = $userManager->createUser();
+        $manager->setUsername('usernameManager');
+        $manager->setEmail('valid@emailManager.com');
+        $manager->setPlainPassword('passManager');
+        $manager->addRole('ROLE_MANAGER');
+        $manager->setName('nameManager');
+
+        $userManager->updateUser($manager);
+
         $user = $userManager->createUser();
         $user->setUsername('username');
         $user->setEmail('valid@email.com');
         $user->setPlainPassword('pass');
-        $user->addRole('ROLE_MANAGER');
         $user->setName('name');
-        
+
         $userManager->updateUser($user);
     }
 }

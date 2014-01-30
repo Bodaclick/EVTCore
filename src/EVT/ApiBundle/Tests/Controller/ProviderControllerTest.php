@@ -2,7 +2,6 @@
 
 namespace EVT\ApiBundle\Tests\Controller;
 
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 

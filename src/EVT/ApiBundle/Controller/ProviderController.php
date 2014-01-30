@@ -3,16 +3,12 @@
 namespace EVT\ApiBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
-
 use EVT\CoreDomainBundle\Form\Type\ProviderFormType;
-use EVT\CoreDomainBundle\Form\Handler\ProviderFormHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\View\View as FOSView;
-use FOS\RestBundle\Util\Codes;
 
 /**
  * ProviderController
@@ -40,18 +36,18 @@ class ProviderController extends Controller
     public function postProviderAction(Request $request)
     {
         $form = $this->createForm($this->get('evt.form.provider'));
-        
+
         try {
             $form->handleRequest($request);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new ConflictHttpException('Provider already exists');
         }
-        
+
         if ($form->isValid()) {
             $providerRepo = $this->get('evt.repository.provider');
             $provider = $form->getData();
             $providerRepo->save($provider);
-            
+
             return ['provider' => '/api/providers/' .$provider->getId()];
         }
 

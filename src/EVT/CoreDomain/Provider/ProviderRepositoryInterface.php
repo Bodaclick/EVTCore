@@ -11,5 +11,4 @@ use EVT\CoreDomain\RepositoryInterface;
  */
 interface ProviderRepositoryInterface extends RepositoryInterface
 {
-    public function find($domain);
 }
