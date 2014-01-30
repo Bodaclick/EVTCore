@@ -5,7 +5,6 @@ namespace EVT\ApiBundle\Tests\Controller;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
-use EVT\CoreDomainBundle\Entity\GenericUser as User;
 
 /**
  * ProviderControllerTest
@@ -33,30 +32,14 @@ class ProviderControllerTest extends WebTestCase
 
     public function testCreateProvider()
     {
-        $userManager = $this->getMockBuilder('FOS\UserBundle\Model\UserManager')->disableOriginalConstructor()
-            ->getMock();
-        $userManager->expects($this->once())->method('createUser')->will($this->returnValue(new User()));
-        $userManager->expects($this->once())->method('updateUser')->will(
-            $this->returnCallback(
-                function ($entity) {
-                    $rflUser = new \ReflectionClass($entity);
-                    $rflId = $rflUser->getProperty('id');
-                    $rflId->setAccessible(true);
-                    $rflId->setValue($entity, 1);
-                }
-            )
-        );
-
-        $this->client->getContainer()->set('fos_user.user_manager', $userManager);
-        
         $provider = $this->getMockBuilder('EVT\CoreDomainBundle\Entity\Provider')->disableOriginalConstructor()
             ->getMock();
         $provider->expects($this->once())->method('getId')->will($this->returnValue(1));
-        
-        $providerRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\Provider')->disableOriginalConstructor()
-            ->getMock();
-        $providerRepo->expects($this->once())->method('save')->will($this->returnValue(1));
-        
+
+        $providerRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\Provider')->setMethods(['save'])
+            ->disableOriginalConstructor()->getMock();
+        $providerRepo->expects($this->once())->method('save')->will($this->returnValue($provider));
+
         $formMock = $this->getMockBuilder('EVT\CoreDomainBundle\Form\Type\ProviderFormType')
             ->setMethods(['isValid', 'getData', 'handleRequest'])->disableOriginalConstructor()->getMock();
         $formMock->expects($this->once())->method('isValid')->will($this->returnValue(true));
@@ -69,7 +52,8 @@ class ProviderControllerTest extends WebTestCase
 
         $this->client->getContainer()->set('form.factory', $factoryMock);
         $this->client->getContainer()->set('evt.form.provider', $formMock);
-        
+        $this->client->getContainer()->set('evt.repository.provider', $providerRepo);
+
         $params = [
             'provider' => [
                 'genericUser' => [1],
@@ -83,7 +67,7 @@ class ProviderControllerTest extends WebTestCase
                 'locationLong' => 10
             ]
         ];
-        
+
         $this->client->request(
             'POST',
             '/api/providers?apikey=apikeyValue',
@@ -93,7 +77,7 @@ class ProviderControllerTest extends WebTestCase
         );
 
         $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
-        $this->assertEquals('{"provider":1}', $this->client->getResponse()->getContent());
+        $this->assertEquals('{"provider":"\/api\/providers\/1"}', $this->client->getResponse()->getContent());
     }
 
     public function testNewProvider()
