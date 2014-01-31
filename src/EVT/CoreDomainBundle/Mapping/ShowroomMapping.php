@@ -3,44 +3,48 @@
 namespace EVT\CoreDomainBundle\Mapping;
 
 use EVT\CoreDomainBundle\Entity\Showroom;
-use EVT\CoreDomain\Provider\Showroom as DomainShowroom;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 
-class ShowroomMapping {
+class ShowroomMapping implements MappingInterface
+{
 
-    public function mapEntityToDomain(Showroom $showroom)
+    private $em;
+
+    public function __construct(EntityManager $em)
     {
-
+        $this->em = $em;
     }
 
-    /**
-     * map
-     *
-     * @param EVT\CoreDomain\Provider\Showroom
-     * @return EVT\CoreDomainBundle\Entity\Showroom $showroom
-     */
-    public function mapDomainToEntity(DomainShowroom $showroom)
+
+    public function mapEntityToDomain($showroom)
     {
-        $mapProvider = new ProviderToEntity();
-        $providerEntity = $mapProvider->map($showroom->getProvider());
+        throw new Exception("To implement");
+    }
 
-        $mapVertical = new VerticalToEntity();
-        $verticalEntity = $mapVertical->map($showroom->getVertical());
 
-        $entity = new Showroom();
+    public function mapDomainToEntity($showroom)
+    {
+        $providerEntity = $this->em->getReference('EVT\CoreDomainBundle\Entity\Provider', $showroom->getProvider()->getId());
+
+        $verticalEntity = $this->em->getReference('EVT\CoreDomainBundle\Entity\Vertical', $showroom->getVertical()->getDomain());
+
+        $showroomEntity = new Showroom();
         if (null !== $showroom->getId()) {
-            $rflProvider = new \ReflectionClass($entity);
+            $rflProvider = new \ReflectionClass($showroomEntity);
             $rflId = $rflProvider->getProperty('id');
             $rflId->setAccessible(true);
-            $rflId->setValue($entity, $showroom->getId());
+            $rflId->setValue($showroomEntity, $showroom->getId());
         }
-        $entity->setName($showroom->getName());
-        $entity->setPhone($showroom->getPhone());
-        $entity->setProvider($providerEntity);
-        $entity->setScore($showroom->getScore());
-        $entity->setSlug($showroom->getSlug());
-        $entity->setVertical($verticalEntity);
 
-        return $entity;
+        $showroomEntity->setProvider($providerEntity);
+        $showroomEntity->setVertical($verticalEntity);
+        $showroomEntity->setScore($showroom->getScore());
+        $showroomEntity->setName($showroom->getName());
+        $showroomEntity->setPhone($showroom->getPhone());
+        $showroomEntity->setSlug($showroom->getSlug());
+
+        return $showroomEntity;
     }
 } 
