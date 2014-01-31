@@ -7,7 +7,7 @@ use EVT\CoreDomain\Provider\Showroom as DomainShowroom;
 /**
  * Showroom
  */
-class Showroom extends DomainShowroom
+class Showroom
 {
     /**
      * @var integer
