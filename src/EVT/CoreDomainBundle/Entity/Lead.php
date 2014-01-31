@@ -2,7 +2,7 @@
 
 namespace EVT\CoreDomainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use EVT\CoreDomainBundle\Entity\Showroom;
 
 /**
  * Lead
@@ -441,7 +441,7 @@ class Lead
      * @param \EVT\CoreDomainBundle\Entity\Showroom $showroom
      * @return Lead
      */
-    public function setShowroom(\EVT\CoreDomainBundle\Entity\Showroom $showroom = null)
+    public function setShowroom(Showroom $showroom = null)
     {
         $this->showroom = $showroom;
 
@@ -464,7 +464,7 @@ class Lead
      * @param \EVT\CoreDomainBundle\Entity\LeadInformation $leadInformation
      * @return Lead
      */
-    public function addLeadInformation(\EVT\CoreDomainBundle\Entity\LeadInformation $leadInformation)
+    public function addLeadInformation(LeadInformation $leadInformation)
     {
         $this->lead_information[] = $leadInformation;
 
@@ -476,7 +476,7 @@ class Lead
      *
      * @param \EVT\CoreDomainBundle\Entity\LeadInformation $leadInformation
      */
-    public function removeLeadInformation(\EVT\CoreDomainBundle\Entity\LeadInformation $leadInformation)
+    public function removeLeadInformation(LeadInformation $leadInformation)
     {
         $this->lead_information->removeElement($leadInformation);
     }

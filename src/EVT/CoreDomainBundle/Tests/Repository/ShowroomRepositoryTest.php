@@ -34,5 +34,4 @@ class ShowroomRepositoryTest extends \PHPUnit_Framework_TestCase
         $repo->setMapper($srMapper);
         $repo->save($domainMock);
     }
-
 }

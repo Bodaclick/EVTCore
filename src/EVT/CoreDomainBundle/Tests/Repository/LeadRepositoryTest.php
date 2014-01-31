@@ -30,7 +30,7 @@ class LeadRepositoryTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $showroom = $this->getMockBuilder('EVT\CoreDomainBundle\Entity\Showroom')->disableOriginalConstructor()
+        $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()
             ->getMock();
         $event = new Event(
             new EventType(EventType::BIRTHDAY),
