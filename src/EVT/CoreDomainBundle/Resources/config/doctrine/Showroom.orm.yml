@@ -5,7 +5,7 @@ EVT\CoreDomainBundle\Entity\Showroom:
     indexes:
         fk_showroom_vertical_idx:
             columns:
-                - vertical_id
+                - vertical_domain
         fk_showroom_provider_idx:
             columns:
                 - provider_id
@@ -16,7 +16,7 @@ EVT\CoreDomainBundle\Entity\Showroom:
         vertical_provider_idx:
             columns:
                 - provider_id
-                - vertical_id
+                - vertical_domain
     id:
         id:
             type: integer
@@ -59,8 +59,8 @@ EVT\CoreDomainBundle\Entity\Showroom:
             mappedBy: null
             inversedBy: null
             joinColumns:
-                vertical_id:
-                    referencedColumnName: id
+                vertical_domain:
+                    referencedColumnName: domain
             orphanRemoval: false
         provider:
             targetEntity: Provider
