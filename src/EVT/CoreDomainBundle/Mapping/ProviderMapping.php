@@ -4,6 +4,7 @@ namespace EVT\CoreDomainBundle\Mapping;
 
 use Doctrine\ORM\EntityManager;
 use EVT\CoreDomain\Provider\Provider;
+use \EVT\CoreDomainBundle\Entity\Provider as EntityProvider;
 
 /**
  * ProviderMapping
@@ -22,7 +23,7 @@ class ProviderMapping
 
     public function mapDomainToEntity(Provider $provider)
     {
-        $eProvider = new \EVT\CoreDomainBundle\Entity\Provider();
+        $eProvider = new EntityProvider();
 
         if (null !== $provider->getId()) {
             $rflProvider = new \ReflectionClass($eProvider);
