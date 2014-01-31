@@ -22,6 +22,8 @@ services:
     evt.repository.provider:
         parent: evt.repository
         arguments: [EVTCoreDomainBundle:Provider]
+        calls:
+            - [setProviderMapper, [@evt.mapper.provider]]
 
     evt.repository.vertical:
         parent: evt.repository

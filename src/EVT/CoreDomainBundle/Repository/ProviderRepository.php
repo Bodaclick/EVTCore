@@ -14,17 +14,28 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProviderRepository extends EntityRepository implements DomainRepository
 {
+    private $providerMapper;
+
+    public function setProviderMapper($providerMapper)
+    {
+        $this->providerMapper = $providerMapper;
+    }
+
     public function save($provider)
     {
         if (!$provider instanceof \EVT\CoreDomain\Provider\Provider) {
             throw new \InvalidArgumentException('Wrong object in ProviderRepository');
         }
 
-        $mapper = new ProviderMapping();
-        $eProvider = $mapper->mapDomainToEntity($provider);
+        $eProvider = $this->providerMapper->mapDomainToEntity($provider);
 
         $this->_em->persist($eProvider);
         $this->_em->flush();
+
+        $rflProvider = new \ReflectionClass($provider);
+        $rflId = $rflProvider->getProperty('id');
+        $rflId->setAccessible(true);
+        $rflId->setValue($provider, $eProvider->getId());
     }
 
     public function delete($provider)
