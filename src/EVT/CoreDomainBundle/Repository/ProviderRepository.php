@@ -2,6 +2,7 @@
 
 namespace EVT\CoreDomainBundle\Repository;
 
+use EVT\CoreDomainBundle\Mapping\ProviderMapping;
 use EVT\CoreDomain\Provider\ProviderRepositoryInterface as DomainRepository;
 use Doctrine\ORM\EntityRepository;
 
@@ -15,11 +16,14 @@ class ProviderRepository extends EntityRepository implements DomainRepository
 {
     public function save($provider)
     {
-        if (!$provider instanceof \EVT\CoreDomainBundle\Entity\Provider) {
-            throw new \InvalidArgumentException('Wrong object in LeadRepository');
+        if (!$provider instanceof \EVT\CoreDomain\Provider\Provider) {
+            throw new \InvalidArgumentException('Wrong object in ProviderRepository');
         }
 
-        $this->_em->persist($provider);
+        $mapper = new ProviderMapping();
+        $eProvider = $mapper->mapDomainToEntity($provider);
+
+        $this->_em->persist($eProvider);
         $this->_em->flush();
     }
 

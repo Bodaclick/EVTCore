@@ -22,7 +22,7 @@ class Provider
 
     public function __construct(ProviderId $id, $name, EmailCollection $notificationEmails)
     {
-        $this->id = $id;
+        $this->id = $id->getValue();
         $this->name = $name;
         $this->slugify();
         $this->notificationEmails = $notificationEmails;
@@ -64,6 +64,11 @@ class Provider
     public function getManagers()
     {
         return $this->managers;
+    }
+    
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
     }
 
     private function slugify()
