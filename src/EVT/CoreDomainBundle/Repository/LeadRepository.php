@@ -2,7 +2,7 @@
 
 namespace EVT\CoreDomainBundle\Repository;
 
-use EVT\CoreDomainBundle\Mapping\EntityToLeadMapping;
+use EVT\CoreDomainBundle\Mapping\LeadMapping;
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Lead\LeadRepositoryInterface as DomainRepository;
 use EVT\CoreDomain\Lead\LeadId;
@@ -25,8 +25,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
             throw new \InvalidArgumentException('Wrong object in LeadRepository');
         }
 
-        $mapper = new LeadToEntityMapping();
-        $leadEntity = $mapper->map($lead);
+        $leadEntity = $this->mapper->map($lead);
         $leadInfo = $lead->getInformationBag();
         $this->_em->persist($leadEntity);
         foreach ($leadInfo as $key => $element) {
@@ -86,10 +85,14 @@ class LeadRepository extends EntityRepository implements DomainRepository
 
         $domainLeads = [];
 
-        $entityMapper = new EntityToLeadMapping();
         foreach ($leads as $lead) {
             array_push($domainLeads, $entityMapper->map($lead));
         }
         return $domainLeads;
+    }
+
+    public function setMapper(LeadMapping $mapper)
+    {
+        $this->mapper = $mapper;
     }
 }
