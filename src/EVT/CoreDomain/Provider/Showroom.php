@@ -69,6 +69,16 @@ class Showroom
         return $this->vertical->getDomain() . '/' . $slug;
     }
 
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
+    public function getVertical()
+    {
+        return $this->vertical;
+    }
+
     public function belongsToProvider(Provider $provider)
     {
         return $this->provider->getId() === $provider->getId();
