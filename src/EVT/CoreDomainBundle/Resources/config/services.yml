@@ -30,3 +30,8 @@ services:
     evt.form.provider:
         class: EVT\CoreDomainBundle\Form\Type\ProviderFormType
         arguments: [@evt.repository.user]
+
+    evt.mapper.provider:
+        class: EVT\CoreDomainBundle\Mapping\ProviderMapping
+        arguments: [%doctrine.entity_managers%]
+        
