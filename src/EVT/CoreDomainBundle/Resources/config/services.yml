@@ -18,6 +18,8 @@ services:
     evt.repository.showroom:
         parent: evt.repository
         arguments: [EVTCoreDomainBundle:Showroom]
+        calls:
+            - [setMapper, [@evt.mapper.showroom]]
 
     evt.repository.provider:
         parent: evt.repository
@@ -35,3 +37,6 @@ services:
         class: EVT\CoreDomainBundle\Mapping\ProviderMapping
         arguments: [%doctrine.entity_managers%]
         
+    evt.mapper.showroom:
+        class: EVT\CoreDomainBundle\Mapping\ShowroomMapping
+        arguments: [%doctrine.entity_managers%]
