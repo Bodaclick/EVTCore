@@ -2,19 +2,12 @@ EVT\CoreDomainBundle\Entity\Vertical:
     type: entity
     table: vertical
     id:
-        id:
-            type: integer
-            nullable: false
-            unsigned: false
-            comment: ''
-            id: true
-            generator:
-                strategy: IDENTITY
-    fields:
         domain:
             type: string
-            nullable: true
+            nullable: false
+            unsigned: false
             length: 45
-            fixed: false
-            comment: ''
+            id: true
+            generator:
+                strategy: none
     lifecycleCallbacks: {  }
