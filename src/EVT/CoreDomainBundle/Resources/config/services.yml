@@ -23,6 +23,10 @@ services:
         parent: evt.repository
         arguments: [EVTCoreDomainBundle:Provider]
 
+    evt.repository.vertical:
+        parent: evt.repository
+        arguments: [EVTCoreDomainBundle:Vertical]
+
     evt.form.provider:
         class: EVT\CoreDomainBundle\Form\Type\ProviderFormType
         arguments: [@evt.repository.user]

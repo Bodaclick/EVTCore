@@ -23,3 +23,6 @@ services:
         arguments: ["%kernel.logs_dir%/leads.%kernel.environment%.log"]
         tags:
            - { name: liip_monitor.check}
+
+    evt.factory.showroom:
+        class:     EVT\ApiBundle\Factory\ShowroomFactory

@@ -48,7 +48,7 @@ class Provider
     private $locationLong;
 
     /**
-     * @var string
+     * @var EmailCollection
      */
     private $notificationEmails;
 
