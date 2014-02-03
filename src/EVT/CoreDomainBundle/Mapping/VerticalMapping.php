@@ -5,18 +5,32 @@ namespace EVT\CoreDomainBundle\Mapping;
 use EVT\CoreDomainBundle\Entity\Vertical;
 use EVT\CoreDomain\Provider\Vertical as DomainVertical;
 
-class VerticalMapping {
+/**
+ * Class VerticalMapping
+ * @package EVT\CoreDomainBundle\Mapping
+ */
+class VerticalMapping implements MappingInterface
+{
+
     /**
-     * map
-     *
-     * @param EVT\CoreDomain\Vertical\Vertical
-     * @return EVT\CoreDomainBundle\Entity\Vertical $vertical
+     * @param Vertical $vertical
+     * @return Vertical
      */
-    public function mapDomainToEntity(DomainVertical $vertical)
+    public function mapEntityToDomain($vertical)
     {
-        $entity = new Vertical();
-        $entity->setDomain($vertical->getDomain());
-        return $entity;
+        $domainVertical = new DomainVertical($vertical->getDomain());
+        return $domainVertical;
+    }
+
+    /**
+     * @param DomainVertical $vertical
+     * @return Vertical
+     */
+    public function mapDomainToEntity($vertical)
+    {
+        $entityVertical = new Vertical();
+        $entityVertical->setDomain($vertical->getDomain());
+        return $entityVertical;
     }
 
 } 
