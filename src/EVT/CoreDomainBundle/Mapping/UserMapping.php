@@ -1,6 +1,7 @@
 <?php
 
 namespace EVT\CoreDomainBundle\Mapping;
+
 use EVT\CoreDomain\User\PersonalInformation;
 use EVT\CoreDomain\User\Manager;
 use EVT\CoreDomainBundle\Entity\GenericUser;
@@ -14,17 +15,16 @@ use Doctrine\ORM\EntityManager;
  */
 class UserMapping implements MappingInterface
 {
-    public function mapEntityToDomain(GenericUser $user)
+    public function mapEntityToDomain($object)
     {
-        $personalInfo = new PersonalInformation($user->getName(),
-                $user->getSurnames(), $user->getPhone());
-        $manager = new Manager($user->getEmail(), $personalInfo);
+        $personalInfo = new PersonalInformation($object->getName(), $object->getSurnames(), $object->getPhone());
+        $manager = new Manager($object->getEmail(), $personalInfo);
 
-        if (null !== $user->getId()) {
+        if (null !== $object->getId()) {
             $rflMamager = new \ReflectionClass($manager);
             $rflId = $rflMamager->getProperty('id');
             $rflId->setAccessible(true);
-            $rflId->setValue($manager, $user->getId());
+            $rflId->setValue($manager, $object->getId());
         }
 
         return $manager;

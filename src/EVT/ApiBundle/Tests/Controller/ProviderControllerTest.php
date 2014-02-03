@@ -31,27 +31,15 @@ class ProviderControllerTest extends WebTestCase
 
     public function testCreateProvider()
     {
-        $provider = $this->getMockBuilder('EVT\CoreDomainBundle\Entity\Provider')->disableOriginalConstructor()
+        $provider = $this->getMockBuilder('EVT\CoreDomain\Provider\Provider')->disableOriginalConstructor()
             ->getMock();
         $provider->expects($this->once())->method('getId')->will($this->returnValue(1));
 
-        $providerRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\Provider')->setMethods(['save'])
+        $providerFactory = $this->getMockBuilder('EVT\ApiBundle\Factory\ProviderFactory')
             ->disableOriginalConstructor()->getMock();
-        $providerRepo->expects($this->once())->method('save')->will($this->returnValue($provider));
+        $providerFactory->expects($this->once())->method('createProvider')->will($this->returnValue($provider));
 
-        $formMock = $this->getMockBuilder('EVT\CoreDomainBundle\Form\Type\ProviderFormType')
-            ->setMethods(['isValid', 'getData', 'handleRequest'])->disableOriginalConstructor()->getMock();
-        $formMock->expects($this->once())->method('isValid')->will($this->returnValue(true));
-        $formMock->expects($this->once())->method('getData')->will($this->returnValue($provider));
-        $formMock->expects($this->once())->method('handleRequest')->will($this->returnValue(true));
-
-        $factoryMock = $this->getMockBuilder('Symfony\Component\Form\FormFactory')->disableOriginalConstructor()
-            ->getMock();
-        $factoryMock->expects($this->once())->method('create')->will($this->returnValue($formMock));
-
-        $this->client->getContainer()->set('form.factory', $factoryMock);
-        $this->client->getContainer()->set('evt.form.provider', $formMock);
-        $this->client->getContainer()->set('evt.repository.provider', $providerRepo);
+        $this->client->getContainer()->set('evt.factory.provider', $providerFactory);
 
         $params = [
             'provider' => [
@@ -63,7 +51,8 @@ class ProviderControllerTest extends WebTestCase
                 'locationAdminLevel2' => 'asdf',
                 'locationCountry' => 'asdf',
                 'locationLat' => 10,
-                'locationLong' => 10
+                'locationLong' => 10,
+                'notificationEmails' => 'valid@email.com'
             ]
         ];
 
