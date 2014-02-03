@@ -21,7 +21,7 @@ class LeadFactoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
 
         $this->showroomRepo->expects($this->once())
-            ->method('find')
+            ->method('findShowroom')
             ->will(
                 $this->returnValue($showroom)
             );
@@ -50,7 +50,7 @@ class LeadFactoryTest extends \PHPUnit_Framework_TestCase
         $this->leadRepo = null;
     }
 
-    public function testLeadCreationOk()
+    public function testLeadCreation()
     {
         $lead= [
             'user' => [

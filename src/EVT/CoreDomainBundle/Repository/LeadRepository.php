@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityRepository;
  * UserRepository
  *
  * @author Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
+ * @author Marco Ferrari <marco.ferrari@bodaclick.com>
  * @copyright Bodaclick S.A
  */
 class LeadRepository extends EntityRepository implements DomainRepository
