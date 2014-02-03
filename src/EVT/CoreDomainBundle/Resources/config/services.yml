@@ -38,11 +38,11 @@ services:
 
     evt.mapper.provider:
         class: EVT\CoreDomainBundle\Mapping\ProviderMapping
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: [@doctrine.orm.entity_manager, @evt.mapper.user]
 
     evt.mapper.user:
         class: EVT\CoreDomainBundle\Mapping\UserMapping
 
     evt.mapper.showroom:
         class: EVT\CoreDomainBundle\Mapping\ShowroomMapping
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: [@doctrine.orm.entity_manager, @evt.mapper.provider]
