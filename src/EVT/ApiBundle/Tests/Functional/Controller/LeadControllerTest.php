@@ -67,8 +67,7 @@ class LeadControllerTest extends WebTestCase
             [],
             ['Content-Type' => 'application/json', 'HTTP_ACCEPT' => 'application/json']
         );
-        //var_dump($this->client->getResponse()->getContent());
-        //die;
+
         $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
         $id = explode('?', explode('/', json_decode($this->client->getResponse()->getContent(), true)['lead'])[3])[0];
         $this->assertEquals(1, $id);

@@ -68,4 +68,31 @@ class ShowroomMappingTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('EVT\CoreDomain\Provider\Showroom', $dShowroom);
     }
+
+    public function testEntityToDomainExistingShowroom()
+    {
+        $dProvider = $this->getMockBuilder('EVT\CoreDomain\Provider\Provider')
+            ->disableOriginalConstructor()->getMock();
+
+        $dVertical = $this->getMockBuilder('EVT\CoreDomain\Provider\Vertical')
+            ->disableOriginalConstructor()->getMock();
+
+        $verticalMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\VerticalMapping')
+            ->disableOriginalConstructor()->getMock();
+        $verticalMapper->expects($this->once())->method('mapEntityToDomain')->will($this->returnValue($dVertical));
+        $providerMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\ProviderMapping')
+            ->disableOriginalConstructor()->getMock();
+        $providerMapper->expects($this->once())->method('mapEntityToDomain')->will($this->returnValue($dProvider));
+
+        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
+
+        $eShowroom = $this->getMock('EVT\CoreDomainBundle\Entity\Showroom');
+        $eShowroom->expects($this->any())->method('getId')->will($this->returnValue(1));
+
+        $mapper = new ShowroomMapping($em, $providerMapper, $verticalMapper);
+        $dShowroom = $mapper->mapEntityToDomain($eShowroom);
+
+        $this->assertInstanceOf('EVT\CoreDomain\Provider\Showroom', $dShowroom);
+        $this->assertEquals(1, $dShowroom->getId());
+    }
 }
