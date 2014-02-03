@@ -50,7 +50,7 @@ class Provider
     /**
      * @var EmailCollection
      */
-    private $notificationEmails;
+    private $notificationEmails = [];
 
     /**
      * @var string
@@ -247,7 +247,7 @@ class Provider
      * @param string $notificationEmails
      * @return Provider
      */
-    public function setNotificationEmails($notificationEmails)
+    public function setNotificationEmails(array $notificationEmails)
     {
         $this->notificationEmails = $notificationEmails;
 
