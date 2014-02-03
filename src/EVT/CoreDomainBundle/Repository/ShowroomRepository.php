@@ -32,6 +32,11 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
     {
     }
 
+    public function findShowroom($id)
+    {
+        return $this->mapping->maptEntityToDomain(parent::find($id));
+    }
+
     public function findAll()
     {
     }

@@ -24,11 +24,11 @@ class LeadControllerBadDataTest extends WebTestCase
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')
             ->disableOriginalConstructor()->getMock();
 
-        $showroomRepo = $this->getMockBuilder('EVT\CoreDomain\Provider\ShowroomRepositoryInterface')
+        $showroomRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\ShowroomRepository')
             ->disableOriginalConstructor()->getMock();
 
         $showroomRepo->expects($this->once())
-            ->method('find')
+            ->method('findShowroom')
             ->will(
                 $this->returnValue($showroom)
             );

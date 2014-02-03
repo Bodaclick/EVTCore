@@ -22,7 +22,7 @@ class LeadFactoryTwinTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
 
         $this->showroomRepo->expects($this->exactly(2))
-            ->method('find')
+            ->method('findShowroom')
             ->will(
                 $this->returnValue($showroom)
             );
