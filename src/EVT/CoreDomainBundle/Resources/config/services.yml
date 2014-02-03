@@ -10,6 +10,7 @@ services:
         arguments: [EVTCoreDomainBundle:GenericUser]
         calls:
             - [setUserManager, [@fos_user.user_manager]]
+            - [setUserMapping, [@evt.mapper.user]]
 
     evt.repository.lead:
         parent: evt.repository
@@ -37,8 +38,12 @@ services:
 
     evt.mapper.provider:
         class: EVT\CoreDomainBundle\Mapping\ProviderMapping
-        arguments: [%doctrine.entity_managers%]
-        
+        arguments: [@doctrine.orm.entity_manager]
+
+
     evt.mapper.showroom:
         class: EVT\CoreDomainBundle\Mapping\ShowroomMapping
         arguments: [%doctrine.entity_managers%]
+
+    evt.mapper.user:
+        class: EVT\CoreDomainBundle\Mapping\UserMapping
