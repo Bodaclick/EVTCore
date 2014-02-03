@@ -19,19 +19,18 @@ class LeadRepositoryTest extends \PHPUnit_Framework_TestCase
         $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
             ->disableOriginalConstructor()->getMock();
         $em->expects($this->once())->method('flush')->will($this->returnValue(null));
-        $em->expects($this->any())->method('persist')->will(
-            $this->returnCallback(
-                function ($entity) {
-                    $rflUser = new \ReflectionClass($entity);
-                    $rflId = $rflUser->getProperty('id');
-                    $rflId->setAccessible(true);
-                    $rflId->setValue($entity, 1);
-                }
-            )
-        );
+        $em->expects($this->any())->method('persist')->will($this->returnSelf());
+
+        $eLead = $this->getMock('EVT\CoreDomainBundle\Entity\Lead');
+        $eLead->expects($this->once())->method('getId')->will($this->returnValue(1));
+
+        $leadMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\LeadMapping')
+            ->disableOriginalConstructor()->getMock();
+        $leadMapper->expects($this->once())->method('mapDomainToEntity')->will($this->returnValue($eLead));
 
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()
             ->getMock();
+
         $event = new Event(
             new EventType(EventType::BIRTHDAY),
             new Location(10, 10, 'admin1', 'admin2', 'ES'),
@@ -39,7 +38,10 @@ class LeadRepositoryTest extends \PHPUnit_Framework_TestCase
         );
         $user = new User(new Email('valid@email.com'), new PersonalInformation('name', 'surname', 'phone'));
         $lead = $user->doLead($showroom, $event, new LeadInformationBag(['observations' => 'test']));
+
+
         $repo = new LeadRepository($em, $metadata);
+        $repo->setMapper($leadMapper);
         $repo->save($lead);
         $this->assertEquals(1, $lead->getId());
     }
