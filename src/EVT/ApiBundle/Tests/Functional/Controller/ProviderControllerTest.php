@@ -45,7 +45,8 @@ class ProviderControllerTest extends WebTestCase
                 'locationAdminLevel2' => 'asdf',
                 'locationCountry' => 'asdf',
                 'locationLat' => 10,
-                'locationLong' => 10
+                'locationLong' => 10,
+                'notificationEmails' => 'valid@email.com'
             ]
         ];
 
@@ -68,7 +69,7 @@ class ProviderControllerTest extends WebTestCase
             ->findOneById($id);
         $this->assertNotNull($eProvider);
         $this->assertEquals('providerName', $eProvider->getName());
-        $this->assertEquals('providerSlug', $eProvider->getSlug());
+        $this->assertEquals('providername', $eProvider->getSlug());
     }
 
     public function provider()
@@ -85,7 +86,8 @@ class ProviderControllerTest extends WebTestCase
                         'locationAdminLevel2' => 'asdf',
                         'locationCountry' => 'asdf',
                         'locationLat' => 10,
-                        'locationLong' => 10
+                        'locationLong' => 10,
+                        'notificationEmails' => 'valid@email.com'
                     ]
                 ],
                 [
@@ -97,7 +99,8 @@ class ProviderControllerTest extends WebTestCase
                         'locationAdminLevel2' => 'asdf',
                         'locationCountry' => 'asdf',
                         'locationLat' => 10,
-                        'locationLong' => 10
+                        'locationLong' => 10,
+                        'notificationEmails' => 'valid@email.com'
                     ]
                 ]
             ]

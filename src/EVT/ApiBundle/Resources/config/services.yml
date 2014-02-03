@@ -14,6 +14,10 @@ services:
             - { name: monolog.logger, channel: lead }
     evt.factory.user:
         class:     EVT\ApiBundle\Factory\UserFactory
+        
+    evt.factory.provider:
+        class:     EVT\ApiBundle\Factory\ProviderFactory
+        arguments: [@evt.repository.provider, @evt.repository.user]
 
     api.monolog.json_formatter:
         class: Monolog\Formatter\JsonFormatter
