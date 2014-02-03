@@ -3,25 +3,34 @@
 namespace EVT\CoreDomainBundle\Mapping;
 
 use Doctrine\ORM\EntityManager;
+use EVT\CoreDomain\Email;
+use EVT\CoreDomain\EmailCollection;
 use EVT\CoreDomain\Provider\Provider;
-use \EVT\CoreDomainBundle\Entity\Provider as EntityProvider;
+use EVT\CoreDomain\Provider\ProviderId;
+use EVT\CoreDomain\User\Manager;
+use EVT\CoreDomain\User\PersonalInformation;
+use EVT\CoreDomainBundle\Entity\Provider as EntityProvider;
+use EVT\CoreDomainBundle\Mapping\UserMapping;
 
 /**
  * ProviderMapping
  *
  * @author    Marco Ferrari <marco.ferrari@bodaclick.com>
+ * @author    Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
  * @copyright 2014 Bodaclick S.A
  */
-class ProviderMapping
+class ProviderMapping implements MappingInterface
 {
     private $em;
+    private $userMapper;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, UserMapping $userMapper)
     {
         $this->em = $em;
+        $this->userMapper = $userMapper;
     }
 
-    public function mapDomainToEntity(Provider $provider)
+    public function mapDomainToEntity($provider)
     {
         $eProvider = new EntityProvider();
 
@@ -44,5 +53,27 @@ class ProviderMapping
         }
 
         return $eProvider;
+    }
+
+    public function mapEntityToDomain($eProvider)
+    {
+        $pId = new ProviderId($eProvider->getId());
+
+        $emails = $eProvider->getNotificationEmails();
+        $notifEmails = new EmailCollection(new Email(array_pop($emails)));
+
+        foreach($emails as $email) {
+            $notifEmails->append(new Email($email));
+        }
+
+        $dProvider = new Provider($pId, $eProvider->getName(), $notifEmails);
+        $dProvider->setPhone($eProvider->getPhone());
+
+        $managers = $eProvider->getGenericUser();
+        foreach($managers as $manager) {
+            $dProvider->addManager($this->userMapper->mapEntityToDomain($manager));
+        }
+
+        return $dProvider;
     }
 }
