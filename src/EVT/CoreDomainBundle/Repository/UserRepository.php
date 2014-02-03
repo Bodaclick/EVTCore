@@ -14,7 +14,8 @@ use FOS\UserBundle\Model\UserManager;
  */
 class UserRepository extends EntityRepository implements DomainRepository
 {
-    protected $userManager;
+    private $userManager;
+    private $userMapping;
 
     public function save($user)
     {
@@ -59,12 +60,20 @@ class UserRepository extends EntityRepository implements DomainRepository
         $this->userManager = $userManager;
     }
 
-    public function getRetriveManagersQueryBuilder()
+    public function setUserMapping($userMapping)
     {
-        $managersQB = $this->createQueryBuilder('u');
-        $managersQB->select('u')
+        $this->userMapping = $userMapping;
+    }
+
+    public function getManagerById($id)
+    {
+        $manager = $this->createQueryBuilder('u');
+        $manager->select('u')
             ->where('u.roles LIKE :roles')
-            ->setParameter('roles', '%"ROLE_MANAGER"%');
-        return $managersQB;
+            ->andWhere('u.id  = :id')
+            ->setParameter('roles', '%"ROLE_MANAGER"%')
+            ->setParameter('id', $id);
+        $eGenericUser = $manager->getQuery()->getSingleResult();
+        return $this->userMapping->mapEntityToDomain($eGenericUser);
     }
 }
