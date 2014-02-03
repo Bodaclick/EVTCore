@@ -2,6 +2,7 @@
 
 namespace EVT\CoreDomainBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
 use EVT\CoreDomain\Provider\VerticalRepositoryInterface as DomainRepository;
 
 class VerticalRepository extends EntityRepository implements DomainRepository

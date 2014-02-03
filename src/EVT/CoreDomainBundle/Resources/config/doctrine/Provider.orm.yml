@@ -60,7 +60,7 @@ EVT\CoreDomainBundle\Entity\Provider:
             comment: ''
             column: location_long
         notificationEmails:
-            type: text
+            type: array
             nullable: true
             length: null
             fixed: false

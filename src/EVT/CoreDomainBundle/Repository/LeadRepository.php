@@ -87,7 +87,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
         $domainLeads = [];
 
         foreach ($leads as $lead) {
-            array_push($domainLeads, $entityMapper->map($lead));
+            array_push($domainLeads, $this->mapper->mapEntityToDomain($lead));
         }
         return $domainLeads;
     }
