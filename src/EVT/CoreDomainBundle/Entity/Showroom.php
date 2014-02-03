@@ -2,7 +2,6 @@
 
 namespace EVT\CoreDomainBundle\Entity;
 
-use EVT\CoreDomain\Provider\Showroom as DomainShowroom;
 
 /**
  * Showroom
