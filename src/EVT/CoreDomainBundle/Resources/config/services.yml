@@ -54,4 +54,4 @@ services:
 
     evt.mapper.lead:
         class: EVT\CoreDomainBundle\Mapping\LeadMapping
-        arguments: [@evt.mapper.showroom]
+        arguments: [@doctrine.orm.entity_manager, @evt.mapper.showroom]

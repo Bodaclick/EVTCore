@@ -2,6 +2,7 @@
 
 namespace EVT\CoreDomainBundle\Mapping;
 
+use Doctrine\ORM\EntityManager;
 use EVT\CoreDomain\Lead\EventType;
 use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\InformationBag;
@@ -22,10 +23,12 @@ use EVT\CoreDomainBundle\Entity\Lead;
 class LeadMapping
 {
     private $showroomMapper;
+    private $em;
 
-    public function __construct(ShowroomMapping $showroomMapper)
+    public function __construct(EntityManager $em, ShowroomMapping $showroomMapper)
     {
         $this->showroomMapper = $showroomMapper;
+        $this->em = $em;
     }
 
     /**
@@ -73,7 +76,11 @@ class LeadMapping
         $entity->setEventLocationAdminLevel1($lead->getEvent()->getLocation()->getAdminLevel1());
         $entity->setEventLocationAdminLevel2($lead->getEvent()->getLocation()->getAdminLevel2());
         $entity->setEventLocationCountry($lead->getEvent()->getLocation()->getCountry());
-        $entity->setShowroom($this->showroomMapper->mapDomainToEntity($lead->getShowroom()));
+        $showroomEntity = $this->em->getReference(
+            'EVT\CoreDomainBundle\Entity\Showroom',
+            $lead->getShowroom()->getId()
+        );
+        $entity->setShowroom($showroomEntity);
         return $entity;
     }
 }

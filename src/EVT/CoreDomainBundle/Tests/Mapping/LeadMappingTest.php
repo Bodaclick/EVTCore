@@ -23,6 +23,8 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $showroomMapper->expects($this->once())->method('mapEntityToDomain')->will($this->returnValue($dShowroom));
 
+        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
+
         $entity = new Lead();
         $entity->setUserName('name');
         $entity->setUserSurnames('surname');
@@ -37,7 +39,7 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $entity->setEventLocationCountry('spain');
         $entity->setShowroom(new Showroom());
 
-        $mapping = new LeadMapping($showroomMapper);
+        $mapping = new LeadMapping($em, $showroomMapper);
         $lead = $mapping->mapEntityToDomain($entity);
 
         $personalInfo = $lead->getPersonalInformation();
@@ -61,9 +63,15 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
     {
         $dShowroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()
             ->getMock();
+        $dShowroom->expects($this->once())->method('getId')->will($this->returnValue(1));
         $showroomMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\ShowroomMapping')
             ->disableOriginalConstructor()->getMock();
-        $showroomMapper->expects($this->once())->method('mapDomainToEntity')->will($this->returnValue(new Showroom()));
+        $showroomMapper->expects($this->never())->method('mapDomainToEntity')->will($this->returnValue(new Showroom()));
+
+        $eShowroom = $this->getMock('EVT\CoreDomainBundle\Entity\Showroom');
+
+        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
+        $em->expects($this->at(0))->method('getReference')->will($this->returnValue($eShowroom));
 
         $event = new Event(
             new EventType(EventType::BIRTHDAY),
@@ -75,7 +83,7 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $infoBag = new LeadInformationBag(['observations' => 'test']);
         $lead = $user->doLead($dShowroom, $event, $infoBag);
 
-        $mapping = new LeadMapping($showroomMapper);
+        $mapping = new LeadMapping($em, $showroomMapper);
 
         $entity = $mapping->mapDomainToEntity($lead);
         $this->assertInstanceOf('EVT\CoreDomainBundle\Entity\Lead', $entity);

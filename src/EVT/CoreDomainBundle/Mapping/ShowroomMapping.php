@@ -34,6 +34,12 @@ class ShowroomMapping implements MappingInterface
         $dShowroom->changeName($showroom->getName());
         $dShowroom->changeSlug($showroom->getSlug());
         $dShowroom->changePhone($showroom->getPhone());
+        if (null !== $showroom->getId()) {
+            $rflProvider = new \ReflectionClass($dShowroom);
+            $rflId = $rflProvider->getProperty('id');
+            $rflId->setAccessible(true);
+            $rflId->setValue($dShowroom, $showroom->getId());
+        }
         return $dShowroom;
     }
 
