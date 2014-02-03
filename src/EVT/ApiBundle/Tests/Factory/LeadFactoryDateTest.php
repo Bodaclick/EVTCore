@@ -43,7 +43,7 @@ class LeadFactoryDateTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
 
         $showroomRepo->expects($this->once())
-            ->method('find')
+            ->method('findShowroom')
             ->will(
                 $this->returnValue($showroom)
             );

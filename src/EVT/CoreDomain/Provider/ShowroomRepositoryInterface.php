@@ -12,5 +12,5 @@ use EVT\CoreDomain\RepositoryInterface;
  */
 interface ShowroomRepositoryInterface extends RepositoryInterface
 {
-    public function find($id);
+    public function findShowroom($id);
 }

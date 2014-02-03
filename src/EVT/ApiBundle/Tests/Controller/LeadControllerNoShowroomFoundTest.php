@@ -31,7 +31,7 @@ class LeadControllerNoShowroomFoundTest extends WebTestCase
             ->disableOriginalConstructor()->getMock();
 
         $showroomRepo->expects($this->once())
-            ->method('find')
+            ->method('findShowroom')
             ->will(
                 $this->returnValue(null)
             );
