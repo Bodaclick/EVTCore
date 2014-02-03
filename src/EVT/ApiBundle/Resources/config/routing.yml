@@ -7,6 +7,3 @@ evt_api_manager:
 evt_api_provider:
     resource: EVT\ApiBundle\Controller\ProviderController 
     type: rest
-evt_api_showroom:
-    resource: EVT\ApiBundle\Controller\ShowroomController
-    type: rest

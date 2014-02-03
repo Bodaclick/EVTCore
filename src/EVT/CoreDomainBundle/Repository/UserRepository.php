@@ -73,7 +73,10 @@ class UserRepository extends EntityRepository implements DomainRepository
             ->andWhere('u.id  = :id')
             ->setParameter('roles', '%"ROLE_MANAGER"%')
             ->setParameter('id', $id);
-        $eGenericUser = $manager->getQuery()->getSingleResult();
+        $eGenericUser = $manager->getQuery()->getOneOrNullResult();
+        if (null === $eGenericUser) {
+            return null;
+        }
         return $this->userMapping->mapEntityToDomain($eGenericUser);
     }
 }
