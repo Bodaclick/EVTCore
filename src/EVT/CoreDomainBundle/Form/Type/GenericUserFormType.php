@@ -41,5 +41,4 @@ class GenericUserFormType extends RegistrationFormType
     {
         return 'user';
     }
-
-} 
+}
