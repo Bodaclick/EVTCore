@@ -2,28 +2,20 @@
 
 namespace EVT\ApiBundle\Tests\Controller;
 
-use EVT\CoreDomain\Provider\Showroom;
-use EVT\CoreDomain\Provider\Vertical;
-use EVT\CoreDomain\EmailCollection;
-use EVT\CoreDomain\Email;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 
-
 /**
- * Class ShowroomControllerTest
- * @package EVT\ApiBundle\Tests\Controller
+ * ShowroomControllerTest
+ *
+ * @author    Quique Torras <etorras@gmail.com>
+ * @copyright 2014 Bodaclick S.A
  */
-class ShowroomControllerTest extends WebTestCase{
-    /**
-     * @var \Symfony\Bundle\FrameworkBundle\Client
-     */
+class ShowroomControllerTest extends WebTestCase
+{
     protected $client;
     protected $header;
 
-    /**
-     * Create a client to test request and mock services
-     */
     public function setUp()
     {
         $this->client = static::createClient();
@@ -40,7 +32,6 @@ class ShowroomControllerTest extends WebTestCase{
         $showroomFactory->expects($this->once())->method('createShowroom')->will($this->returnValue($showroomMock));
 
         $this->client->getContainer()->set('evt.factory.showroom', $showroomFactory);
-
     }
 
     public function testCreate()
@@ -67,6 +58,5 @@ class ShowroomControllerTest extends WebTestCase{
             json_decode($this->client->getResponse()->getContent(), true)['showroom'],
             $this->client->getResponse()->getContent()
         );
-
     }
-} 
+}

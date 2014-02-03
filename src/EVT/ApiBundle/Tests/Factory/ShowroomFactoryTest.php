@@ -2,14 +2,16 @@
 
 namespace EVT\ApiBundle\Tests\Factory;
 
-
 use EVT\ApiBundle\Factory\ShowroomFactory;
 
 /**
- * Class ShowroomFactoryTest
- * @package EVT\ApiBundle\Tests\Factory
+ * ShowroomFactoryTest
+ *
+ * @author    Quique Torras <etorras@gmail.com>
+ * @copyright 2014 Bodaclick S.A
  */
-class ShowroomFactoryTest extends \PHPUnit_Framework_TestCase {
+class ShowroomFactoryTest extends \PHPUnit_Framework_TestCase
+{
 
     public function testShowroomCreateOK()
     {

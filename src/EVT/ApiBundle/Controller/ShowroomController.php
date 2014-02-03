@@ -9,7 +9,6 @@ use FOS\RestBundle\View\View as FOSView;
 
 class ShowroomController extends Controller
 {
-
     /**
      * Create a new lead
      *
@@ -25,8 +24,6 @@ class ShowroomController extends Controller
 
         $showroom = $evtShowroomFactory->createShowroom($domain, $providerId, $score);
 
-        $ret['showroom'] = "/api/showrooms/" . $showroom->getId();
-
-        return $ret;
+        return ['showroom' => sprintf('/api/showrooms/%d', $showroom->getId())];
     }
-} 
+}

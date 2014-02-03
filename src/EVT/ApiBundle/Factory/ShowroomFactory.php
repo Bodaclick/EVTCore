@@ -2,14 +2,15 @@
 
 namespace EVT\ApiBundle\Factory;
 
-
 use EVT\CoreDomain\Provider\ProviderRepositoryInterface;
 use EVT\CoreDomain\Provider\VerticalRepositoryInterface;
 use EVT\CoreDomain\Provider\ShowroomRepositoryInterface;
 
 /**
- * Class ShowroomFactory
- * @package EVT\ApiBundle\Factory
+ * ShowroomFactory
+ *
+ * @author    Quique Torras <etorras@gmail.com>
+ * @copyright 2014 Bodaclick S.A
  */
 class ShowroomFactory
 {
@@ -36,11 +37,10 @@ class ShowroomFactory
      * @param $domain
      * @param $providerId
      * @param $score
-     * @return mixed
+     * @return EVT\CoreDomain\Provider\Showroom
      */
     public function createShowroom($domain, $providerId, $score)
     {
-
         $vertical = $this->verticalRepo->findVertical($domain);
         $provider = $this->providerRepo->find($providerId);
 
@@ -50,5 +50,4 @@ class ShowroomFactory
 
         return $showroom;
     }
-
 }
