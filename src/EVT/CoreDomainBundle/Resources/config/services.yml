@@ -36,4 +36,7 @@ services:
     evt.mapper.provider:
         class: EVT\CoreDomainBundle\Mapping\ProviderMapping
         arguments: [%doctrine.entity_managers%]
-        
+
+    evt.mapper.showroom:
+        class: EVT\CoreDomainBundle\Mapping\ShowroomMapping
+        arguments: [%doctrine.entity_managers%]

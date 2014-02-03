@@ -9,7 +9,7 @@ use EVT\CoreDomain\RepositoryInterface;
  * @author    Marco Ferrari <marco.ferrari@bodaclick.com>
  * @copyright 2014 Bodaclick S.A
  */
-interface VerticalRepository extends RepositoryInterface
+interface VerticalRepositoryInterface extends RepositoryInterface
 {
     public function findVertical($domain);
 }
