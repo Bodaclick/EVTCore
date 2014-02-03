@@ -2,13 +2,16 @@
 
 namespace EVT\ApiBundle\Controller;
 
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
-use EVT\CoreDomainBundle\Form\Type\ProviderFormType;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\View\View as FosView;
+use FOS\RestBundle\Util\Codes;
+use EVT\CoreDomainBundle\Form\Type\ProviderFormType;
 
 /**
  * ProviderController
@@ -35,22 +38,18 @@ class ProviderController extends Controller
      */
     public function postProviderAction(Request $request)
     {
-        $form = $this->createForm($this->get('evt.form.provider'));
+        $factory = $this->get('evt.factory.provider');
+
+        $providerData = $request->request->get('provider');
 
         try {
-            $form->handleRequest($request);
-        } catch (\Exception $e) {
-            throw new ConflictHttpException('Provider already exists');
+            $provider = $factory->createProvider($providerData);
+        } catch (\InvalidArgumentException $e) {
+            $view = new FosView();
+            $view->setResponse(new Response($e->getMessage()));
+            $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
+            return $view;
         }
-
-        if ($form->isValid()) {
-            $providerRepo = $this->get('evt.repository.provider');
-            $provider = $form->getData();
-            $providerRepo->save($provider);
-
-            return ['provider' => '/api/providers/' .$provider->getId()];
-        }
-
-        return $form;
+        return ['provider' => '/api/providers/' .$provider->getId()];
     }
 }
