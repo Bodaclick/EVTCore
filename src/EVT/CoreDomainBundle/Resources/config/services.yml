@@ -43,6 +43,9 @@ services:
     evt.mapper.user:
         class: EVT\CoreDomainBundle\Mapping\UserMapping
 
+    evt.mapper.vertical:
+        class: EVT\CoreDomainBundle\Mapping\VerticalMapping
+
     evt.mapper.showroom:
         class: EVT\CoreDomainBundle\Mapping\ShowroomMapping
-        arguments: [@doctrine.orm.entity_manager, @evt.mapper.provider]
+        arguments: [@doctrine.orm.entity_manager, @evt.mapper.provider, @evt.mapper.vertical]
