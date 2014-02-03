@@ -60,7 +60,7 @@ class ProviderMapping implements MappingInterface
         $pId = new ProviderId($eProvider->getId());
 
         $emails = $eProvider->getNotificationEmails();
-        $notifEmails = new EmailCollection(new Email(array_pop($emails)));
+        $notifEmails = new EmailCollection(new Email(array_shift($emails)));
 
         foreach($emails as $email) {
             $notifEmails->append(new Email($email));
