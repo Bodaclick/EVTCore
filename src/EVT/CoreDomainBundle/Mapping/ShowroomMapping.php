@@ -3,25 +3,39 @@
 namespace EVT\CoreDomainBundle\Mapping;
 
 use EVT\CoreDomainBundle\Entity\Showroom;
+use \EVT\CoreDomain\Provider\Showroom as DShowroom;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Config\Definition\Exception\Exception;
 
+/**
+ * Class ShowroomMapping
+ * @author Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
+ * @copyright 2014 Bodaclick
+ */
 class ShowroomMapping implements MappingInterface
 {
 
     private $em;
+    private $providerMapping;
+    private $verticalMapping;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, ProviderMapping $providerMapping, VerticalMapping $verticalMapping)
     {
         $this->em = $em;
+        $this->providerMapping = $providerMapping;
+        $this->verticalMapping = $verticalMapping;
     }
 
 
     public function mapEntityToDomain($showroom)
     {
-        throw new Exception("To implement");
+        $provider = $this->providerMapping->mapEntityToDomain($showroom->getProvider());
+        $vertical = $this->verticalMapping->mapEntityToDomain($showroom->getVertical());
+        $dShowroom = new DShowroom($provider, $vertical, $showroom->getScore());
+        $dShowroom->changeName($showroom->getName());
+        $dShowroom->changeSlug($showroom->getSlug());
+        $dShowroom->changePhone($showroom->getPhone());
+        return $dShowroom;
     }
-
 
     public function mapDomainToEntity($showroom)
     {
