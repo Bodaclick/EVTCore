@@ -25,7 +25,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
             throw new \InvalidArgumentException('Wrong object in LeadRepository');
         }
 
-        $leadEntity = $this->mapper->map($lead);
+        $leadEntity = $this->mapper->mapDomainToEntity($lead);
         $leadInfo = $lead->getInformationBag();
         $this->_em->persist($leadEntity);
         foreach ($leadInfo as $key => $element) {

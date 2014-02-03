@@ -6,7 +6,6 @@ use EVT\CoreDomainBundle\Entity\Showroom;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
-
 class ShowroomMapping implements MappingInterface
 {
 
@@ -26,9 +25,15 @@ class ShowroomMapping implements MappingInterface
 
     public function mapDomainToEntity($showroom)
     {
-        $providerEntity = $this->em->getReference('EVT\CoreDomainBundle\Entity\Provider', $showroom->getProvider()->getId());
+        $providerEntity = $this->em->getReference(
+            'EVT\CoreDomainBundle\Entity\Provider',
+            $showroom->getProvider()->getId()
+        );
 
-        $verticalEntity = $this->em->getReference('EVT\CoreDomainBundle\Entity\Vertical', $showroom->getVertical()->getDomain());
+        $verticalEntity = $this->em->getReference(
+            'EVT\CoreDomainBundle\Entity\Vertical',
+            $showroom->getVertical()->getDomain()
+        );
 
         $showroomEntity = new Showroom();
         if (null !== $showroom->getId()) {
@@ -47,4 +52,4 @@ class ShowroomMapping implements MappingInterface
 
         return $showroomEntity;
     }
-} 
+}
