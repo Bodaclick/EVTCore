@@ -32,6 +32,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $manager->setPlainPassword('passManager');
         $manager->addRole('ROLE_MANAGER');
         $manager->setName('nameManager');
+        $manager->setSurnames('surnamesManager');
+        $manager->setPhone('0132465987');
 
         $userManager->updateUser($manager);
 
