@@ -1,7 +1,6 @@
 <?php
 
 namespace EVT\CoreDomainBundle\Mapping;
-
 use EVT\CoreDomain\User\PersonalInformation;
 use EVT\CoreDomain\User\Manager;
 use EVT\CoreDomainBundle\Entity\GenericUser;
@@ -13,11 +12,12 @@ use Doctrine\ORM\EntityManager;
  * @author    Marco Ferrari <marco.ferrari@bodaclick.com>
  * @copyright 2014 Bodaclick S.A
  */
-class UserMapping
+class UserMapping implements MappingInterface
 {
     public function mapEntityToDomain(GenericUser $user)
     {
-        $personalInfo = new PersonalInformation($user->getName(), $user->getSurnames(), $user->getPhone());
+        $personalInfo = new PersonalInformation($user->getName(),
+                $user->getSurnames(), $user->getPhone());
         $manager = new Manager($user->getEmail(), $personalInfo);
 
         if (null !== $user->getId()) {
@@ -28,5 +28,9 @@ class UserMapping
         }
 
         return $manager;
+    }
+
+    public function mapDomainToEntity($object)
+    {
     }
 }
