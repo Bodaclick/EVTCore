@@ -46,8 +46,8 @@ class ShowroomControllerTest extends WebTestCase{
     public function testCreate()
     {
         $params = [
-            'domain' => 'example.com',
-            'providerId' => 1,
+            'vertical' => 'example.com',
+            'provider' => 1,
             'score' => 1
         ];
 
@@ -69,4 +69,4 @@ class ShowroomControllerTest extends WebTestCase{
         );
 
     }
-} 
+}
