@@ -62,7 +62,7 @@ class ProviderMapping implements MappingInterface
         $emails = $eProvider->getNotificationEmails();
         $notifEmails = new EmailCollection(new Email(array_shift($emails)));
 
-        foreach($emails as $email) {
+        foreach ($emails as $email) {
             $notifEmails->append(new Email($email));
         }
 
@@ -70,7 +70,7 @@ class ProviderMapping implements MappingInterface
         $dProvider->setPhone($eProvider->getPhone());
 
         $managers = $eProvider->getGenericUser();
-        foreach($managers as $manager) {
+        foreach ($managers as $manager) {
             $dProvider->addManager($this->userMapper->mapEntityToDomain($manager));
         }
 

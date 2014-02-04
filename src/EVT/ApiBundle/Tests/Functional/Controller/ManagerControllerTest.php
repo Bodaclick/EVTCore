@@ -50,7 +50,10 @@ class ManagerControllerTest extends WebTestCase
         );
 
         $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
-        $id = explode('?', explode('/', json_decode($this->client->getResponse()->getContent(), true)['manager'])[3])[0];
+        $id = explode(
+            '?',
+            explode('/', json_decode($this->client->getResponse()->getContent(), true)['manager'])[3]
+        )[0];
         $this->assertEquals(1, $id);
         $eUser = $this->getContainer()->get('doctrine.orm.default_entity_manager')
             ->getRepository('EVTCoreDomainBundle:GenericUser')

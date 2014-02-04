@@ -26,4 +26,4 @@ class ShowroomController extends Controller
 
         return $ret;
     }
-} 
+}

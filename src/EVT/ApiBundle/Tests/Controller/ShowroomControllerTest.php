@@ -9,12 +9,12 @@ use EVT\CoreDomain\Email;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 
-
 /**
  * Class ShowroomControllerTest
  * @package EVT\ApiBundle\Tests\Controller
  */
-class ShowroomControllerTest extends WebTestCase{
+class ShowroomControllerTest extends WebTestCase
+{
     /**
      * @var \Symfony\Bundle\FrameworkBundle\Client
      */

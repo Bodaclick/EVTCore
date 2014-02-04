@@ -32,5 +32,4 @@ class VerticalMapping implements MappingInterface
         $entityVertical->setDomain($vertical->getDomain());
         return $entityVertical;
     }
-
-} 
+}
