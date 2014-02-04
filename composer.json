@@ -1,5 +1,5 @@
 {
-    "name": "symfony/framework-standard-edition",
+    "name": "bodaclick/evt-core",
     "license": "MIT",
     "type": "project",
     "description": "The \"Symfony Standard Edition\" distribution",
@@ -26,7 +26,9 @@
         "jms/di-extra-bundle": "1.4.*@dev",
         "liip/monitor-bundle": "dev-master",
         "liip/functional-test-bundle": "1.0.x-dev",
-        "doctrine/doctrine-fixtures-bundle": "v2.2.0"
+        "doctrine/doctrine-fixtures-bundle": "v2.2.0",
+        "bodaclick/async-dispatcher-bundle": "dev-master@dev",
+        "oldsound/rabbitmq-bundle": "dev-master@dev"
     },
     "scripts": {
         "post-install-cmd": [
@@ -52,9 +54,6 @@
         "symfony-web-dir": "web",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
-        },
-        "branch-alias": {
-            "dev-master": "2.4-dev"
         }
     }
 }
