@@ -2,14 +2,12 @@
 
 namespace EVT\ApiBundle\Factory;
 
-use EVT\CoreDomainBundle\Repository\ProviderRepository;
 use EVT\CoreDomain\Email;
 use EVT\CoreDomain\EmailCollection;
 use EVT\CoreDomain\Provider\ProviderId;
 use EVT\CoreDomain\Provider\Provider;
 use EVT\CoreDomain\Provider\ProviderRepositoryInterface;
 use EVT\CoreDomain\RepositoryInterface;
-use FOS\UserBundle\EventListener\EmailConfirmationListener;
 
 /**
  * Providerfactory

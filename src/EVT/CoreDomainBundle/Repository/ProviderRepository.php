@@ -14,11 +14,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProviderRepository extends EntityRepository implements DomainRepository
 {
-    private $providerMapper;
+    private $mapper;
 
-    public function setProviderMapper($providerMapper)
+    public function setMapper(ProviderMapping $mapper)
     {
-        $this->providerMapper = $providerMapper;
+        $this->mapper = $mapper;
     }
 
     public function save($provider)
@@ -27,7 +27,7 @@ class ProviderRepository extends EntityRepository implements DomainRepository
             throw new \InvalidArgumentException('Wrong object in ProviderRepository');
         }
 
-        $eProvider = $this->providerMapper->mapDomainToEntity($provider);
+        $eProvider = $this->mapper->mapDomainToEntity($provider);
 
         $this->_em->persist($eProvider);
         $this->_em->flush();
@@ -44,6 +44,11 @@ class ProviderRepository extends EntityRepository implements DomainRepository
 
     public function update($provider)
     {
+    }
+
+    public function findOneById($id)
+    {
+        return $this->mapper->mapEntityToDomain(parent::findOneById($id));
     }
 
     public function findAll()

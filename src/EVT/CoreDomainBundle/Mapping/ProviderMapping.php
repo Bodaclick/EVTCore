@@ -44,6 +44,14 @@ class ProviderMapping implements MappingInterface
         $eProvider->setName($provider->getName());
         $eProvider->setSlug($provider->getSlug());
         $eProvider->setPhone($provider->getPhone());
+        $location = $provider->getLocation();
+
+        if($location) {
+            $eProvider->setLocationAdminLevel1($location->getAdminLevel1());
+            $eProvider->setLocationAdminLevel2($location->getAdminLevel2());
+            $eProvider->setLocationCountry($location->getCountry());
+        }
+        $eProvider->setNotificationEmails($provider->getNotificationEmails()->getArrayCopy());
 
         $managers = $provider->getManagers()->getIterator();
 
@@ -51,6 +59,7 @@ class ProviderMapping implements MappingInterface
             $managerProxy = $this->em->getReference('EVT\CoreDomainBundle\Entity\GenericUser', $manager->getId());
             $eProvider->addGenericUser($managerProxy);
         }
+
 
         return $eProvider;
     }

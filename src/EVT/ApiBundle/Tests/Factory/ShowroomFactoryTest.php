@@ -27,7 +27,7 @@ class ShowroomFactoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $providerMock = $this->getMockBuilder('EVT\CoreDomain\Provider\Provider')->disableOriginalConstructor()
             ->getMock();
-        $providerRepo->expects($this->once())->method('find')->will($this->returnValue($providerMock));
+        $providerRepo->expects($this->once())->method('findOneById')->will($this->returnValue($providerMock));
 
         $showroomRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\ShowroomRepository')
             ->disableOriginalConstructor()->getMock();

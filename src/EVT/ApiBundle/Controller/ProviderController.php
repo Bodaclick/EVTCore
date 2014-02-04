@@ -44,6 +44,7 @@ class ProviderController extends Controller
 
         try {
             $provider = $factory->createProvider($providerData);
+
         } catch (\InvalidArgumentException $e) {
             $view = new FosView();
             $view->setResponse(new Response($e->getMessage()));

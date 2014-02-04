@@ -1,4 +1,5 @@
 EVT\CoreDomainBundle\Entity\Vertical:
+    repositoryClass: EVT\CoreDomainBundle\Repository\VerticalRepository
     type: entity
     table: vertical
     id:

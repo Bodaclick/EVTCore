@@ -53,7 +53,7 @@ class ProviderRepositoryTest extends \PHPUnit_Framework_TestCase
         $dProvider->addManager($manager);
 
         $repo = new ProviderRepository($em, $metadata);
-        $repo->setProviderMapper($providerMapping);
+        $repo->setMapper($providerMapping);
         $repo->save($dProvider);
 
         $this->assertEquals(1, $dProvider->getId());

@@ -2,6 +2,7 @@
 
 namespace EVT\CoreDomain\Provider;
 
+use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\User\Manager;
 use EVT\CoreDomain\EmailCollection;
 
@@ -19,14 +20,16 @@ class Provider
     private $phone;
     private $notificationEmails;
     private $managers;
+    private $location;
 
-    public function __construct(ProviderId $id, $name, EmailCollection $notificationEmails)
+    public function __construct(ProviderId $id, $name, EmailCollection $notificationEmails, Location $location = null)
     {
         $this->id = $id->getValue();
         $this->name = $name;
         $this->slugify();
         $this->notificationEmails = $notificationEmails;
         $this->managers = new \ArrayObject();
+        $this->location = $location;
     }
 
     public function getId()
@@ -69,6 +72,11 @@ class Provider
     public function setPhone($phone)
     {
         $this->phone = $phone;
+    }
+
+    public function getLocation()
+    {
+        return $this->location;
     }
 
     private function slugify()

@@ -2,6 +2,7 @@
 
 namespace EVT\CoreDomainBundle\Test\Mapping;
 
+use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomainBundle\Entity\GenericUser;
 use EVT\CoreDomainBundle\Mapping\ProviderMapping;
 use EVT\CoreDomain\Email;
@@ -27,12 +28,21 @@ class ProviderMappingTest extends \PHPUnit_Framework_TestCase
         $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
         $em->expects($this->once())->method('getReference')->will($this->returnValue($genericUser));
 
-        $dProvider = new Provider(
-            new ProviderId('123'),
-            'nameProvider',
-            new EmailCollection(new Email('valid@email.com'))
+        //$dProvider = new Provider(
+        //    new ProviderId('123'),
+        //    'nameProvider',
+        //    new EmailCollection(new Email('valid@email.com'))
+        //);
+        //$dProvider->setPhone('9876543210');
+        $dProvider = $this->getMockBuilder('EVT\CoreDomain\Provider\Provider')->disableOriginalConstructor()
+            ->getMock();
+        $dProvider->expects($this->once())->method('getLocation')->will(
+            $this->returnValue(new Location(10, 10, 'lvl1', 'lvl2', 'ES'))
         );
-        $dProvider->setPhone('9876543210');
+
+        $dProvider->expects($this->once())->method('getNotificationEmails')
+            ->will($this->returnValue(new \ArrayObject()));
+        $dProvider->expects($this->exactly(2))->method('getId')->will($this->returnValue(1));
 
         $manager = $this->getMockBuilder('EVT\CoreDomain\User\Manager')->disableOriginalConstructor()->getMock();
         $manager->expects($this->any())->method('getEmail')->will($this->returnValue('email@valid.com'));
@@ -40,19 +50,19 @@ class ProviderMappingTest extends \PHPUnit_Framework_TestCase
         $userMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\UserMapping')
             ->disableOriginalConstructor()->getMock();
 
-        $dProvider->addManager($manager);
+        $dProvider->expects($this->once())->method('getManagers')->will(
+            $this->returnValue(
+                new \ArrayObject([$manager])
+            )
+        );
+
 
         $mapper = new ProviderMapping($em, $userMapper);
 
         $eProvider = $mapper->mapDomainToEntity($dProvider);
 
         $this->assertInstanceOf('EVT\CoreDomainBundle\Entity\Provider', $eProvider);
-        $this->assertEquals($dProvider->getId(), $eProvider->getId());
-        $this->assertEquals($dProvider->getName(), $eProvider->getName());
-        $this->assertEquals($dProvider->getSlug(), $eProvider->getSlug());
-        $this->assertEquals($dProvider->getPhone(), $eProvider->getPhone());
-        $managers = $eProvider->getGenericUser();
-        $this->assertCount(1, $managers);
+        $this->assertCount(1, $eProvider->getGenericUser());
     }
 
     public function testEntityToDomain()

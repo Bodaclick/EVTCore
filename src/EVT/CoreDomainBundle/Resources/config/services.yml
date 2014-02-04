@@ -28,11 +28,13 @@ services:
         parent: evt.repository
         arguments: [EVTCoreDomainBundle:Provider]
         calls:
-            - [setProviderMapper, [@evt.mapper.provider]]
+            - [setMapper, [@evt.mapper.provider]]
 
     evt.repository.vertical:
         parent: evt.repository
         arguments: [EVTCoreDomainBundle:Vertical]
+        calls:
+            - [setMapper, [@evt.mapper.vertical]]
 
     evt.form.provider:
         class: EVT\CoreDomainBundle\Form\Type\ProviderFormType

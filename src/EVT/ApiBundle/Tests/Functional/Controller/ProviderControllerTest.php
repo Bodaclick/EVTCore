@@ -64,12 +64,11 @@ class ProviderControllerTest extends WebTestCase
             explode('/', json_decode($this->client->getResponse()->getContent(), true)['provider'])[3]
         )[0];
         $this->assertEquals(1, $id);
-        $eProvider = $this->getContainer()->get('doctrine.orm.default_entity_manager')
-            ->getRepository('EVTCoreDomainBundle:Provider')
-            ->findOneById($id);
+        $eProvider = $this->getContainer()->get('evt.repository.provider')->findOneById($id);
         $this->assertNotNull($eProvider);
         $this->assertEquals('providerName', $eProvider->getName());
         $this->assertEquals('providername', $eProvider->getSlug());
+        $this->assertCount(2, $eProvider->getNotificationEmails());
     }
 
     public function provider()
