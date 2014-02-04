@@ -27,4 +27,3 @@ class VerticalRepository extends EntityRepository implements DomainRepository
     {
     }
 }
-
