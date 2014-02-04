@@ -67,7 +67,7 @@ class LeadFactory
         $this->validateFirstLevel($lead);
         $this->validateShowroom($lead['showroom']);
 
-        $showroom = $this->showroomRepo->findShowroom($lead['showroom']['id']);
+        $showroom = $this->showroomRepo->findOneById($lead['showroom']['id']);
         if (null === $showroom) {
             $this->logger->emergency(sprintf('Showroom id %s not found', $lead['showroom']['id']));
             throw new \InvalidArgumentException('Showroom not found');
