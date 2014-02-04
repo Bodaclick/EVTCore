@@ -40,11 +40,11 @@ class ManagerController extends Controller
         $form->setData($user);
         try {
             $form->handleRequest($request);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new ConflictHttpException('User already exists');
         }
 
-        if($form->isValid()) {
+        if ($form->isValid()) {
             $userManager->updateUser($user);
             return ['manager' => sprintf('/api/managers/%d', $user->getId())];
         }

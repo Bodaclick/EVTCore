@@ -32,4 +32,4 @@ class VerticalMappingTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('EVT\CoreDomain\Provider\Vertical', $dVertical);
         $this->assertEquals($dVertical->getDomain(), $eVertical->getDomain());
     }
-} 
+}

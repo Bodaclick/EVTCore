@@ -35,11 +35,20 @@ class ProviderFactory
      */
     public function createProvider($providerRequest)
     {
+        $notificationEmails = $providerRequest['notificationEmails'];
+        if (!is_array($notificationEmails)) {
+            throw new \InvalidArgumentException('notificationEmails must be an array');
+        }
+
+        $emails = new EmailCollection(new Email(array_shift($notificationEmails)));
+        foreach ($notificationEmails as $email) {
+            $emails->append(new Email($email));
+        }
 
         $provider = new Provider(
             new ProviderId(''),
             $providerRequest['name'],
-            new EmailCollection(new Email($providerRequest['notificationEmails']))
+            $emails
         );
 
         $manager = $this->userRepo->getManagerById($providerRequest['genericUser']);
