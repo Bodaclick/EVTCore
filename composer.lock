@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Bodaclick/AsyncDispatcherBundle.git",
-                "reference": "2d4bee600c473e66fe2a8fce7cb34d196bf87c05"
+                "reference": "0ed93a27b02d774bf23b5b3cb4847b3048cd453c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Bodaclick/AsyncDispatcherBundle/zipball/2d4bee600c473e66fe2a8fce7cb34d196bf87c05",
-                "reference": "2d4bee600c473e66fe2a8fce7cb34d196bf87c05",
+                "url": "https://api.github.com/repos/Bodaclick/AsyncDispatcherBundle/zipball/0ed93a27b02d774bf23b5b3cb4847b3048cd453c",
+                "reference": "0ed93a27b02d774bf23b5b3cb4847b3048cd453c",
                 "shasum": ""
             },
             "require": {
@@ -42,7 +42,7 @@
                 "dispatcher",
                 "event dispatcher"
             ],
-            "time": "2014-02-04 15:47:08"
+            "time": "2014-02-04 16:00:54"
         },
         {
             "name": "doctrine/annotations",
