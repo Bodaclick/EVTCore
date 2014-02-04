@@ -46,12 +46,19 @@ class ProviderMapping implements MappingInterface
         $eProvider->setPhone($provider->getPhone());
         $location = $provider->getLocation();
 
-        if($location) {
+        if ($location) {
             $eProvider->setLocationAdminLevel1($location->getAdminLevel1());
             $eProvider->setLocationAdminLevel2($location->getAdminLevel2());
             $eProvider->setLocationCountry($location->getCountry());
         }
-        $eProvider->setNotificationEmails($provider->getNotificationEmails()->getArrayCopy());
+        $emails = $provider->getNotificationEmails();
+
+        $eEmails = [];
+        foreach ($emails as $email) {
+            $eEmails[] = $email->getEmail();
+        }
+
+        $eProvider->setNotificationEmails($eEmails);
 
         $managers = $provider->getManagers()->getIterator();
 

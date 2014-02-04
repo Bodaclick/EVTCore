@@ -7,9 +7,6 @@ use EVT\CoreDomainBundle\Entity\GenericUser;
 use EVT\CoreDomainBundle\Mapping\ProviderMapping;
 use EVT\CoreDomain\Email;
 use EVT\CoreDomain\EmailCollection;
-use EVT\CoreDomain\Provider\ProviderId;
-use EVT\CoreDomain\Provider\Provider;
-use EVT\CoreDomainBundle\Entity\Provider as EProvider;
 
 /**
  * ProviderMappingTest
@@ -28,20 +25,15 @@ class ProviderMappingTest extends \PHPUnit_Framework_TestCase
         $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
         $em->expects($this->once())->method('getReference')->will($this->returnValue($genericUser));
 
-        //$dProvider = new Provider(
-        //    new ProviderId('123'),
-        //    'nameProvider',
-        //    new EmailCollection(new Email('valid@email.com'))
-        //);
-        //$dProvider->setPhone('9876543210');
         $dProvider = $this->getMockBuilder('EVT\CoreDomain\Provider\Provider')->disableOriginalConstructor()
             ->getMock();
         $dProvider->expects($this->once())->method('getLocation')->will(
             $this->returnValue(new Location(10, 10, 'lvl1', 'lvl2', 'ES'))
         );
 
+        $emails = new EmailCollection(new Email('provider@email.com'));
         $dProvider->expects($this->once())->method('getNotificationEmails')
-            ->will($this->returnValue(new \ArrayObject()));
+            ->will($this->returnValue($emails));
         $dProvider->expects($this->exactly(2))->method('getId')->will($this->returnValue(1));
 
         $manager = $this->getMockBuilder('EVT\CoreDomain\User\Manager')->disableOriginalConstructor()->getMock();
