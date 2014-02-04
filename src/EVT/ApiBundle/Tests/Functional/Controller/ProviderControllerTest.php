@@ -46,7 +46,7 @@ class ProviderControllerTest extends WebTestCase
                 'locationCountry' => 'asdf',
                 'locationLat' => 10,
                 'locationLong' => 10,
-                'notificationEmails' => 'valid@email.com'
+                'notificationEmails' => ['valid@email.com', 'valid2@email.com']
             ]
         ];
 
