@@ -34,7 +34,7 @@ class LeadControllerUserAlreadyExistsTest extends WebTestCase
             ->disableOriginalConstructor()->getMock();
 
         $showroomRepo->expects($this->once())
-            ->method('findShowroom')
+            ->method('findOneById')
             ->will(
                 $this->returnValue($showroom)
             );

@@ -20,7 +20,7 @@ use EVT\CoreDomainBundle\Entity\Lead;
  * @author    Eduardo Gulias Davis >eduardo.gulias@bodaclick.com>
  * @copyright 2014 Bodaclick S.A
  */
-class LeadMapping
+class LeadMapping implements MappingInterface
 {
     private $showroomMapper;
     private $em;
@@ -35,7 +35,7 @@ class LeadMapping
      * @param Lead $lead
      * @return DomainLead
      */
-    public function mapEntityToDomain(Lead $lead)
+    public function mapEntityToDomain($lead)
     {
         $domain = new DomainLead(
             new LeadId($lead->getId()),
@@ -62,7 +62,7 @@ class LeadMapping
      * @param DomainLead $lead
      * @return Lead
      */
-    public function mapDomainToEntity(DomainLead $lead)
+    public function mapDomainToEntity($lead)
     {
         $entity = new Lead();
         $entity->setUserName($lead->getPersonalInformation()->getName());
