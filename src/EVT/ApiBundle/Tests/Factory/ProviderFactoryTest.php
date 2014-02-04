@@ -58,7 +58,7 @@ class ProviderFactoryTest extends \PHPUnit_Framework_TestCase
             'locationCountry' => 'asdf',
             'locationLat' => 10,
             'locationLong' => 10,
-            'notificationEmails' => 'valid@email.com'
+            'notificationEmails' => ['valid@email.com', 'valid2@email.com']
         ];
 
         $factory = new ProviderFactory($this->providerRepo, $this->userRepo);
@@ -66,8 +66,9 @@ class ProviderFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('providerName', $provider->getName());
         $notificationEmail = $provider->getNotificationEmails();
-        $this->assertCount(1, $notificationEmail);
+        $this->assertCount(2, $notificationEmail);
         $this->assertEquals('valid@email.com', $notificationEmail[0]);
+        $this->assertEquals('valid2@email.com', $notificationEmail[1]);
 
         $managers = $provider->getManagers();
         $this->assertCount(1, $managers);
