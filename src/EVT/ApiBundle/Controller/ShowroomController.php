@@ -16,11 +16,11 @@ class ShowroomController extends Controller
     {
         $evtShowroomFactory = $this->container->get('evt.factory.showroom');
 
-        $domain = $request->request->get('domain');
-        $providerId = $request->request->get('providerId');
+        $vertical = $request->request->get('vertical');
+        $provider = $request->request->get('provider');
         $score = $request->request->get('score');
 
-        $showroom = $evtShowroomFactory->createShowroom($domain, $providerId, $score);
+        $showroom = $evtShowroomFactory->createShowroom($vertical, $provider, $score);
 
         $ret['showroom'] = "/api/showrooms/" . $showroom->getId();
 
