@@ -4,7 +4,6 @@ namespace EVT\CoreDomainBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use EVT\CoreDomain\Provider\VerticalRepositoryInterface as DomainRepository;
-use Doctrine\ORM\EntityRepository;
 
 class VerticalRepository extends EntityRepository implements DomainRepository
 {
@@ -27,6 +26,5 @@ class VerticalRepository extends EntityRepository implements DomainRepository
     public function findOneByDomain($domain)
     {
     }
-
 }
 
