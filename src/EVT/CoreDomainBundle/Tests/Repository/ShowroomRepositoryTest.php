@@ -21,7 +21,7 @@ class ShowroomRepositoryTest extends \PHPUnit_Framework_TestCase
         $domainMock = new DomainShowroom($provider, $vertical, 0);
         $showroom = new Showroom();
 
-        $srMapper  =$this->getMockBuilder('EVT\CoreDomainBundle\Mapping\ShowroomMapping')
+        $srMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\ShowroomMapping')
             ->disableOriginalConstructor()->getMock();
         $srMapper->expects($this->once())->method('mapDomainToEntity')->will($this->returnValue($showroom));
         $emMock = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
@@ -30,8 +30,14 @@ class ShowroomRepositoryTest extends \PHPUnit_Framework_TestCase
         $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
             ->disableOriginalConstructor()->getMock();
 
+        $asyncDispatcher = $this->getMockBuilder('BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventDispatcher')
+            ->disableOriginalConstructor()->getMock();
+
+        $asyncDispatcher->expects($this->once())->method('dispatch')->will($this->returnValue($this->returnSelf()));
+
         $repo = new ShowroomRepository($emMock, $metadata);
         $repo->setMapper($srMapper);
+        $repo->setAsyncDispatcher($asyncDispatcher);
         $repo->save($domainMock);
     }
 }

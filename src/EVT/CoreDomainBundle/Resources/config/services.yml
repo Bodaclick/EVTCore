@@ -23,6 +23,7 @@ services:
         arguments: [EVTCoreDomainBundle:Showroom]
         calls:
             - [setMapper, [@evt.mapper.showroom]]
+            - [setAsyncDispatcher, [@bdk.async_event_dispatcher]]
 
     evt.repository.provider:
         parent: evt.repository

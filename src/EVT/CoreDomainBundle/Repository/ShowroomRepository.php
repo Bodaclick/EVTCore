@@ -2,9 +2,12 @@
 
 namespace EVT\CoreDomainBundle\Repository;
 
+use EVT\CoreDomainBundle\Events\ShowroomEvent;
+use EVT\CoreDomainBundle\Events\Event;
 use EVT\CoreDomain\Provider\ShowroomRepositoryInterface as DomainRepository;
 use Doctrine\ORM\EntityRepository;
 use EVT\CoreDomainBundle\Mapping\ShowroomMapping;
+use BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventDispatcherInterface;
 
 /**
  * Class ShowroomRepository
@@ -15,6 +18,12 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
 {
 
     private $mapping;
+    private $asyncDispatcher;
+
+    public function setAsyncDispatcher(AsyncEventDispatcherInterface $asyncDispatcher)
+    {
+        $this->asyncDispatcher = $asyncDispatcher;
+    }
 
     public function save($showroom)
     {
@@ -22,6 +31,9 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         $this->_em->persist($entity);
         $this->_em->flush();
         $this->setId($entity->getId(), $showroom);
+
+        $event = new ShowroomEvent($showroom, Event::POST_PERSIST_SHOWROOM);
+        $this->asyncDispatcher->dispatch($event);
     }
 
     public function delete($showroom)
