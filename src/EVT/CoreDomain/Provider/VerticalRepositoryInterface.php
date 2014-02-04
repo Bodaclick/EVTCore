@@ -11,5 +11,5 @@ use EVT\CoreDomain\RepositoryInterface;
  */
 interface VerticalRepositoryInterface extends RepositoryInterface
 {
-    public function findVertical($domain);
+    public function findOneByDomain($domain);
 }

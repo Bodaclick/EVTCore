@@ -22,7 +22,7 @@ class ShowroomFactoryTest extends \PHPUnit_Framework_TestCase
         $showroomMock = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()
             ->getMock();
         $verticalMock->expects($this->once())->method('addShowroom')->will($this->returnValue($showroomMock));
-        $verticalRepo->expects($this->once())->method('findVertical')->will($this->returnValue($verticalMock));
+        $verticalRepo->expects($this->once())->method('findOneByDomain')->will($this->returnValue($verticalMock));
 
         $providerRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\ProviderRepository')->disableOriginalConstructor()
             ->getMock();

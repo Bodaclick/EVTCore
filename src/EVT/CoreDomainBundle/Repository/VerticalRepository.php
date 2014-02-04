@@ -23,7 +23,7 @@ class VerticalRepository extends EntityRepository implements DomainRepository
     {
     }
 
-    public function findVertical($domain)
+    public function findOneByDomain($domain)
     {
     }
 

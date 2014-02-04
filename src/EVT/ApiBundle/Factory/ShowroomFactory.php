@@ -41,7 +41,7 @@ class ShowroomFactory
      */
     public function createShowroom($domain, $providerId, $score)
     {
-        $vertical = $this->verticalRepo->findVertical($domain);
+        $vertical = $this->verticalRepo->findOneByDomain($domain);
         $provider = $this->providerRepo->find($providerId);
 
         $showroom = $vertical->addShowroom($provider, $score);
