@@ -61,13 +61,8 @@ class ManagerControllerTest extends WebTestCase
         ];
 
         $this->mockContainer();
-        $this->client->request(
-            'POST',
-            '/api/managers?apikey=apikeyValue',
-            $params,
-            [],
-            $this->header
-        );
+        $this->client->request('POST', '/api/managers?apikey=apikeyValue', $params, [], $this->header);
+
         $this->assertEquals(
             Codes::HTTP_CREATED,
             $this->client->getResponse()->getStatusCode(),
@@ -137,26 +132,31 @@ class ManagerControllerTest extends WebTestCase
             ->getMock();
         $factoryMock->expects($this->once())->method('create')->will($this->returnValue($formMock));
 
-        $this->client->getContainer()->set('form.factory', $factoryMock);
-
         $userManager = $this->getMockBuilder('FOS\UserBundle\Model\UserManager')->disableOriginalConstructor()
             ->getMock();
         $userManager->expects($this->once())->method('createUser')->will($this->returnValue(new User()));
         $userManager->expects($this->once())->method('updateUser')->will($this->throwException(new DBALException()));
 
-        $this->client->getContainer()->set('fos_user.user_manager', $userManager);
+        $dUser = $this->getMockBuilder('EVT\CoreDomain\User\User')->disableOriginalConstructor()->getMock();
+        $dUser->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $userRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\UserRepository')
+            ->disableOriginalConstructor()->setMethods(['findOneByEmail'])->getMock();
+        $userRepo->expects($this->once())->method('findOneByEmail')->will($this->returnValue($dUser));
 
-        $this->client->request(
-            'POST',
-            '/api/managers?apikey=apikeyValue',
-            $params,
-            [],
-            $this->header
-        );
+        $this->client->getContainer()->set('fos_user.user_manager', $userManager);
+        $this->client->getContainer()->set('form.factory', $factoryMock);
+        $this->client->getContainer()->set('evt.repository.user', $userRepo);
+
+        $this->client->request('POST', '/api/managers?apikey=apikeyValue', $params, [], $this->header);
 
         $this->assertEquals(
             Codes::HTTP_CONFLICT,
             $this->client->getResponse()->getStatusCode(),
+            $this->client->getResponse()->getContent()
+        );
+        $this->assertRegExp(
+            '/\/api\/managers\/\d+/',
+            json_decode($this->client->getResponse()->getContent(), true)['manager'],
             $this->client->getResponse()->getContent()
         );
     }

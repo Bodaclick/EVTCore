@@ -4,6 +4,8 @@ namespace EVT\ApiBundle\Controller;
 
 use Doctrine\DBAL\DBALException;
 use EVT\CoreDomainBundle\Form\Type\GenericUserFormType;
+use FOS\RestBundle\Util\Codes;
+use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations as FOS;
@@ -24,13 +26,10 @@ class ManagerController extends Controller
         return [];
     }
 
-    /**
-     * Create a new manager
-     *
-     * @FOS\View(statusCode=201)
-     */
     public function postManagerAction(Request $request)
     {
+        $view = new View(null, Codes::HTTP_CREATED);
+
         $userManager = $this->container->get('fos_user.user_manager');
 
         $user = $userManager->createUser();
@@ -45,10 +44,12 @@ class ManagerController extends Controller
             try {
                 $userManager->updateUser($user);
             } catch (DBALException $e) {
-                throw new ConflictHttpException('User already exists');
+                $view->setStatusCode(Codes::HTTP_CONFLICT);
+                $user = $this->container->get('evt.repository.user')->findOneByEmail($user->getEmail());
             }
-            return ['manager' => sprintf('/api/managers/%d', $user->getId())];
+            return $view->setData(['manager' => sprintf('/api/managers/%d', $user->getId())]);
         }
-        return $form;
+        $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
+        return $view->setData($form);
     }
 }
