@@ -55,8 +55,11 @@ class ProviderFactory
         }
         $provider->addManager($manager);
 
-        $this->providerRepo->save($provider);
+        if ($previousProvider = $this->providerRepo->findExistingProvider($provider)) {
+            return $previousProvider;
+        }
 
+        $this->providerRepo->save($provider);
         return $provider;
     }
 }

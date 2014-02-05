@@ -15,13 +15,17 @@ class ProviderFactoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
 
         $this->providerRepo = $this->getMockBuilder('EVT\CoreDomain\Provider\ProviderRepositoryInterface')
-            ->disableOriginalConstructor()->getMock();
+            ->disableOriginalConstructor()
+            ->setMethods(['save', 'findExistingProvider', 'update', 'delete', 'findAll'])
+            ->getMock();
 
         $this->providerRepo->expects($this->once())
             ->method('save')
             ->will(
                 $this->returnValue($provider)
             );
+        $this->providerRepo
+            ->expects($this->once())->method('findExistingProvider')->will($this->returnValue(null));
 
         $manager = $this->getMockBuilder('EVT\CoreDomain\User\Manager')
             ->disableOriginalConstructor()->getMock();
