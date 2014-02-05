@@ -2,6 +2,7 @@
 
 namespace EVT\ApiBundle\Tests\Controller;
 
+use Doctrine\DBAL\DBALException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 use EVT\CoreDomainBundle\Entity\GenericUser as User;
@@ -126,15 +127,24 @@ class ManagerControllerTest extends WebTestCase
         ];
 
         $formMock = $this->getMockBuilder('EVT\CoreDomainBundle\Form\Type\GenericUserFormType')
-            ->setMethods(['setData', 'handleRequest'])->disableOriginalConstructor()->getMock();
+            ->setMethods(['setData', 'handleRequest', 'isValid'])->disableOriginalConstructor()->getMock();
         $formMock->expects($this->once())->method('setData')->will($this->returnValue(true));
-        $formMock->expects($this->once())->method('handleRequest')->will($this->throwException(new \PDOException()));
+        $formMock->expects($this->once())->method('handleRequest')
+            ->will($this->returnValue(true));
+        $formMock->expects($this->once())->method('isValid')->will($this->returnValue(true));
 
         $factoryMock = $this->getMockBuilder('Symfony\Component\Form\FormFactory')->disableOriginalConstructor()
             ->getMock();
         $factoryMock->expects($this->once())->method('create')->will($this->returnValue($formMock));
 
         $this->client->getContainer()->set('form.factory', $factoryMock);
+
+        $userManager = $this->getMockBuilder('FOS\UserBundle\Model\UserManager')->disableOriginalConstructor()
+            ->getMock();
+        $userManager->expects($this->once())->method('createUser')->will($this->returnValue(new User()));
+        $userManager->expects($this->once())->method('updateUser')->will($this->throwException(new DBALException()));
+
+        $this->client->getContainer()->set('fos_user.user_manager', $userManager);
 
         $this->client->request(
             'POST',

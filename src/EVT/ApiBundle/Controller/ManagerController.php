@@ -2,6 +2,7 @@
 
 namespace EVT\ApiBundle\Controller;
 
+use Doctrine\DBAL\DBALException;
 use EVT\CoreDomainBundle\Form\Type\GenericUserFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -38,14 +39,14 @@ class ManagerController extends Controller
 
         $form = $this->createForm(new GenericUserFormType());
         $form->setData($user);
-        try {
-            $form->handleRequest($request);
-        } catch (\Exception $e) {
-            throw new ConflictHttpException('User already exists');
-        }
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $userManager->updateUser($user);
+            try {
+                $userManager->updateUser($user);
+            } catch (DBALException $e) {
+                throw new ConflictHttpException('User already exists');
+            }
             return ['manager' => sprintf('/api/managers/%d', $user->getId())];
         }
         return $form;
