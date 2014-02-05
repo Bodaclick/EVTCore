@@ -8,7 +8,6 @@ use FOS\RestBundle\Controller\Annotations\View;
 
 class ShowroomController extends Controller
 {
-
     /**
      * @View(statusCode=201)
      */
@@ -22,8 +21,6 @@ class ShowroomController extends Controller
 
         $showroom = $evtShowroomFactory->createShowroom($vertical, $provider, $score);
 
-        $ret['showroom'] = "/api/showrooms/" . $showroom->getId();
-
-        return $ret;
+        return ['showroom' => '/api/showrooms/' .$showroom->getId()];
     }
 }

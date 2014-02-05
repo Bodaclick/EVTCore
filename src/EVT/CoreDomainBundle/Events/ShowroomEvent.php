@@ -3,10 +3,9 @@
 namespace EVT\CoreDomainBundle\Events;
 
 use EVT\CoreDomain\Provider\Showroom;
-use Symfony\Component\EventDispatcher\Event as EventDispatcher;
 use BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventInterface;
 
-class ShowroomEvent extends EventDispatcher implements AsyncEventInterface
+class ShowroomEvent implements AsyncEventInterface
 {
     protected $showroom;
     protected $name;
@@ -19,14 +18,6 @@ class ShowroomEvent extends EventDispatcher implements AsyncEventInterface
     {
         $this->showroom = $showroom;
         $this->name = $name;
-    }
-
-    /**
-     * @param Showroom $showroom
-     */
-    public function setShowroom($showroom)
-    {
-        $this->showroom = $showroom;
     }
 
     /**

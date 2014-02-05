@@ -4,6 +4,6 @@ namespace EVT\CoreDomainBundle\Events;
 
 final class Event
 {
-    const onCreateShowroom = 'evt.showroom.event.on_create';
-    const onUpdateShowroom = 'evt.showroom.event.on_update';
+    const onCreateShowroom = 'evt.event.showroom_create';
+    const onUpdateShowroom = 'evt.event.showroom_update';
 }

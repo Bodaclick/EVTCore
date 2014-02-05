@@ -119,3 +119,17 @@ fos_user:
 liip_monitor:
     checks:
         php_extensions: [intl]
+
+# OldSoundRabbitMQBundle
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:      %rabbitmq_host%
+            port:      %rabbitmq_port%
+            user:      %rabbitmq_user%
+            password:  %rabbitmq_pass%
+            vhost:     %rabbitmq_vhost%
+    producers:
+        showroom:
+            connection: default
+            exchange_options: {name: 'showroom-exchange', type: direct, durable: true}
