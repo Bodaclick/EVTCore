@@ -9,7 +9,6 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations as FOS;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 /**
  * Class ManagerController
@@ -40,16 +39,18 @@ class ManagerController extends Controller
         $form->setData($user);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            try {
-                $userManager->updateUser($user);
-            } catch (DBALException $e) {
-                $view->setStatusCode(Codes::HTTP_CONFLICT);
-                $user = $this->container->get('evt.repository.user')->findOneByEmail($user->getEmail());
-            }
-            return $view->setData(['manager' => sprintf('/api/managers/%d', $user->getId())]);
+        if (!$form->isValid()) {
+            $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
+            return $view->setData($form);
         }
-        $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
-        return $view->setData($form);
+
+        try {
+            $userManager->updateUser($user);
+        } catch (DBALException $e) {
+            $view->setStatusCode(Codes::HTTP_CONFLICT);
+            $user = $this->container->get('evt.repository.user')->findOneByEmail($user->getEmail());
+        }
+
+        return $view->setData(['manager' => sprintf('/api/managers/%d', $user->getId())]);
     }
 }

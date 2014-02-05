@@ -71,4 +71,20 @@ class ManagerControllerTest extends WebTestCase
 
         $this->assertEquals(Codes::HTTP_CONFLICT, $this->client->getResponse()->getStatusCode());
     }
+
+    public function testEmptyData()
+    {
+        $this->markTestIncomplete('Implement, see #EVT-46');
+        $params = [
+            'user' =>  [
+                'email' => '',
+                'username' => 'username_manager',
+                'plainPassword' => ['first' => '1234', 'second' => '1234']
+            ]
+        ];
+
+        $this->client->request('POST', '/api/managers?apikey=apikeyValue', $params, [], $this->header);
+
+        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
 }
