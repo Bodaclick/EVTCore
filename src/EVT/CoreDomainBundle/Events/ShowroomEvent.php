@@ -3,10 +3,10 @@
 namespace EVT\CoreDomainBundle\Events;
 
 use EVT\CoreDomain\Provider\Showroom;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\Event as EventDispatcher;
 use BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventInterface;
 
-class ShowroomEvent extends Event implements AsyncEventInterface
+class ShowroomEvent extends EventDispatcher implements AsyncEventInterface
 {
     protected $showroom;
     protected $name;

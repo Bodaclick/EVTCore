@@ -4,5 +4,6 @@ namespace EVT\CoreDomainBundle\Events;
 
 final class Event
 {
-    const POST_PERSIST_SHOWROOM = 'evt.showroom.event.post_persist';
+    const onCreateShowroom = 'evt.showroom.event.on_create';
+    const onUpdateShowroom = 'evt.showroom.event.on_update';
 }
