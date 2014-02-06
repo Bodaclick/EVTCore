@@ -12,15 +12,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Bodaclick/AsyncDispatcherBundle.git",
-                "reference": "fec2ef85347ce7ae367d52601026200e566f31d3"
+                "reference": "34871b1f528154bda6cc3f438dbcc8a01f54215a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Bodaclick/AsyncDispatcherBundle/zipball/fec2ef85347ce7ae367d52601026200e566f31d3",
-                "reference": "fec2ef85347ce7ae367d52601026200e566f31d3",
+                "url": "https://api.github.com/repos/Bodaclick/AsyncDispatcherBundle/zipball/34871b1f528154bda6cc3f438dbcc8a01f54215a",
+                "reference": "34871b1f528154bda6cc3f438dbcc8a01f54215a",
                 "shasum": ""
             },
             "require": {
+                "jms/serializer-bundle": "0.13.*@dev",
                 "oldsound/rabbitmq-bundle": "dev-master",
                 "php": ">=5.3.3",
                 "symfony/framework-bundle": ">=2.3.0"
@@ -42,7 +43,7 @@
                 "dispatcher",
                 "event dispatcher"
             ],
-            "time": "2014-02-05 18:24:27"
+            "time": "2014-02-06 09:19:51"
         },
         {
             "name": "doctrine/annotations",
