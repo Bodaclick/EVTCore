@@ -1,15 +1,18 @@
 package main
 
 import (
+	"./types"
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"github.com/streadway/amqp"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 )
 
 func failOnError(err error, msg string) {
@@ -35,17 +38,16 @@ func main() {
 	}
 	fmt.Println(pwd)
 
-	// TODO Get the parameter value
 	f, err := os.Open(pwd + "/../app/config/parameters.yml")
 	if err != nil {
 		fmt.Printf("error opening file: %s\n", err)
 		os.Exit(1)
 	}
-	r := bufio.NewReader(f)
-	s, n, e := r.ReadLine()
-	for e == nil {
+	fileReader := bufio.NewReader(f)
+	line, longLine, err := fileReader.ReadLine()
+	for err == nil {
 
-		var keyValue = strings.Split(string(s), ":")
+		var keyValue = strings.Split(string(line), ":")
 
 		if len(keyValue) > 1 {
 			var key = strings.Trim(keyValue[0], " ")
@@ -64,8 +66,8 @@ func main() {
 				rabbitmq_pass = value
 			}
 		}
-		s, n, e = r.ReadLine()
-		if n {
+		line, longLine, err = fileReader.ReadLine()
+		if longLine {
 			fmt.Printf("line too long	")
 		}
 	}
@@ -79,37 +81,76 @@ func main() {
 
 	defer ch.Close()
 
-	msgs, err := ch.Consume("log-queue", "", false, false, false, false, nil)
+	msgs, err := ch.Consume("showroom-create-queue", "", false, false, false, false, nil)
 	failOnError(err, "Failed to register a consumer")
+
+	go func() {
+		masgFailed, err := ch.Consume("showroom-create-comm-fail-queue", "", false, false, false, false, nil)
+		if err != nil {
+			fmt.Printf("Failed to register a failed consumer: %s\n", err)
+		} else {
+			for msg := range masgFailed {
+				time.Sleep(time.Duration(10) * time.Second)
+				moveFromFailToQueue(ch, msg.Body)
+				msg.Ack(false)
+			}
+		}
+	}()
 
 	done := make(chan bool)
 
 	go func() {
-		for d := range msgs {
-			log.Printf("Received a message: %s", d.Body)
+		for msg := range msgs {
+			var showroomCreationEvent types.ShowroomCreationEvent
+			err := json.Unmarshal(msg.Body, &showroomCreationEvent)
+			if err != nil {
+				moveToFailQueue(ch, msg.Body)
+				fmt.Printf("can't process the message: %s\n", err)
+				msg.Ack(false)
+				continue
+			}
+
+			postParams := url.Values{}
+			postParams.Set("showroom[client]", "1")
+			postParams.Set("showroom[evt_id]", strconv.Itoa(showroomCreationEvent.Showroom.Id))
+			postParams.Set("showroom[name]", "1")
+			postParams.Set("showroom[slug]", "1")
+			postParams.Set("showroom[e-vertical]", showroomCreationEvent.Showroom.Vertical.Domain)
+			postParams.Set("showroom[score]", "1")
+			postParams.Set("showroom[location][lat]", "1")
+			postParams.Set("showroom[location][long]", "1")
+			postParams.Set("showroom[location][country]", "1")
+			postParams.Set("showroom[extra_data]", "1")
+
 			resp, err := http.PostForm(
 				"http://api.evento.local/api/managers?apikey=1234",
-				url.Values{"key": {"Value"}, "id": {"123"}})
+				postParams)
 
 			if err != nil {
-				// handle error
+				moveToFailQueue(ch, msg.Body)
 				log.Printf("response err: %s", err)
+			} else if resp.StatusCode != 201 {
+				// Not created
+				moveToFailQueue(ch, msg.Body)
+				log.Printf("response status code: " + strconv.Itoa(resp.StatusCode))
+				defer resp.Body.Close()
 			}
-			defer resp.Body.Close()
-			body, err := ioutil.ReadAll(resp.Body)
-
-			log.Printf("response status: %n", resp.StatusCode)
-			log.Printf("response head: %s", resp.Header)
-			log.Printf("response cont: %s", body)
-			if err != nil {
-				// handle error
-				log.Printf("response err: %s", err)
-			}
-			d.Ack(false)
+			msg.Ack(false)
 		}
 	}()
 
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-done
 	os.Exit(0)
+}
+
+func moveToFailQueue(ch *amqp.Channel, msgBody []byte) bool {
+	ch.QueueDeclare("showroom-create-comm-fail-queue", true, false, false, false, nil)
+	ch.Publish("", "showroom-create-comm-fail-queue", false, false, amqp.Publishing{Body: msgBody})
+	return true
+}
+
+func moveFromFailToQueue(ch *amqp.Channel, msgBody []byte) bool {
+	ch.Publish("", "showroom-create-queue", false, false, amqp.Publishing{Body: msgBody})
+	return true
 }
