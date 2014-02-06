@@ -61,12 +61,12 @@ services:
 
     evt.showroom.async_event_driver_create:
         class: BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncDriver\RabbitMQDriver
-        arguments:  [@old_sound_rabbit_mq.showroom_producer, @serializer]
+        arguments:  [@old_sound_rabbit_mq.showroom_producer, @jms_serializer]
         tags:
             - { name: bdk.async_event_dispatcher, event: evt.event.showroom_create }
 
     evt.showroom.async_event_driver_update:
         class: BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncDriver\RabbitMQDriver
-        arguments:  [@old_sound_rabbit_mq.showroom_producer, @serializer]
+        arguments:  [@old_sound_rabbit_mq.showroom_producer, @jms_serializer]
         tags:
             - { name: bdk.async_event_dispatcher, event: evt.event.showroom_update }

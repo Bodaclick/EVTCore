@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Bodaclick/AsyncDispatcherBundle.git",
-                "reference": "0ed93a27b02d774bf23b5b3cb4847b3048cd453c"
+                "reference": "fec2ef85347ce7ae367d52601026200e566f31d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Bodaclick/AsyncDispatcherBundle/zipball/0ed93a27b02d774bf23b5b3cb4847b3048cd453c",
-                "reference": "0ed93a27b02d774bf23b5b3cb4847b3048cd453c",
+                "url": "https://api.github.com/repos/Bodaclick/AsyncDispatcherBundle/zipball/fec2ef85347ce7ae367d52601026200e566f31d3",
+                "reference": "fec2ef85347ce7ae367d52601026200e566f31d3",
                 "shasum": ""
             },
             "require": {
@@ -42,7 +42,7 @@
                 "dispatcher",
                 "event dispatcher"
             ],
-            "time": "2014-02-04 16:00:54"
+            "time": "2014-02-05 18:24:27"
         },
         {
             "name": "doctrine/annotations",
@@ -1583,17 +1583,17 @@
         },
         {
             "name": "liip/monitor",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "target-dir": "Liip/Monitor",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitor.git",
-                "reference": "2a120f2a3f0766ed761b9b01b534bb451de8bf9a"
+                "reference": "c3298f3b4b70f81ebc3e10c1db55b2eeb712065a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitor/zipball/2a120f2a3f0766ed761b9b01b534bb451de8bf9a",
-                "reference": "2a120f2a3f0766ed761b9b01b534bb451de8bf9a",
+                "url": "https://api.github.com/repos/liip/LiipMonitor/zipball/c3298f3b4b70f81ebc3e10c1db55b2eeb712065a",
+                "reference": "c3298f3b4b70f81ebc3e10c1db55b2eeb712065a",
                 "shasum": ""
             },
             "require": {
@@ -1603,7 +1603,9 @@
                 "sensiolabs/security-checker": "dev-master"
             },
             "suggest": {
-                "sensiolabs/security-checker": "Required for Security Advisory Checker"
+                "predis/predis": "Required for Redis Checker",
+                "sensiolabs/security-checker": "Required for Security Advisory Checker",
+                "videlalvaro/php-amqplib": "Required for RabbitMQ Checker"
             },
             "type": "library",
             "extra": {
@@ -1641,7 +1643,7 @@
                 "monitor",
                 "monitoring"
             ],
-            "time": "2013-06-24 09:05:17"
+            "time": "2014-02-05 21:53:43"
         },
         {
             "name": "liip/monitor-bundle",
