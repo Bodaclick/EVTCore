@@ -30,20 +30,22 @@ func main() {
 	var rabbitmq_vhost = "/"
 	var rabbitmq_user = "guest"
 	var rabbitmq_pass = "guest"
+	var emd_api_root = "emd.api.root/"
+	var emd_api_showroom = "api/showroom"
+	var emd_api_apikey = "?apikey=apikey"
 
 	pwd, err := os.Getwd()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println(pwd)
 
-	f, err := os.Open(pwd + "/../app/config/parameters.yml")
+	file, err := os.Open(pwd + "/../app/config/parameters.yml")
 	if err != nil {
 		fmt.Printf("error opening file: %s\n", err)
 		os.Exit(1)
 	}
-	fileReader := bufio.NewReader(f)
+	fileReader := bufio.NewReader(file)
 	line, longLine, err := fileReader.ReadLine()
 	for err == nil {
 
@@ -64,11 +66,17 @@ func main() {
 				rabbitmq_user = value
 			case "rabbitmq_pass":
 				rabbitmq_pass = value
+			case "emd_api_root":
+				emd_api_root = value
+			case "emd_api_showroom":
+				emd_api_showroom = value
+			case "emd_api_apikey":
+				emd_api_apikey = value
 			}
 		}
 		line, longLine, err = fileReader.ReadLine()
 		if longLine {
-			fmt.Printf("line too long	")
+			fmt.Printf("line too long")
 		}
 	}
 
@@ -111,19 +119,20 @@ func main() {
 			}
 
 			postParams := url.Values{}
+			postParams.Set("showroom[partner]", "1")
 			postParams.Set("showroom[client]", "1")
 			postParams.Set("showroom[evt_id]", strconv.Itoa(showroomCreationEvent.Showroom.Id))
-			postParams.Set("showroom[name]", "1")
-			postParams.Set("showroom[slug]", "1")
+			postParams.Set("showroom[name]", showroomCreationEvent.Showroom.Name)
+			postParams.Set("showroom[slug]", showroomCreationEvent.Showroom.Slug)
 			postParams.Set("showroom[e-vertical]", showroomCreationEvent.Showroom.Vertical.Domain)
-			postParams.Set("showroom[score]", "1")
-			postParams.Set("showroom[location][lat]", "1")
-			postParams.Set("showroom[location][long]", "1")
-			postParams.Set("showroom[location][country]", "1")
-			postParams.Set("showroom[extra_data]", "1")
+			postParams.Set("showroom[score]", strconv.Itoa(showroomCreationEvent.Showroom.Score))
+			postParams.Set("showroom[location][lat]", strconv.Itoa(showroomCreationEvent.Showroom.Provider.Location.Lat))
+			postParams.Set("showroom[location][long]", strconv.Itoa(showroomCreationEvent.Showroom.Provider.Location.Long))
+			postParams.Set("showroom[location][country]", showroomCreationEvent.Showroom.Provider.Location.Country)
+			postParams.Set("showroom[extra_data]", "")
 
 			resp, err := http.PostForm(
-				"http://api.evento.local/api/managers?apikey=1234",
+				"http://"+emd_api_root+emd_api_showroom+emd_api_apikey,
 				postParams)
 
 			if err != nil {
