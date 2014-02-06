@@ -58,7 +58,11 @@ class ProviderControllerTest extends WebTestCase
             $this->header
         );
 
-        $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode(), $this->client->getResponse()->getContent());
+        $this->assertEquals(
+            Codes::HTTP_CREATED,
+            $this->client->getResponse()->getStatusCode(),
+            $this->client->getResponse()->getContent()
+        );
         $id = explode(
             '?',
             explode('/', json_decode($this->client->getResponse()->getContent(), true)['provider'])[3]

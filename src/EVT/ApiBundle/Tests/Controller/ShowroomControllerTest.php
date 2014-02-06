@@ -2,11 +2,6 @@
 
 namespace EVT\ApiBundle\Tests\Controller;
 
-use Doctrine\DBAL\DBALException;
-use EVT\CoreDomain\Provider\Showroom;
-use EVT\CoreDomain\Provider\Vertical;
-use EVT\CoreDomain\EmailCollection;
-use EVT\CoreDomain\Email;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 

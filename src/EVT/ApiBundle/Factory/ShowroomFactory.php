@@ -2,8 +2,6 @@
 
 namespace EVT\ApiBundle\Factory;
 
-
-use Doctrine\DBAL\DBALException;
 use EVT\CoreDomain\Provider\ProviderRepositoryInterface;
 use EVT\CoreDomain\Provider\VerticalRepositoryInterface;
 use EVT\CoreDomain\Provider\ShowroomRepositoryInterface;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EVT\ApiBundle\Tests\Factory;
 
 use EVT\ApiBundle\Factory\ProviderFactory;
