@@ -1,0 +1,13 @@
+EVT\CoreDomain\Provider\Showroom:
+    exclusion_policy: NONE
+    exclude: false
+    properties:
+        slug:
+            accessor:
+                getter: getSlug
+        phone:
+            accessor:
+                getter: getPhone
+        name:
+            accessor:
+                getter: getName
