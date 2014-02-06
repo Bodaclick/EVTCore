@@ -4,6 +4,7 @@ namespace EVT\ApiBundle\Factory;
 
 use EVT\CoreDomain\Email;
 use EVT\CoreDomain\EmailCollection;
+use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\Provider\ProviderId;
 use EVT\CoreDomain\Provider\Provider;
 use EVT\CoreDomain\Provider\ProviderRepositoryInterface;
@@ -43,11 +44,15 @@ class ProviderFactory
             $emails->append(new Email($email));
         }
 
-        $provider = new Provider(
-            new ProviderId(''),
-            $providerRequest['name'],
-            $emails
+        $location = new Location(
+            $providerRequest['locationLat'],
+            $providerRequest['locationLong'],
+            $providerRequest['locationAdminLevel1'],
+            $providerRequest['locationAdminLevel2'],
+            $providerRequest['locationCountry']
         );
+
+        $provider = new Provider(new ProviderId(''), $providerRequest['name'], $emails, $location);
 
         $manager = $this->userRepo->getManagerById($providerRequest['genericUser']);
         if (null === $manager) {
