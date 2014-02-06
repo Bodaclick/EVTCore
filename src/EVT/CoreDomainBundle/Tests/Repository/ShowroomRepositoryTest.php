@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EVT\CoreDomainBundle\Tests\Repository;
 
 use EVT\CoreDomainBundle\Entity\Showroom;
@@ -14,60 +13,54 @@ use EVT\CoreDomain\Provider\Showroom as DomainShowroom;
  */
 class ShowroomRepositoryTest extends \PHPUnit_Framework_TestCase
 {
+    protected $provider;
+    protected $vertical;
+    protected $showroom;
+    protected $asyncDispatcher;
+    protected $srMapper;
+    protected $emMock;
+    protected $metadata;
+
+    public function setUp()
+    {
+        $this->provider = $this->getMockBuilder('EVT\CoreDomain\Provider\Provider')->disableOriginalConstructor()->getMock();
+        $this->vertical = $this->getMockBuilder('EVT\CoreDomain\Provider\Vertical')->disableOriginalConstructor()->getMock();
+        $this->showroom = new DomainShowroom($this->provider, $this->vertical, 0);
+
+        $this->srMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\ShowroomMapping')
+            ->disableOriginalConstructor()->getMock();
+        $this->srMapper->expects($this->once())->method('mapDomainToEntity')->will($this->returnValue(new Showroom()));
+
+        $this->emMock = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
+        $this->emMock->expects($this->once())->method('persist')->will($this->returnSelf());
+        $this->emMock->expects($this->once())->method('flush')->will($this->returnSelf());
+        $this->metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
+            ->disableOriginalConstructor()->getMock();
+
+        $this->asyncDispatcher = $this->getMockBuilder('BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventDispatcher')
+            ->disableOriginalConstructor()->getMock();
+
+        $this->asyncDispatcher->expects($this->once())->method('dispatch')->will($this->returnValue($this->returnSelf()));
+    }
+
     public function testSaveCreate()
     {
-        $provider = $this->getMockBuilder('EVT\CoreDomain\Provider\Provider')->disableOriginalConstructor()->getMock();
-        $vertical = $this->getMockBuilder('EVT\CoreDomain\Provider\Vertical')->disableOriginalConstructor()->getMock();
-        $domainMock = new DomainShowroom($provider, $vertical, 0);
-
-        $srMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\ShowroomMapping')
-            ->disableOriginalConstructor()->getMock();
-        $srMapper->expects($this->once())->method('mapDomainToEntity')->will($this->returnValue(new Showroom()));
-        $emMock = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
-        $emMock->expects($this->once())->method('persist')->will($this->returnSelf());
-        $emMock->expects($this->once())->method('flush')->will($this->returnSelf());
-        $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
-            ->disableOriginalConstructor()->getMock();
-
-        $asyncDispatcher = $this->getMockBuilder('BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventDispatcher')
-            ->disableOriginalConstructor()->getMock();
-
-        $asyncDispatcher->expects($this->once())->method('dispatch')->will($this->returnValue($this->returnSelf()));
-
-        $repo = new ShowroomRepository($emMock, $metadata);
-        $repo->setMapper($srMapper);
-        $repo->setAsyncDispatcher($asyncDispatcher);
-        $repo->save($domainMock);
+        $repo = new ShowroomRepository($this->emMock, $this->metadata);
+        $repo->setMapper($this->srMapper);
+        $repo->setAsyncDispatcher($this->asyncDispatcher);
+        $repo->save($this->showroom);
     }
 
     public function testSaveUpdate()
     {
-        $provider = $this->getMockBuilder('EVT\CoreDomain\Provider\Provider')->disableOriginalConstructor()->getMock();
-        $vertical = $this->getMockBuilder('EVT\CoreDomain\Provider\Vertical')->disableOriginalConstructor()->getMock();
-        $domainMock = new DomainShowroom($provider, $vertical, 0);
-
-        $srMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\ShowroomMapping')
-            ->disableOriginalConstructor()->getMock();
-        $srMapper->expects($this->once())->method('mapDomainToEntity')->will($this->returnValue(new Showroom()));
-        $emMock = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
-        $emMock->expects($this->once())->method('persist')->will($this->returnSelf());
-        $emMock->expects($this->once())->method('flush')->will($this->returnSelf());
-        $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
-            ->disableOriginalConstructor()->getMock();
-
-        $asyncDispatcher = $this->getMockBuilder('BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventDispatcher')
-            ->disableOriginalConstructor()->getMock();
-
-        $asyncDispatcher->expects($this->once())->method('dispatch')->will($this->returnValue($this->returnSelf()));
-
-        $rflShowroom = new \ReflectionClass($domainMock);
+        $rflShowroom = new \ReflectionClass($this->showroom);
         $rflId = $rflShowroom->getProperty('id');
         $rflId->setAccessible(true);
-        $rflId->setValue($domainMock, 1);
+        $rflId->setValue($this->showroom, 1);
 
-        $repo = new ShowroomRepository($emMock, $metadata);
-        $repo->setMapper($srMapper);
-        $repo->setAsyncDispatcher($asyncDispatcher);
-        $repo->save($domainMock);
+        $repo = new ShowroomRepository($this->emMock, $this->metadata);
+        $repo->setMapper($this->srMapper);
+        $repo->setAsyncDispatcher($this->asyncDispatcher);
+        $repo->save($this->showroom);
     }
 }
