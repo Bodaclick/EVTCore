@@ -62,7 +62,7 @@ services:
 
     evt.showroom.async_event_driver_create:
         class: BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncDriver\RabbitMQDriver
-        arguments:  [@old_sound_rabbit_mq.showroom_producer, @jms_serializer]
+        arguments:  [@old_sound_rabbit_mq.showroom_create_producer, @jms_serializer]
         calls:
             - [setRoutingKey, ['create.showroom']]
         tags:
@@ -70,7 +70,7 @@ services:
 
     evt.showroom.async_event_driver_update:
         class: BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncDriver\RabbitMQDriver
-        arguments:  [@old_sound_rabbit_mq.showroom_producer, @jms_serializer]
+        arguments:  [@old_sound_rabbit_mq.showroom_update_producer, @jms_serializer]
         calls:
             - [setRoutingKey, ['update.showroom']]
         tags:
