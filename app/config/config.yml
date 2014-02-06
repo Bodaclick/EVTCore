@@ -130,7 +130,12 @@ old_sound_rabbit_mq:
             password:  %rabbitmq_pass%
             vhost:     %rabbitmq_vhost%
     producers:
-        showroom:
+        showroom_create:
             connection: default
             exchange_options: {name: 'showroom-exchange', type: topic, durable: true}
             queue_options:    {routing_keys: ['create.showroom'], name:'showroom-create-queue'}
+
+        showroom_update:
+            connection: default
+            exchange_options: {name: 'showroom-exchange', type: topic, durable: true}
+            queue_options:    {routing_keys: ['update.showroom'], name:'showroom-update-queue'}

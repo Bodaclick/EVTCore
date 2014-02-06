@@ -30,15 +30,16 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         $entity = $this->mapping->mapDomainToEntity($showroom);
         $this->_em->persist($entity);
         $this->_em->flush();
-        $this->setId($entity->getId(), $showroom);
 
         $eventName = Event::onCreateShowroom;
         if (!empty($showroom->getId())) {
             $eventName = Event::onUpdateShowroom;
         }
-
         $event = new ShowroomEvent($showroom, $eventName);
         $this->asyncDispatcher->dispatch($event);
+
+        $this->setId($entity->getId(), $showroom);
+
     }
 
     public function delete($showroom)
