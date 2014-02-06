@@ -2,6 +2,7 @@
 
 namespace EVT\ApiBundle\Tests\Controller;
 
+use Doctrine\DBAL\DBALException;
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Provider\Vertical;
 use EVT\CoreDomain\EmailCollection;
@@ -67,6 +68,5 @@ class ShowroomControllerTest extends WebTestCase
             json_decode($this->client->getResponse()->getContent(), true)['showroom'],
             $this->client->getResponse()->getContent()
         );
-
     }
 }

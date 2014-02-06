@@ -3,13 +3,14 @@
 namespace EVT\ApiBundle\Factory;
 
 
+use Doctrine\DBAL\DBALException;
 use EVT\CoreDomain\Provider\ProviderRepositoryInterface;
 use EVT\CoreDomain\Provider\VerticalRepositoryInterface;
 use EVT\CoreDomain\Provider\ShowroomRepositoryInterface;
 
 /**
  * Class ShowroomFactory
- * @package EVT\ApiBundle\Factory
+ * @copyright 2014 Bodaclick
  */
 class ShowroomFactory
 {
@@ -43,8 +44,11 @@ class ShowroomFactory
         $vertical = $this->verticalRepo->findOneByDomain($domain);
         $provider = $this->providerRepo->findOneById($providerId);
 
-        $showroom = $vertical->addShowroom($provider, $score);
+        if ($existingShowroom = $this->verticalRepo->findShowroom($vertical, $provider)) {
+            return $existingShowroom;
+        }
 
+        $showroom = $vertical->addShowroom($provider, $score);
         $this->showroomRepo->save($showroom);
 
         return $showroom;
