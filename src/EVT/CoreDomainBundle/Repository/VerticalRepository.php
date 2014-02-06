@@ -48,7 +48,9 @@ class VerticalRepository extends EntityRepository implements DomainRepository
         );
         $qb->setParameter('provider', $provider->getId());
         $qb->setParameter('vertical', $vertical->getDomain());
-        return $this->showroomMapper->mapEntityToDomain($qb->getOneOrNullResult());
+        if ($showroom = $qb->getOneOrNullResult()) {
+            return $this->showroomMapper->mapEntityToDomain($showroom);
+        }
     }
 
     public function setMapper(VerticalMapping $mapping)

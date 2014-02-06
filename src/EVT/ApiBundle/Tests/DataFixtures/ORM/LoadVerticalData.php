@@ -14,6 +14,11 @@ class LoadVerticalData implements FixtureInterface
         $prov = new Provider();
         $prov->setName('name');
         $prov->setNotificationEmails(['valid@email.com']);
+        $prov->setLocationLat(10);
+        $prov->setLocationLong(10);
+        $prov->setLocationAdminLevel1('test');
+        $prov->setLocationAdminLevel2('test');
+        $prov->setLocationCountry('Spain');
         $manager->persist($prov);
         $vert = new Vertical();
         $vert->setDomain('test.com');
