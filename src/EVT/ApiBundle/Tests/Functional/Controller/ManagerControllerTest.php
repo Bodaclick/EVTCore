@@ -41,13 +41,7 @@ class ManagerControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
-            'POST',
-            '/api/managers?apikey=apikeyValue',
-            $params,
-            [],
-            $this->header
-        );
+        $this->client->request('POST', '/api/managers?apikey=apikeyValue', $params, [], $this->header);
 
         $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
         $id = explode(
@@ -60,5 +54,37 @@ class ManagerControllerTest extends WebTestCase
             ->findOneById($id);
         $this->assertNotNull($eUser);
         $this->assertTrue(false !== array_search('ROLE_MANAGER', $eUser->getRoles()));
+    }
+
+    public function testDuplicate()
+    {
+        $params = [
+            'user' =>  [
+                'email' => 'valid@email.com',
+                'username' => 'username_manager',
+                'plainPassword' => ['first' => '1234', 'second' => '1234']
+            ]
+        ];
+
+        $this->client->request('POST', '/api/managers?apikey=apikeyValue', $params, [], $this->header);
+        $this->client->request('POST', '/api/managers?apikey=apikeyValue', $params, [], $this->header);
+
+        $this->assertEquals(Codes::HTTP_CONFLICT, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testEmptyData()
+    {
+        $this->markTestIncomplete('Implement, see #EVT-46');
+        $params = [
+            'user' =>  [
+                'email' => '',
+                'username' => 'username_manager',
+                'plainPassword' => ['first' => '1234', 'second' => '1234']
+            ]
+        ];
+
+        $this->client->request('POST', '/api/managers?apikey=apikeyValue', $params, [], $this->header);
+
+        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 }

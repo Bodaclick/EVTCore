@@ -56,13 +56,7 @@ class ProviderControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
-            'POST',
-            '/api/providers?apikey=apikeyValue',
-            $params,
-            [],
-            $this->header
-        );
+        $this->client->request('POST', '/api/providers?apikey=apikeyValue', $params, [], $this->header);
 
         $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
         $this->assertEquals('{"provider":"\/api\/providers\/1"}', $this->client->getResponse()->getContent());
@@ -70,12 +64,7 @@ class ProviderControllerTest extends WebTestCase
 
     public function testNewProvider()
     {
-        $crawler = $this->client->request(
-            'GET',
-            '/api/providers/new?apikey=apikeyValue',
-            [],
-            []
-        );
+        $crawler = $this->client->request('GET', '/api/providers/new?apikey=apikeyValue', [], []);
 
         $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertCount(1, $crawler->filter('button'));

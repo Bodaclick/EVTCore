@@ -2,6 +2,7 @@
 
 namespace EVT\CoreDomainBundle\Repository;
 
+use EVT\CoreDomain\Provider\Provider;
 use EVT\CoreDomainBundle\Mapping\ProviderMapping;
 use EVT\CoreDomain\Provider\ProviderRepositoryInterface as DomainRepository;
 use Doctrine\ORM\EntityRepository;
@@ -51,7 +52,28 @@ class ProviderRepository extends EntityRepository implements DomainRepository
         return $this->mapper->mapEntityToDomain(parent::findOneById($id));
     }
 
-    public function findAll()
+    /**
+     * @param Provider $provider
+     * @return null | Provider
+     */
+    public function findExistingProvider(Provider $provider)
     {
+        $qb = $this->_em->createQueryBuilder()
+            ->select('p')
+            ->from('EVTCoreDomainBundle:Provider', 'p')
+            ->join('p.genericUser', 'gu');
+
+        $managers = array_keys($provider->getManagers()->getArrayCopy());
+        $qb->add('where', $qb->expr()->in('gu.email', ':managers'));
+        $qb->andWhere('p.slug = :slug');
+
+        $qb->setParameter('managers', $managers);
+        $qb->setParameter('slug', $provider->getSlug());
+
+        if (!$eProvider = $qb->getQuery()->getOneOrNullResult()) {
+            return null;
+        }
+
+        return $this->mapper->mapEntityToDomain($eProvider);
     }
 }

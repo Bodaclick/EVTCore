@@ -37,7 +37,11 @@ class ShowroomControllerTest extends WebTestCase
         );
 
         $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
-        $id = explode('?', explode('/', json_decode($this->client->getResponse()->getContent(), true)['showroom'])[3])[0];
+        $id = explode(
+            '?',
+            explode('/', json_decode($this->client->getResponse()->getContent(), true)['showroom'])[3]
+        )[0];
+
         $this->assertEquals(1, $id);
         $eShowroom = $this->getContainer()->get('evt.repository.showroom')->findOneById($id);
         $this->assertNotNull($eShowroom);

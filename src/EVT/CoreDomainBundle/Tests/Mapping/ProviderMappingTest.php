@@ -17,7 +17,7 @@ use EVT\CoreDomain\EmailCollection;
  */
 class ProviderMappingTest extends \PHPUnit_Framework_TestCase
 {
-    public function testDomainToEntityIsMapped()
+    public function testDomainToEntity()
     {
         $genericUser = $this->getMockBuilder('EVT\CoreDomainBundle\Entity\GenericUser')
             ->disableOriginalConstructor()->getMock();
@@ -75,6 +75,11 @@ class ProviderMappingTest extends \PHPUnit_Framework_TestCase
         $eProvider->expects($this->once())->method('getNotificationEmails')
             ->will($this->returnValue(['valid@email.com']));
         $eProvider->expects($this->once())->method('getGenericUser')->will($this->returnValue([new GenericUser()]));
+        $eProvider->expects($this->once())->method('getLocationLat')->will($this->returnValue(1));
+        $eProvider->expects($this->once())->method('getLocationLong')->will($this->returnValue(1));
+        $eProvider->expects($this->once())->method('getLocationAdminLevel1')->will($this->returnValue(1));
+        $eProvider->expects($this->once())->method('getLocationAdminLevel2')->will($this->returnValue(1));
+        $eProvider->expects($this->once())->method('getLocationCountry')->will($this->returnValue(1));
 
         $mapper = new ProviderMapping($em, $userMapper);
 
