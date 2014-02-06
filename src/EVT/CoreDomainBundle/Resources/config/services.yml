@@ -36,6 +36,7 @@ services:
         arguments: [EVTCoreDomainBundle:Vertical]
         calls:
             - [setMapper, [@evt.mapper.vertical]]
+            - [setShowroomMapper, [@evt.mapper.showroom]]
 
     evt.form.provider:
         class: EVT\CoreDomainBundle\Form\Type\ProviderFormType

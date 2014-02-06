@@ -58,7 +58,11 @@ class ProviderControllerTest extends WebTestCase
             $this->header
         );
 
-        $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(
+            Codes::HTTP_CREATED,
+            $this->client->getResponse()->getStatusCode(),
+            $this->client->getResponse()->getContent()
+        );
         $id = explode(
             '?',
             explode('/', json_decode($this->client->getResponse()->getContent(), true)['provider'])[3]
@@ -94,8 +98,8 @@ class ProviderControllerTest extends WebTestCase
                         'genericUser' => [1],
                         'phone' => 'asdf',
                         'slug' => 'providerSlug',
-                        'locationAdminLevel1' => 'asdf',
-                        'locationAdminLevel2' => 'asdf',
+                        'locationAdminLevel1' => '',
+                        'locationAdminLevel2' => '',
                         'locationCountry' => 'asdf',
                         'locationLat' => 10,
                         'locationLong' => 10,

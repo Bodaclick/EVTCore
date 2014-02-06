@@ -30,11 +30,13 @@ class GenericUserFormType extends RegistrationFormType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults(
+            array(
                 'data_class' => 'EVT\CoreDomainBundle\Entity\GenericUser',
                 'intention'  => 'registration',
                 'csrf_protection' => false
-            ));
+            )
+        );
     }
 
     public function getName()
