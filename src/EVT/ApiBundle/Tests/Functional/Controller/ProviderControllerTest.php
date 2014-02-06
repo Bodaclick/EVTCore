@@ -72,6 +72,7 @@ class ProviderControllerTest extends WebTestCase
         $this->assertNotNull($eProvider);
         $this->assertEquals('providerName', $eProvider->getName());
         $this->assertEquals('providername', $eProvider->getSlug());
+        $this->assertEquals('asdf', $eProvider->getPhone());
         $this->assertCount(2, $eProvider->getNotificationEmails());
     }
 

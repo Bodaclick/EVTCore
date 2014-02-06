@@ -33,7 +33,10 @@ class VerticalRepository extends EntityRepository implements DomainRepository
 
     public function findOneByDomain($domain)
     {
-        return $this->mapping->mapEntityToDomain(parent::findOneByDomain($domain));
+        if (!$vertical = parent::findOneByDomain($domain)) {
+            return null;
+        }
+        return $this->mapping->mapEntityToDomain($vertical);
     }
 
     /**

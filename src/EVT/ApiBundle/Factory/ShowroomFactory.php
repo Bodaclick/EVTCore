@@ -35,12 +35,19 @@ class ShowroomFactory
      * @param $domain
      * @param $providerId
      * @param $score
+     * @throws \InvalidArgumentException
      * @return mixed
      */
     public function createShowroom($domain, $providerId, $score)
     {
         $vertical = $this->verticalRepo->findOneByDomain($domain);
+        if (null === $vertical) {
+            throw new \InvalidArgumentException('Vertical not found');
+        }
         $provider = $this->providerRepo->findOneById($providerId);
+        if (null === $provider) {
+            throw new \InvalidArgumentException('Provider not found');
+        }
 
         if ($existingShowroom = $this->verticalRepo->findShowroom($vertical, $provider)) {
             return $existingShowroom;
