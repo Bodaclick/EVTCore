@@ -5,6 +5,7 @@ namespace EVT\CoreDomainBundle\Mapping;
 use Doctrine\ORM\EntityManager;
 use EVT\CoreDomain\Email;
 use EVT\CoreDomain\EmailCollection;
+use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\Provider\Provider;
 use EVT\CoreDomain\Provider\ProviderId;
 use EVT\CoreDomain\User\Manager;
@@ -82,6 +83,7 @@ class ProviderMapping implements MappingInterface
             $notifEmails->append(new Email($email));
         }
 
+        //$location = new Location($eProvider->getLocationLat(), $eProvider->getLocationLong(), $eProvider->getLocationAdminLevel1(), $eProvider->getLocationAdminLevel2(), $eProvider->getLocationCountry());
         $dProvider = new Provider($pId, $eProvider->getName(), $notifEmails);
         $dProvider->setPhone($eProvider->getPhone());
 

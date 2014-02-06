@@ -61,21 +61,19 @@ class ProviderRepository extends EntityRepository implements DomainRepository
         $qb = $this->_em->createQueryBuilder()
             ->select('p')
             ->from('EVTCoreDomainBundle:Provider', 'p')
-            ->join('p.genericUser', 'gu')
-            ->where('p.slug = :slug');
+            ->join('p.genericUser', 'gu');
 
-        $managers = $provider->getManagers();
-        $i = 0;
-        foreach ($managers as $manager) {
-            $i++;
-            $qb->andWhere("gu.email = ?$i");
-            $qb->setParameter($i, $manager->getEmail());
-        }
+        $managers = array_keys($provider->getManagers()->getArrayCopy());
+        $qb->add('where', $qb->expr()->in('gu.email', ':managers'));
+        $qb->andWhere('p.slug = :slug');
+
+        $qb->setParameter('managers', $managers);
         $qb->setParameter('slug', $provider->getSlug());
 
         if (!$eProvider = $qb->getQuery()->getOneOrNullResult()) {
             return null;
         }
-        $this->mapper->mapEntityToDomain($eProvider);
+
+        return $this->mapper->mapEntityToDomain($eProvider);
     }
 }
