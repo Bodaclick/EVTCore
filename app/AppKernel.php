@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new EVT\ApiBundle\EVTApiBundle(),
             new EVT\CoreDomainBundle\EVTCoreDomainBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new BDK\AsyncDispatcherBundle\BDKAsyncDispatcherBundle()
         );
 

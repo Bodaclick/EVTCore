@@ -11,6 +11,12 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
+    rabbitmq_host: localhost
+    rabbitmq_port: 5672
+    rabbitmq_vhost: /
+    rabbitmq_user: guest
+    rabbitmq_pass: guest
+
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
     

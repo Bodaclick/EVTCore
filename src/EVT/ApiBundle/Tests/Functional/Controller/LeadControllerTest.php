@@ -26,7 +26,7 @@ class LeadControllerTest extends WebTestCase
     public function setUp()
     {
         $this->client = static::createClient();
-        $this->header = ['Content-Type' => 'application/x-www-form-urlencoded', 'Accept' => 'application/json'];
+        $this->header = ['Content-Type' => 'application/json', 'HTTP_ACCEPT' => 'application/json'];
         $this->loadFixtures(
             ['EVT\ApiBundle\Tests\DataFixtures\ORM\LoadShowroomData']
         );
@@ -65,9 +65,8 @@ class LeadControllerTest extends WebTestCase
             '/api/leads?apikey=apikeyValue',
             $params,
             [],
-            ['Content-Type' => 'application/json', 'HTTP_ACCEPT' => 'application/json']
+            $this->header
         );
-
         $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
         $id = explode('?', explode('/', json_decode($this->client->getResponse()->getContent(), true)['lead'])[3])[0];
         $this->assertEquals(1, $id);
