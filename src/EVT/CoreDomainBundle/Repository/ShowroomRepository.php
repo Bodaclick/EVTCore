@@ -35,11 +35,11 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         if (!empty($showroom->getId())) {
             $eventName = Event::onUpdateShowroom;
         }
-        $event = new ShowroomEvent($showroom, $eventName);
-        $this->asyncDispatcher->dispatch($event);
 
         $this->setId($entity->getId(), $showroom);
 
+        $event = new ShowroomEvent($showroom, $eventName);
+        $this->asyncDispatcher->dispatch($event);
     }
 
     public function delete($showroom)
