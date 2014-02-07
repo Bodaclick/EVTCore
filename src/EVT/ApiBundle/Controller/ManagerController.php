@@ -25,6 +25,9 @@ class ManagerController extends Controller
         return [];
     }
 
+    /**
+     * @FOS\View()
+     */
     public function postManagerAction(Request $request)
     {
         $view = new View(null, Codes::HTTP_CREATED);

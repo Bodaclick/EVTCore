@@ -23,8 +23,10 @@ class ShowroomRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->provider = $this->getMockBuilder('EVT\CoreDomain\Provider\Provider')->disableOriginalConstructor()->getMock();
-        $this->vertical = $this->getMockBuilder('EVT\CoreDomain\Provider\Vertical')->disableOriginalConstructor()->getMock();
+        $this->provider = $this->getMockBuilder('EVT\CoreDomain\Provider\Provider')
+            ->disableOriginalConstructor()->getMock();
+        $this->vertical = $this->getMockBuilder('EVT\CoreDomain\Provider\Vertical')
+            ->disableOriginalConstructor()->getMock();
         $this->showroom = new DomainShowroom($this->provider, $this->vertical, 0);
 
         $this->srMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\ShowroomMapping')
@@ -37,10 +39,12 @@ class ShowroomRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
             ->disableOriginalConstructor()->getMock();
 
-        $this->asyncDispatcher = $this->getMockBuilder('BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventDispatcher')
-            ->disableOriginalConstructor()->getMock();
+        $this->asyncDispatcher = $this->getMockBuilder(
+            'BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventDispatcher'
+        )->disableOriginalConstructor()->getMock();
 
-        $this->asyncDispatcher->expects($this->once())->method('dispatch')->will($this->returnValue($this->returnSelf()));
+        $this->asyncDispatcher->expects($this->once())
+            ->method('dispatch')->will($this->returnValue($this->returnSelf()));
     }
 
     public function testSaveCreate()
