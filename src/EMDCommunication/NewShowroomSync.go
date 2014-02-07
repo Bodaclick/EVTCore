@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./types"
+	"EMDCommunication/types"
 	"bufio"
 	"encoding/json"
 	"fmt"
