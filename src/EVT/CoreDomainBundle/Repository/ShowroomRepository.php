@@ -55,7 +55,7 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         if (!$showroom = parent::findOneById($id)) {
             return null;
         }
-        return $this->mapper->mapEntityToDomain($showroom);
+        return $this->mapping->mapEntityToDomain($showroom);
     }
 
     public function findAll()
