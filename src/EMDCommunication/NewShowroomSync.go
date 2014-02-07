@@ -125,7 +125,7 @@ func main() {
 			postParams.Set("showroom[name]", showroomCreationEvent.Showroom.Name)
 			postParams.Set("showroom[slug]", showroomCreationEvent.Showroom.Slug)
 			postParams.Set("showroom[e-vertical]", showroomCreationEvent.Showroom.Vertical.Domain)
-			postParams.Set("showroom[score]", strconv.Itoa(showroomCreationEvent.Showroom.Score))
+			postParams.Set("showroom[score]", showroomCreationEvent.Showroom.Score)
 			postParams.Set("showroom[location][lat]", strconv.Itoa(showroomCreationEvent.Showroom.Provider.Location.Lat))
 			postParams.Set("showroom[location][long]", strconv.Itoa(showroomCreationEvent.Showroom.Provider.Location.Long))
 			postParams.Set("showroom[location][country]", showroomCreationEvent.Showroom.Provider.Location.Country)
