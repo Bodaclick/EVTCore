@@ -71,10 +71,9 @@ task :setup_rabbit do
 end
 
 task :compile_go do
-  run "sh -c 'export GOPATH=#{latest_release}'"
   try_sudo "mkdir -p #{latest_release}/bin"
-  run "sh -c 'cd #{latest_release}/bin && go get EMDCommunication'"
-  run "sh -c 'cd #{latest_release}/bin && go build ../src/EMDCommunication/NewShowroomSync.go'"
+  run "sh -c 'export GOPATH=#{latest_release} && cd #{latest_release}/bin && go get EMDCommunication'"
+  run "sh -c 'export GOPATH=#{latest_release} && cd #{latest_release}/bin && go build ../src/EMDCommunication/NewShowroomSync.go'"
 end
 
 before "deploy:share_childs", "evt:parameters"
