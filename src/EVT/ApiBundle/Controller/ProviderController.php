@@ -44,13 +44,10 @@ class ProviderController extends Controller
 
         try {
             $provider = $factory->createProvider($providerData);
-
         } catch (\InvalidArgumentException $e) {
-            $view = new FosView();
-            $view->setResponse(new Response($e->getMessage()));
-            $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
-            return $view;
+            throw new BadRequestHttpException($e->getMessage());
         }
+
         return ['provider' => '/api/providers/' .$provider->getId()];
     }
 }
