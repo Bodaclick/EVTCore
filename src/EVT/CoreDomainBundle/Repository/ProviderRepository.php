@@ -49,7 +49,10 @@ class ProviderRepository extends EntityRepository implements DomainRepository
 
     public function findOneById($id)
     {
-        return $this->mapper->mapEntityToDomain(parent::findOneById($id));
+        if (!$provider = parent::findOneById($id)) {
+            return null;
+        }
+        return $this->mapper->mapEntityToDomain($provider);
     }
 
     /**

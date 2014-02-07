@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Lead</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+  <h2>New Showroom</h2>
+    <form role="form" action="{{ url('post_showrooms') }}?apikey={{ apikey }}" method="POST">
+      <fieldset>
+        <legend></legend>
+        <div class="form-group">
+          <label for="showroom_provider_id">Provider ID</label>
+          <input type="number" class="form-control" id="showroom_provider_id" name="provider" placeholder="Enter provider"  value="1">
+        </div>
+        <div class="form-group">
+          <label for="showroom_vertical_id">Vertical Domain</label>
+          <input type="text" class="form-control" id="showroom_vertical_domain" name="vertical" placeholder="Enter vertical"  value="test.com">
+        </div>
+        <div class="form-group">
+          <label for="showroom_score">Score</label>
+          <input type="number" class="form-control" id="showroom_score" name="score" placeholder="Enter score"  value="1">
+        </div>
+      </fieldset>
+      <button type="submit" class="btn btn-default btn-primary">Submit</button>
+    </form>
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  </body>
+</html>

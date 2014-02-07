@@ -4,14 +4,25 @@ namespace EVT\ApiBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use FOS\RestBundle\Controller\Annotations\View;
 
 class ShowroomController extends Controller
 {
     /**
+     * The showroom creation form
+     *
+     * @View()
+     */
+    public function newShowroomAction(Request $request)
+    {
+        return array('apikey' => $request->query->get('apikey'));
+    }
+
+    /**
      * @View(statusCode=201)
      */
-    public function postShowroomsAction(Request $request)
+    public function postShowroomAction(Request $request)
     {
         $evtShowroomFactory = $this->container->get('evt.factory.showroom');
 
@@ -19,8 +30,11 @@ class ShowroomController extends Controller
         $provider = $request->request->get('provider');
         $score = $request->request->get('score');
 
-        $showroom = $evtShowroomFactory->createShowroom($vertical, $provider, $score);
-
+        try {
+            $showroom = $evtShowroomFactory->createShowroom($vertical, $provider, $score);
+        } catch (\InvalidArgumentException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
         return ['showroom' => '/api/showrooms/' .$showroom->getId()];
     }
 }

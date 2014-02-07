@@ -49,4 +49,39 @@ class ShowroomControllerTest extends WebTestCase
         $this->assertEquals('test.com', $eShowroom->getVertical()->getDomain());
         $this->assertEquals('1', $eShowroom->getScore());
     }
+
+    public function provider()
+    {
+        return [
+            [
+                [
+                    'provider' => 1,
+                    'vertical' => 'noexiste.com',
+                    'score' => 1
+                ],
+                [
+                    'provider' => 2,
+                    'vertical' => 'test.com',
+                    'score' => 1
+
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider provider
+     */
+    public function testCreateNoVertical($params)
+    {
+        $this->client->request(
+            'POST',
+            '/api/showrooms?apikey=apikeyValue',
+            $params,
+            [],
+            $this->header
+        );
+
+        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
 }

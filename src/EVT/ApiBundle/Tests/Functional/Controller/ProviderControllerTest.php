@@ -39,7 +39,7 @@ class ProviderControllerTest extends WebTestCase
             'provider' => [
                 'genericUser' => [1],
                 'name' => 'providerName',
-                'phone' => 'asdf',
+                'phone' => '915555555',
                 'slug' => 'providerSlug',
                 'locationAdminLevel1' => 'asdf',
                 'locationAdminLevel2' => 'asdf',
@@ -72,6 +72,7 @@ class ProviderControllerTest extends WebTestCase
         $this->assertNotNull($eProvider);
         $this->assertEquals('providerName', $eProvider->getName());
         $this->assertEquals('providername', $eProvider->getSlug());
+        $this->assertEquals('915555555', $eProvider->getPhone());
         $this->assertCount(2, $eProvider->getNotificationEmails());
     }
 

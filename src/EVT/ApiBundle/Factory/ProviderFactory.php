@@ -53,6 +53,7 @@ class ProviderFactory
         );
 
         $provider = new Provider(new ProviderId(''), $providerRequest['name'], $emails, $location);
+        $provider->setPhone($providerRequest['phone']);
 
         $manager = $this->userRepo->getManagerById($providerRequest['genericUser']);
         if (null === $manager) {
