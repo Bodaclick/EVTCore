@@ -34,7 +34,8 @@ class GenericUserFormType extends RegistrationFormType
             array(
                 'data_class' => 'EVT\CoreDomainBundle\Entity\GenericUser',
                 'intention'  => 'registration',
-                'csrf_protection' => false
+                'csrf_protection' => false,
+                'validation_groups' => ['Registration']
             )
         );
     }

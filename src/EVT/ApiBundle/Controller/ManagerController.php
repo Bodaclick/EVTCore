@@ -42,18 +42,18 @@ class ManagerController extends Controller
         $form->setData($user);
         $form->handleRequest($request);
 
-        if (!$form->isValid()) {
-            $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
-            return $view->setData($form);
-        }
-
-        try {
+        if ($form->isValid()) {
             $userManager->updateUser($user);
-        } catch (DBALException $e) {
-            $view->setStatusCode(Codes::HTTP_CONFLICT);
-            $user = $this->container->get('evt.repository.user')->findOneByEmail($user->getEmail());
+
+            return $view->setData(['manager' => sprintf('/api/managers/%d', $user->getId())]);
         }
 
-        return $view->setData(['manager' => sprintf('/api/managers/%d', $user->getId())]);
+        if ($user = $this->container->get('evt.repository.user')->findOneByEmail($user->getEmail())) {
+            $view->setStatusCode(Codes::HTTP_CONFLICT);
+            return $view->setData(['manager' => sprintf('/api/managers/%d', $user->getId())]);
+        }
+
+        $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
+        return $view->setData($form);
     }
 }

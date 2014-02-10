@@ -6,6 +6,9 @@ EVT\CoreDomainBundle\Entity\GenericUser:
         email_UNIQUE:
             columns:
                 - email
+        username_UNIQUE:
+            columns:
+                - username
     id:
         id:
             type: integer
