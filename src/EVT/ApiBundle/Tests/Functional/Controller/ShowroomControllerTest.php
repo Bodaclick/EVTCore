@@ -24,12 +24,12 @@ class ShowroomControllerTest extends WebTestCase
     {
         $params = [
             'showroom' =>
-            [
-                'provider' => 1,
-                'vertical' => 'test.com',
-                'score' => 1,
-                'name' => 'test vertical'
-            ]
+                [
+                    'provider' => 1,
+                    'vertical' => 'test.com',
+                    'score' => 1,
+                    'name' => 'test vertical'
+                ]
         ];
 
         $this->client->request(
@@ -59,17 +59,17 @@ class ShowroomControllerTest extends WebTestCase
     {
         return [
             [
-                [
+                ['showroom' => [
                     'provider' => 1,
                     'vertical' => 'noexiste.com',
                     'score' => 1
-                ],
-                [
+                ]],
+                ['showroom' => [
                     'provider' => 2,
                     'vertical' => 'test.com',
                     'score' => 1
 
-                ]
+                ]]
             ]
         ];
     }
