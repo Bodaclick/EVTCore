@@ -30,4 +30,9 @@ services:
 
     evt.factory.showroom:
         class:     EVT\ApiBundle\Factory\ShowroomFactory
-        arguments: [@evt.repository.vertical, @evt.repository.provider, @evt.repository.showroom]
+        arguments: 
+            - @evt.repository.vertical
+            - @evt.repository.provider
+            - @evt.repository.showroom
+            - @old_sound_rabbit_mq.emd_showroom_created_producer
+            - @jms_serializer
