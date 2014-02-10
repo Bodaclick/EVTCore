@@ -24,15 +24,12 @@ class ShowroomController extends Controller
      */
     public function postShowroomAction(Request $request)
     {
-        $evtShowroomFactory = $this->container->get('evt.factory.showroom');
-
-        $vertical = $request->request->get('vertical');
-        $provider = $request->request->get('provider');
-        $score = $request->request->get('score');
+        $showroomFactory = $this->container->get('evt.factory.showroom');
+        $data = $request->request->get('showroom');
         $extra_data = $request->request->get('extra_data');
 
         try {
-            $showroom = $evtShowroomFactory->createShowroom($vertical, $provider, $score, $extra_data);
+            $showroom = $showroomFactory->createShowroom($data, $extra_data);
         } catch (\InvalidArgumentException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }

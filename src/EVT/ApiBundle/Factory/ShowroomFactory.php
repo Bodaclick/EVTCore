@@ -49,13 +49,13 @@ class ShowroomFactory
      * @throws \InvalidArgumentException
      * @return mixed
      */
-    public function createShowroom($domain, $providerId, $score, $extra_data = '')
+    public function createShowroom(array $data, $extra_data = '')
     {
-        $vertical = $this->verticalRepo->findOneByDomain($domain);
+        $vertical = $this->verticalRepo->findOneByDomain($data['vertical']);
         if (null === $vertical) {
             throw new \InvalidArgumentException('Vertical not found');
         }
-        $provider = $this->providerRepo->findOneById($providerId);
+        $provider = $this->providerRepo->findOneById($data['provider']);
         if (null === $provider) {
             throw new \InvalidArgumentException('Provider not found');
         }
@@ -64,7 +64,7 @@ class ShowroomFactory
             return $existingShowroom;
         }
 
-        $showroom = $vertical->addShowroom($provider, $score);
+        $showroom = $vertical->addShowroom($provider, $data['score']);
         $this->showroomRepo->save($showroom);
         $this->sendToEMD($showroom, $extra_data);
 
