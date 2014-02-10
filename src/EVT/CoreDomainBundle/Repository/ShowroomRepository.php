@@ -31,9 +31,9 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         $this->_em->persist($entity);
         $this->_em->flush();
 
-        $eventName = Event::onCreateShowroom;
+        $eventName = Event::ONCREATESHOWROOM;
         if (!empty($showroom->getId())) {
-            $eventName = Event::onUpdateShowroom;
+            $eventName = Event::ONUPDATESHOWROOM;
         }
 
         $this->setId($entity->getId(), $showroom);

@@ -1,6 +1,6 @@
 package types
 
 type ShowroomCreationEvent struct {
-	Name string
+	ExtraData string
 	Showroom Showroom
 }
