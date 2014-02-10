@@ -2,7 +2,7 @@ package types
 
 type Showroom struct {
 	Id int
-	Score string
+	Score int
 	Name string
 	Slug string
 	Provider Provider

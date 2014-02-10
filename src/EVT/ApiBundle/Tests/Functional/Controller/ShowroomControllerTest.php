@@ -25,7 +25,8 @@ class ShowroomControllerTest extends WebTestCase
         $params = [
             'provider' => 1,
             'vertical' => 'test.com',
-            'score' => 1
+            'score' => 1,
+            'extra_data' => 'BDK_ID:2345678'
         ];
 
         $this->client->request(

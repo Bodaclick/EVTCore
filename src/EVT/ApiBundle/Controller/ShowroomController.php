@@ -29,9 +29,10 @@ class ShowroomController extends Controller
         $vertical = $request->request->get('vertical');
         $provider = $request->request->get('provider');
         $score = $request->request->get('score');
+        $extra_data = $request->request->get('extra_data');
 
         try {
-            $showroom = $evtShowroomFactory->createShowroom($vertical, $provider, $score);
+            $showroom = $evtShowroomFactory->createShowroom($vertical, $provider, $score, $extra_data);
         } catch (\InvalidArgumentException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
