@@ -41,11 +41,7 @@ class ShowroomControllerTest extends WebTestCase
 
     public function testCreate()
     {
-        $params = [
-            'vertical' => 'example.com',
-            'provider' => 1,
-            'score' => 1
-        ];
+        $params = ['showroom' => ['vertical' => 'example.com', 'provider' => 1, 'score' => 1 ] ];
 
         $this->mockContainer();
         $this->client->request(
