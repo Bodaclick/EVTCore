@@ -54,6 +54,8 @@ class ManagerController extends Controller
         }
 
         $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
-        return $view->setData($form);
+        $view->setTemplate('EVTApiBundle:Manager:newManager.html.twig');
+        $view->setData(['form' => $form->createView()]);
+        return $this->get('fos_rest.view_handler')->handle($view);
     }
 }
