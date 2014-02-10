@@ -23,7 +23,6 @@ func failOnError(err error, msg string) {
 }
 
 func main() {
-
 	// Default values
 	var rabbitmq_host = "localhost"
 	var rabbitmq_port = "5672"
@@ -88,12 +87,14 @@ func main() {
 	failOnError(err, "Failed to open a channel")
 
 	defer ch.Close()
-
-	msgs, err := ch.Consume("showroom-create-queue", "", false, false, false, false, nil)
+	
+	ch.QueueDeclare("emd-showroom-created-comm-fail-queue", true, false, false, false, nil)
+	
+	msgs, err := ch.Consume("emd-showroom-created-queue", "", false, false, false, false, nil)
 	failOnError(err, "Failed to register a consumer")
 
 	go func() {
-		masgFailed, err := ch.Consume("showroom-create-comm-fail-queue", "", false, false, false, false, nil)
+		masgFailed, err := ch.Consume("emd-showroom-created-comm-fail-queue", "", false, false, false, false, nil)
 		if err != nil {
 			fmt.Printf("Failed to register a failed consumer: %s\n", err)
 		} else {
@@ -125,7 +126,7 @@ func main() {
 			postParams.Set("showroom[name]", showroomCreationEvent.Showroom.Name)
 			postParams.Set("showroom[slug]", showroomCreationEvent.Showroom.Slug)
 			postParams.Set("showroom[e-vertical]", showroomCreationEvent.Showroom.Vertical.Domain)
-			postParams.Set("showroom[score]", showroomCreationEvent.Showroom.Score)
+			postParams.Set("showroom[score]", strconv.Itoa(showroomCreationEvent.Showroom.Score))
 			postParams.Set("showroom[location][lat]", strconv.Itoa(showroomCreationEvent.Showroom.Provider.Location.Lat))
 			postParams.Set("showroom[location][long]", strconv.Itoa(showroomCreationEvent.Showroom.Provider.Location.Long))
 			postParams.Set("showroom[location][country]", showroomCreationEvent.Showroom.Provider.Location.Country)
@@ -154,12 +155,11 @@ func main() {
 }
 
 func moveToFailQueue(ch *amqp.Channel, msgBody []byte) bool {
-	ch.QueueDeclare("showroom-create-comm-fail-queue", true, false, false, false, nil)
-	ch.Publish("", "showroom-create-comm-fail-queue", false, false, amqp.Publishing{Body: msgBody})
+	ch.Publish("", "emd-showroom-created-comm-fail-queue", false, false, amqp.Publishing{Body: msgBody})
 	return true
 }
 
 func moveFromFailToQueue(ch *amqp.Channel, msgBody []byte) bool {
-	ch.Publish("", "showroom-create-queue", false, false, amqp.Publishing{Body: msgBody})
+	ch.Publish("", "emd-showroom-created-queue", false, false, amqp.Publishing{Body: msgBody})
 	return true
 }

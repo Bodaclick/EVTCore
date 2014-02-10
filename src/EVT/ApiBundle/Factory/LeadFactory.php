@@ -31,7 +31,7 @@ class LeadFactory
         $this->logger = $logger;
     }
 
-   /**
+    /**
      *
      * @param User    $user The user that does the lead
      * @param array $lead
