@@ -2,8 +2,8 @@
 
 namespace EVT\ApiBundle\Tests\Factory;
 
-
 use EVT\ApiBundle\Factory\ShowroomFactory;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class ShowroomFactoryTest
@@ -11,7 +11,6 @@ use EVT\ApiBundle\Factory\ShowroomFactory;
  */
 class ShowroomFactoryTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testShowroomCreate()
     {
         $verticalRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\VerticalRepository')
@@ -34,7 +33,15 @@ class ShowroomFactoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $showroomRepo->expects($this->once())->method('save')->will($this->returnValue(true));
 
-        $factory = new ShowroomFactory($verticalRepo, $providerRepo, $showroomRepo);
+        $syncEMD = $this->getMockBuilder('OldSound\RabbitMqBundle\RabbitMq\Producer')
+            ->disableOriginalConstructor()->getMock();
+        $syncEMD->expects($this->once())->method('publish');
+
+        $serializer = $this->getMockBuilder('JMS\Serializer\Serializer')
+            ->disableOriginalConstructor()->getMock();
+        $serializer->expects($this->once())->method('serialize')->will($this->returnValue('{}'));
+
+        $factory = new ShowroomFactory($verticalRepo, $providerRepo, $showroomRepo, $syncEMD, $serializer);
         $factory->createShowroom('fiestasclick.com', 1, 1);
     }
 
@@ -60,7 +67,14 @@ class ShowroomFactoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $showroomRepo->expects($this->never())->method('save')->will($this->returnValue(true));
 
-        $factory = new ShowroomFactory($verticalRepo, $providerRepo, $showroomRepo);
+        $syncEMD = $this->getMockBuilder('OldSound\RabbitMqBundle\RabbitMq\Producer')
+            ->disableOriginalConstructor()->getMock();
+        $syncEMD->expects($this->never())->method('publish');
+
+        $serializer = $this->getMockBuilder('JMS\Serializer\Serializer')
+            ->disableOriginalConstructor()->getMock();
+
+        $factory = new ShowroomFactory($verticalRepo, $providerRepo, $showroomRepo, $syncEMD, $serializer);
         $factory->createShowroom('fiestasclick.com', 1, 1);
 
     }

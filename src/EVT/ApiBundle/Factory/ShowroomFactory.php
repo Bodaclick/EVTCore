@@ -5,6 +5,8 @@ namespace EVT\ApiBundle\Factory;
 use EVT\CoreDomain\Provider\ProviderRepositoryInterface;
 use EVT\CoreDomain\Provider\VerticalRepositoryInterface;
 use EVT\CoreDomain\Provider\ShowroomRepositoryInterface;
+use OldSound\RabbitMqBundle\RabbitMq\Producer;
+use JMS\Serializer\Serializer;
 
 /**
  * Class ShowroomFactory
@@ -15,20 +17,29 @@ class ShowroomFactory
     protected $verticalRepo;
     protected $providerRepo;
     protected $showroomRepo;
+    protected $emdQueue;
+    protected $serializer;
 
     /**
+     *
      * @param VerticalRepositoryInterface $verticalRepo
      * @param ProviderRepositoryInterface $providerRepo
      * @param ShowroomRepositoryInterface $showroomRepo
+     * @param Producer $emdQueue
+     * @param Serializer $serializer
      */
     public function __construct(
         VerticalRepositoryInterface $verticalRepo,
         ProviderRepositoryInterface $providerRepo,
-        ShowroomRepositoryInterface $showroomRepo
+        ShowroomRepositoryInterface $showroomRepo,
+        Producer $emdQueue,
+        Serializer $serializer
     ) {
         $this->verticalRepo = $verticalRepo;
         $this->providerRepo = $providerRepo;
         $this->showroomRepo = $showroomRepo;
+        $this->emdQueue = $emdQueue;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -38,7 +49,7 @@ class ShowroomFactory
      * @throws \InvalidArgumentException
      * @return mixed
      */
-    public function createShowroom($domain, $providerId, $score)
+    public function createShowroom($domain, $providerId, $score, $extra_data = '')
     {
         $vertical = $this->verticalRepo->findOneByDomain($domain);
         if (null === $vertical) {
@@ -55,7 +66,15 @@ class ShowroomFactory
 
         $showroom = $vertical->addShowroom($provider, $score);
         $this->showroomRepo->save($showroom);
+        $this->sendToEMD($showroom, $extra_data);
 
         return $showroom;
+    }
+
+    private function sendToEMD($showroom, $extra_data)
+    {
+        $msg = new ShowroomWithExtraData($showroom, $extra_data);
+
+        $this->emdQueue->publish($this->serializer->serialize($msg, 'json'));
     }
 }
