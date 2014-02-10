@@ -32,6 +32,21 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
         $showroom = $vertical->addShowroom($provider, 1, $informationBag);
         $this->assertInstanceOf('EVT\CoreDomain\Provider\Showroom', $showroom);
         $this->assertEquals(1, $showroom->getScore());
+        $this->assertEquals('Test Name', $showroom->getName());
+    }
+
+    public function testAddShowroomFullInfo()
+    {
+        $vertical = new Vertical("Test Name");
+        $provider = new Provider(new ProviderId(''), "Test Name", new EmailCollection(new Email('valid@email.com')));
+        $informationBag = new InformationBag(['name' => 'myName', 'phone' => '999999999', 'slug' => 'slug']);
+
+        $showroom = $vertical->addShowroom($provider, 1, $informationBag);
+        $this->assertInstanceOf('EVT\CoreDomain\Provider\Showroom', $showroom);
+        $this->assertEquals(1, $showroom->getScore());
+        $this->assertEquals('myName', $showroom->getName());
+        $this->assertEquals('999999999', $showroom->getPhone());
+        $this->assertEquals('slug', $showroom->getSlug());
     }
 
     public function testReAddShowroom()
