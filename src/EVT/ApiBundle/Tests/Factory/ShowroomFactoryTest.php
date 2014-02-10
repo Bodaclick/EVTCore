@@ -42,7 +42,15 @@ class ShowroomFactoryTest extends \PHPUnit_Framework_TestCase
         $serializer->expects($this->once())->method('serialize')->will($this->returnValue('{}'));
 
         $factory = new ShowroomFactory($verticalRepo, $providerRepo, $showroomRepo, $syncEMD, $serializer);
-        $factory->createShowroom('fiestasclick.com', 1, 1);
+        $data = [
+            'score' => 1,
+            'vertical' => 'test.com',
+            'provider' => 1,
+            'name' => '',
+            'url' => 'changed',
+            'phone' => '999999999'
+        ];
+        $factory->createShowroom($data);
     }
 
     public function testShowroomExists()
@@ -74,8 +82,16 @@ class ShowroomFactoryTest extends \PHPUnit_Framework_TestCase
         $serializer = $this->getMockBuilder('JMS\Serializer\Serializer')
             ->disableOriginalConstructor()->getMock();
 
-        $factory = new ShowroomFactory($verticalRepo, $providerRepo, $showroomRepo, $syncEMD, $serializer);
-        $factory->createShowroom('fiestasclick.com', 1, 1);
+        $data = [
+            'score' => 1,
+            'vertical' => 'test.com',
+            'provider' => 1,
+            'name' => '',
+            'url' => 'changed',
+            'phone' => '999999999'
+        ];
 
+        $factory = new ShowroomFactory($verticalRepo, $providerRepo, $showroomRepo, $syncEMD, $serializer);
+        $factory->createShowroom($data);
     }
 }

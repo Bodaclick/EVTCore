@@ -3,6 +3,7 @@ namespace EVT\CoreDomain\Tests\Provider;
 
 use EVT\CoreDomain\Email;
 use EVT\CoreDomain\EmailCollection;
+use EVT\CoreDomain\InformationBag;
 use EVT\CoreDomain\Provider\ProviderId;
 use EVT\CoreDomain\Provider\Provider;
 use EVT\CoreDomain\Provider\Vertical;
@@ -26,8 +27,9 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
     {
         $vertical = new Vertical("Test Name");
         $provider = new Provider(new ProviderId(''), "Test Name", new EmailCollection(new Email('valid@email.com')));
+        $informationBag = new InformationBag();
 
-        $showroom = $vertical->addShowroom($provider, 1);
+        $showroom = $vertical->addShowroom($provider, 1, $informationBag);
         $this->assertInstanceOf('EVT\CoreDomain\Provider\Showroom', $showroom);
         $this->assertEquals(1, $showroom->getScore());
     }
