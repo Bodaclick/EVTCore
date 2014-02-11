@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EVT\ApiBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -12,9 +11,7 @@ class LeadControllerErrorTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->header = ['Content-Type' => 'application/json', 'HTTP_ACCEPT' => 'application/json'];
-        $this->loadFixtures(
-            ['EVT\ApiBundle\Tests\DataFixtures\ORM\LoadShowroomData']
-        );
+        $this->loadFixtures(['EVT\ApiBundle\Tests\DataFixtures\ORM\LoadShowroomData']);
     }
 
     public function badDataProvider()

@@ -3,7 +3,6 @@
 namespace EVT\ApiBundle\Tests\Factory;
 
 use EVT\ApiBundle\Factory\ShowroomFactory;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class ShowroomFactoryTest
