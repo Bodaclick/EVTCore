@@ -137,7 +137,7 @@ class ManagerControllerTest extends WebTestCase
         $userManager = $this->getMockBuilder('FOS\UserBundle\Model\UserManager')->disableOriginalConstructor()
             ->getMock();
         $userManager->expects($this->once())->method('createUser')->will($this->returnValue(new User()));
-        $userManager->expects($this->never())->method('updateUser')->will($this->returnValue($dUser));
+        $userManager->expects($this->never())->method('updateUser');
 
         $userRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\UserRepository')
             ->disableOriginalConstructor()->setMethods(['findOneByEmail'])->getMock();
