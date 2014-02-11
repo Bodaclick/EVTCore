@@ -1,6 +1,8 @@
 <?php
 namespace EVT\CoreDomain\Provider;
 
+use EVT\CoreDomain\InformationBag;
+
 /**
  * Vertical
  *
@@ -18,12 +20,12 @@ class Vertical
         $this->showrooms = new \ArrayObject();
     }
 
-    public function addShowroom(Provider $provider, $score)
+    public function addShowroom(Provider $provider, $score, InformationBag $infoBag = null)
     {
         $iterator = new ShowroomsProviderFilter($this->showrooms->getIterator(), $provider);
 
         if (iterator_count($iterator) == 0) {
-            $showroom = new Showroom($provider, $this, $score);
+            $showroom = new Showroom($provider, $this, $score, $infoBag);
             $this->showrooms->append($showroom);
             return $showroom;
         }

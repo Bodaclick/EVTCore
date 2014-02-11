@@ -124,21 +124,21 @@ class ManagerControllerTest extends WebTestCase
         $formMock = $this->getMockBuilder('EVT\CoreDomainBundle\Form\Type\GenericUserFormType')
             ->setMethods(['setData', 'handleRequest', 'isValid'])->disableOriginalConstructor()->getMock();
         $formMock->expects($this->once())->method('setData')->will($this->returnValue(true));
-        $formMock->expects($this->once())->method('handleRequest')
-            ->will($this->returnValue(true));
-        $formMock->expects($this->once())->method('isValid')->will($this->returnValue(true));
+        $formMock->expects($this->once())->method('handleRequest')->will($this->returnValue(true));
+        $formMock->expects($this->once())->method('isValid')->will($this->returnValue(false));
 
         $factoryMock = $this->getMockBuilder('Symfony\Component\Form\FormFactory')->disableOriginalConstructor()
             ->getMock();
         $factoryMock->expects($this->once())->method('create')->will($this->returnValue($formMock));
 
+        $dUser = $this->getMockBuilder('EVT\CoreDomain\User\User')->disableOriginalConstructor()->getMock();
+        $dUser->expects($this->once())->method('getId')->will($this->returnValue(1));
+
         $userManager = $this->getMockBuilder('FOS\UserBundle\Model\UserManager')->disableOriginalConstructor()
             ->getMock();
         $userManager->expects($this->once())->method('createUser')->will($this->returnValue(new User()));
-        $userManager->expects($this->once())->method('updateUser')->will($this->throwException(new DBALException()));
+        $userManager->expects($this->never())->method('updateUser');
 
-        $dUser = $this->getMockBuilder('EVT\CoreDomain\User\User')->disableOriginalConstructor()->getMock();
-        $dUser->expects($this->once())->method('getId')->will($this->returnValue(1));
         $userRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\UserRepository')
             ->disableOriginalConstructor()->setMethods(['findOneByEmail'])->getMock();
         $userRepo->expects($this->once())->method('findOneByEmail')->will($this->returnValue($dUser));

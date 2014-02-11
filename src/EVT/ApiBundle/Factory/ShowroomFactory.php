@@ -2,6 +2,7 @@
 
 namespace EVT\ApiBundle\Factory;
 
+use EVT\CoreDomain\InformationBag;
 use EVT\CoreDomain\Provider\ProviderRepositoryInterface;
 use EVT\CoreDomain\Provider\VerticalRepositoryInterface;
 use EVT\CoreDomain\Provider\ShowroomRepositoryInterface;
@@ -43,19 +44,18 @@ class ShowroomFactory
     }
 
     /**
-     * @param $domain
-     * @param $providerId
-     * @param $score
+     * @param array  $data
+     * @param string $extra_data
+     * @return Showroom
      * @throws \InvalidArgumentException
-     * @return mixed
      */
-    public function createShowroom($domain, $providerId, $score, $extra_data = '')
+    public function createShowroom(array $data, $extra_data = '')
     {
-        $vertical = $this->verticalRepo->findOneByDomain($domain);
+        $vertical = $this->verticalRepo->findOneByDomain($data['vertical']);
         if (null === $vertical) {
             throw new \InvalidArgumentException('Vertical not found');
         }
-        $provider = $this->providerRepo->findOneById($providerId);
+        $provider = $this->providerRepo->findOneById($data['provider']);
         if (null === $provider) {
             throw new \InvalidArgumentException('Provider not found');
         }
@@ -64,11 +64,31 @@ class ShowroomFactory
             return $existingShowroom;
         }
 
-        $showroom = $vertical->addShowroom($provider, $score);
+        $infoBag = $this->createInfoBag($data);
+
+        $showroom = $vertical->addShowroom($provider, $data['score'], $infoBag);
         $this->showroomRepo->save($showroom);
         $this->sendToEMD($showroom, $extra_data);
 
         return $showroom;
+    }
+
+    private function createInfoBag($data)
+    {
+        $infoBag = new InformationBag();
+        if (isset($data['name'])) {
+            $infoBag->set('name', $data['name']);
+        }
+
+        if (isset($data['phone'])) {
+            $infoBag->set('phone', $data['phone']);
+        }
+
+        if (isset($data['slug'])) {
+            $infoBag->set('slug', $data['slug']);
+        }
+
+        return $infoBag;
     }
 
     private function sendToEMD($showroom, $extra_data)
