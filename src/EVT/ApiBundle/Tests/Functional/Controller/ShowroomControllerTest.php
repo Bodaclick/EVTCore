@@ -23,10 +23,13 @@ class ShowroomControllerTest extends WebTestCase
     public function testCreate()
     {
         $params = [
-            'provider' => 1,
-            'vertical' => 'test.com',
-            'score' => 1,
-            'extra_data' => 'BDK_ID:2345678'
+            'showroom' =>
+                [
+                    'provider' => 1,
+                    'vertical' => 'test.com',
+                    'score' => 1,
+                    'name' => 'test vertical'
+                ]
         ];
 
         $this->client->request(
@@ -49,31 +52,32 @@ class ShowroomControllerTest extends WebTestCase
         $this->assertEquals('1', $eShowroom->getProvider()->getId());
         $this->assertEquals('test.com', $eShowroom->getVertical()->getDomain());
         $this->assertEquals('1', $eShowroom->getScore());
+        $this->assertEquals('test vertical', $eShowroom->getName());
     }
 
-    public function provider()
+    public function wrongDataProvider()
     {
         return [
             [
-                [
+                ['showroom' => [
                     'provider' => 1,
                     'vertical' => 'noexiste.com',
                     'score' => 1
-                ],
-                [
+                ]],
+                ['showroom' => [
                     'provider' => 2,
                     'vertical' => 'test.com',
                     'score' => 1
 
-                ]
+                ]]
             ]
         ];
     }
 
     /**
-     * @dataProvider provider
+     * @dataProvider wrongDataProvider
      */
-    public function testCreateNoVertical($params)
+    public function testWrongData($params)
     {
         $this->client->request(
             'POST',

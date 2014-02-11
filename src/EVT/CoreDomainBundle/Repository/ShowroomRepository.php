@@ -46,10 +46,6 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
     {
     }
 
-    public function update($showroom)
-    {
-    }
-
     public function findOneById($id)
     {
         if (!$showroom = parent::findOneById($id)) {

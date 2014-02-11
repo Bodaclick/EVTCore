@@ -3,6 +3,7 @@ namespace EVT\CoreDomain\Tests\Provider;
 
 use EVT\CoreDomain\Email;
 use EVT\CoreDomain\EmailCollection;
+use EVT\CoreDomain\InformationBag;
 use EVT\CoreDomain\Provider\ProviderId;
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Provider\Vertical;
@@ -20,17 +21,19 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
     {
         $provider = new Provider(new ProviderId(''), "testName", new EmailCollection(new Email('valid@email.com')));
         $vertical = new Vertical("testDomain.test");
+        $informationBag = new InformationBag(['slug' => 'different']);
 
-        $showroom = new Showroom($provider, $vertical);
-        $this->assertEquals('testDomain.test/testname', $showroom->getUrl());
+        $showroom = new Showroom($provider, $vertical, 0, $informationBag);
+        $this->assertEquals('testDomain.test/different', $showroom->getUrl());
     }
 
     public function testUrlChange()
     {
         $provider = new Provider(new ProviderId(''), "testName", new EmailCollection(new Email('valid@email.com')));
         $vertical = new Vertical("testDomain.test");
+        $informationBag = new InformationBag();
 
-        $showroom = new Showroom($provider, $vertical);
+        $showroom = new Showroom($provider, $vertical, 0, $informationBag);
 
         $showroom->changeSlug('newSlug');
 
