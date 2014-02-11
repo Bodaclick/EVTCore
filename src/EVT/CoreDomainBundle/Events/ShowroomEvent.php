@@ -3,7 +3,7 @@
 namespace EVT\CoreDomainBundle\Events;
 
 use EVT\CoreDomain\Provider\Showroom;
-use BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventInterface;
+use BDK\AsyncEventDispatcher\AsyncEventInterface;
 
 class ShowroomEvent implements AsyncEventInterface
 {

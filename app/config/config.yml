@@ -70,6 +70,7 @@ doctrine:
                 connection: default
                 mappings:
                     EVTCoreDomainBundle: ~
+                    EVTEvtApplication: ~
 
 # Swiftmailer Configuration
 swiftmailer:

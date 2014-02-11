@@ -25,7 +25,8 @@ class AppKernel extends Kernel
             new EVT\CoreDomainBundle\EVTCoreDomainBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
-            new BDK\AsyncDispatcherBundle\BDKAsyncDispatcherBundle()
+            new BDK\AsyncDispatcherBundle\BDKAsyncDispatcherBundle(),
+            new EVT\EvtApplication\EVTEvtApplication()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
