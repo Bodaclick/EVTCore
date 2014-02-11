@@ -25,9 +25,13 @@ class InformationBag implements \IteratorAggregate, \Countable
         $this->parameters[$key] = $value;
     }
 
-    public function get($key)
+    public function get($key, $default = null)
     {
-        return $this->parameters[$key];
+        if (isset($this->parameters[$key])) {
+            return $this->parameters[$key];
+        }
+
+        return $default;
     }
 
     public function getIterator()

@@ -76,7 +76,7 @@ class ProviderControllerTest extends WebTestCase
         $this->assertCount(2, $eProvider->getNotificationEmails());
     }
 
-    public function provider()
+    public function wrongDataProvider()
     {
         return [
             [
@@ -86,9 +86,35 @@ class ProviderControllerTest extends WebTestCase
                         'name' => 'providerName',
                         'phone' => 'asdf',
                         'slug' => 'providerSlug',
-                        'locationAdminLevel1' => 'asdf',
-                        'locationAdminLevel2' => 'asdf',
-                        'locationCountry' => 'asdf',
+                        'locationAdminLevel1' => 'test',
+                        'locationAdminLevel2' => 'test',
+                        'locationCountry' => 'Span',
+                        'locationLat' => 10,
+                        'locationLong' => 10,
+                        'notificationEmails' => ['valid@email.com']
+                    ]
+                ],
+                [
+                    'provider' => [
+                        'genericUser' => [1],
+                        'phone' => 'asdf',
+                        'slug' => 'providerSlug',
+                        'locationAdminLevel1' => 'test',
+                        'locationAdminLevel2' => 'test',
+                        'locationCountry' => 'Span',
+                        'locationLat' => 10,
+                        'locationLong' => 10,
+                        'notificationEmails' => ['valid@email.com']
+                    ]
+                ],
+                [
+                    'provider' => [
+                        'genericUser' => [1],
+                        'phone' => 'asdf',
+                        'slug' => 'providerSlug',
+                        'locationAdminLevel1' => 'test',
+                        'locationAdminLevel2' => 'test',
+                        'locationCountry' => 'Span',
                         'locationLat' => 10,
                         'locationLong' => 10,
                         'notificationEmails' => 'valid@email.com'
@@ -99,20 +125,19 @@ class ProviderControllerTest extends WebTestCase
                         'genericUser' => [1],
                         'phone' => 'asdf',
                         'slug' => 'providerSlug',
-                        'locationAdminLevel1' => '',
-                        'locationAdminLevel2' => '',
-                        'locationCountry' => 'asdf',
-                        'locationLat' => 10,
+                        'locationAdminLevel1' => 'test',
+                        'locationAdminLevel2' => 'test',
+                        'locationCountry' => 'Span',
                         'locationLong' => 10,
                         'notificationEmails' => 'valid@email.com'
                     ]
-                ]
+                ],
             ]
         ];
     }
 
     /**
-     * @dataProvider provider
+     * @dataProvider wrongDataprovider
      */
     public function testWrongData($params)
     {

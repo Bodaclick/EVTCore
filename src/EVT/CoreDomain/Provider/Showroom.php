@@ -1,6 +1,8 @@
 <?php
 namespace EVT\CoreDomain\Provider;
 
+use EVT\CoreDomain\InformationBag;
+
 /**
  * Showroom
  *
@@ -10,33 +12,23 @@ namespace EVT\CoreDomain\Provider;
 class Showroom
 {
     private $slug;
-    private $phone;
-    private $name;
     private $score;
     private $provider;
     private $vertical;
+    private $informationBag;
     private $id;
 
-    public function __construct(Provider $provider, Vertical $vertical, $score = 0)
-    {
+    public function __construct(
+        Provider $provider,
+        Vertical $vertical,
+        $score = 0,
+        InformationBag $informationBag = null
+    ) {
+
         $this->provider = $provider;
         $this->vertical = $vertical;
-        $this->score = $score;
-    }
-
-    public function changeSlug($slug)
-    {
-        $this->slug = $slug;
-    }
-
-    public function changeName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function changePhone($phone)
-    {
-        $this->phone = $phone;
+        $this->score = (int)$score;
+        $this->informationBag = ($informationBag) ? $informationBag : new InformationBag();
     }
 
     public function getId()
@@ -44,29 +36,39 @@ class Showroom
         return $this->id;
     }
 
+    public function changeSlug($slug)
+    {
+        return $this->informationBag->set('slug', $slug);
+    }
+
+    public function changeName($name)
+    {
+        return $this->informationBag->set('name', $name);
+    }
+
+    public function changePhone($phone)
+    {
+        return $this->informationBag->set('phone', $phone);
+    }
+
     public function getSlug()
     {
-        return ($this->slug)?:$this->provider->getSlug();
+        return $this->informationBag->get('slug', $this->provider->getSlug());
     }
 
     public function getPhone()
     {
-        return ($this->phone)?:$this->provider->getPhone();
+        return $this->informationBag->get('phone', $this->provider->getPhone());
     }
 
     public function getName()
     {
-        return ($this->name)?:$this->provider->getName();
+        return $this->informationBag->get('name', $this->provider->getName());
     }
 
     public function getUrl()
     {
-        $slug = $this->slug;
-        if (!$this->slug) {
-            $slug = $this->provider->getSlug();
-        }
-
-        return $this->vertical->getDomain() . '/' . $slug;
+        return $this->vertical->getDomain() . '/' . $this->informationBag->get('slug', $this->provider->getSlug());
     }
 
     public function getProvider()
