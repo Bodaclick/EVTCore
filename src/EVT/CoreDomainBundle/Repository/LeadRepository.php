@@ -2,6 +2,9 @@
 
 namespace EVT\CoreDomainBundle\Repository;
 
+use BDK\AsyncEventDispatcher\AsyncEventDispatcherInterface;
+use EVT\CoreDomainBundle\Events\LeadEvent;
+use EVT\CoreDomainBundle\Events\Event;
 use EVT\CoreDomainBundle\Mapping\LeadMapping;
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Lead\LeadRepositoryInterface as DomainRepository;
@@ -14,12 +17,19 @@ use Doctrine\ORM\EntityRepository;
 /**
  * UserRepository
  *
- * @author Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
- * @author Marco Ferrari <marco.ferrari@bodaclick.com>
- * @copyright Bodaclick S.A
+ * @author    Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
+ * @author    Marco Ferrari <marco.ferrari@bodaclick.com>
+ * @copyright 2014 Bodaclick S.A
  */
 class LeadRepository extends EntityRepository implements DomainRepository
 {
+    private $asyncDispatcher;
+
+    public function setAsyncDispatcher(AsyncEventDispatcherInterface $asyncDispatcher)
+    {
+        $this->asyncDispatcher = $asyncDispatcher;
+    }
+
     public function save($lead)
     {
         if (!$lead instanceof \EVT\CoreDomain\Lead\Lead) {
@@ -38,13 +48,12 @@ class LeadRepository extends EntityRepository implements DomainRepository
         }
         $this->_em->flush();
         $this->setLeadId($leadEntity->getId(), $lead);
+
+        $event = new LeadEvent($lead, Event::ON_CREATE_LEAD);
+        $this->asyncDispatcher->dispatch($event);
     }
 
     public function delete($lead)
-    {
-    }
-
-    public function update($lead)
     {
     }
 
@@ -95,5 +104,28 @@ class LeadRepository extends EntityRepository implements DomainRepository
     public function setMapper(LeadMapping $mapper)
     {
         $this->mapper = $mapper;
+    }
+
+    /**
+     *
+     * @param string $email The email to find with
+     * @return \EVT\CoreDomain\Lead\Lead the last lead
+     */
+    public function getLastLeadByEmail($email)
+    {
+        $lead = $this->_em->createQueryBuilder()
+            ->select('l')
+            ->from('EVTCoreDomainBundle:Lead', 'l')
+            ->where('l.userEmail = :email')
+            ->setParameter('email', $email)
+            ->orderBy('l.createdAt', 'desc')
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (is_null($lead)) {
+            return null;
+        }
+
+        return $this->mapper->mapEntityToDomain($lead);
     }
 }

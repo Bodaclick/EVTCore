@@ -2,9 +2,12 @@
 
 namespace EVT\CoreDomainBundle\Repository;
 
+use EVT\CoreDomainBundle\Events\UserEvent;
+use EVT\CoreDomainBundle\Events\Event;
 use EVT\CoreDomain\RepositoryInterface as DomainRepository;
 use Doctrine\ORM\EntityRepository;
 use FOS\UserBundle\Model\UserManager;
+use BDK\AsyncEventDispatcher\AsyncEventDispatcherInterface;
 
 /**
  * UserRepository
@@ -16,12 +19,30 @@ class UserRepository extends EntityRepository implements DomainRepository
 {
     private $userManager;
     private $userMapping;
+    private $asyncDispatcher;
+    private $leadRepo;
+
+    public function setAsyncDispatcher(AsyncEventDispatcherInterface $asyncDispatcher)
+    {
+        $this->asyncDispatcher = $asyncDispatcher;
+    }
+
+    public function setLeadRepository(LeadRepository $leadRepo)
+    {
+        $this->leadRepo = $leadRepo;
+    }
 
     public function save($user)
     {
         if (!$user instanceof \EVT\CoreDomain\User\User) {
             throw new \InvalidArgumentException('Wrong object in UserRepository');
         }
+
+        $eventName = Event::ON_CREATE_USER;
+        if (!empty($user->getId())) {
+            $eventName = Event::ON_UPDATE_USER;
+        }
+
         $entity = $this->userManager->createUser();
         $entity->setEmail($user->getEmail());
         $entity->setUsername($user->getEmail());
@@ -33,6 +54,12 @@ class UserRepository extends EntityRepository implements DomainRepository
         $this->_em->persist($entity);
         $this->_em->flush();
         $this->setUserId($entity->getId(), $user);
+
+        if ($eventName == Event::ON_CREATE_USER) {
+            $lastLead = $this->leadRepo->getLastLeadByEmail($user->getEmail());
+            $event = new UserEvent($user, $lastLead->getShowroom()->getVertical(), $eventName);
+            $this->asyncDispatcher->dispatch($event);
+        }
     }
 
     public function delete($user)

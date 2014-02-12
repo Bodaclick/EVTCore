@@ -131,15 +131,24 @@ old_sound_rabbit_mq:
             password:  %rabbitmq_pass%
             vhost:     %rabbitmq_vhost%
     producers:
-        showroom_create:
+        events:
             connection: default
-            exchange_options: {name: 'showroom-exchange', type: topic, durable: true}
-            queue_options:    {routing_keys: ['create.showroom'], name:'showroom-create-queue'}
+            exchange_options: {name: 'events-exchange', type: topic, durable: true}
 
-        showroom_update:
+        events_showroom_queue:
             connection: default
-            exchange_options: {name: 'showroom-exchange', type: topic, durable: true}
-            queue_options:    {routing_keys: ['update.showroom'], name:'showroom-update-queue'}
+            exchange_options: {name: 'events-exchange', type: topic, durable: true}
+            queue_options:    {routing_keys: ['*.showroom'], name:'events-showroom-queue'}
+
+        events_lead_queue:
+            connection: default
+            exchange_options: {name: 'events-exchange', type: topic, durable: true}
+            queue_options:    {routing_keys: ['*.lead'], name:'events-lead-queue'}
+
+        events_hook_queue:
+            connection: default
+            exchange_options: {name: 'events-exchange', type: topic, durable: true}
+            queue_options:    {routing_keys: ['*.*'], name:'events-hook-queue'}
 
         emd_showroom_created:
             connection: default

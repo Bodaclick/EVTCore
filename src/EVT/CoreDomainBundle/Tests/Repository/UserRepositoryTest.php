@@ -30,9 +30,45 @@ class UserRepositoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $userManagerMock->expects($this->once())->method('createUser')->will($this->returnValue(new GenericUser()));
         $userManagerMock->expects($this->once())->method('updateUser')->will($this->returnValue(true));
+
+        $asyncDispatcher = $this->getMockBuilder(
+            'BDK\AsyncEventDispatcher\AsyncEventDispatcher'
+        )->disableOriginalConstructor()->getMock();
+
+        $asyncDispatcher->expects($this->once())
+            ->method('dispatch')->will($this->returnValue($this->returnSelf()));
+
+        $vertical = $this->getMockBuilder(
+            'EVT\CoreDomain\Provider\Vertical'
+        )->disableOriginalConstructor()->getMock();
+
+        $showroom = $this->getMockBuilder(
+            'EVT\CoreDomain\Provider\Showroom'
+        )->disableOriginalConstructor()->getMock();
+
+        $showroom->expects($this->once())
+            ->method('getVertical')->will($this->returnValue($vertical));
+
+        $lead = $this->getMockBuilder(
+            'EVT\CoreDomain\Lead\Lead'
+        )->disableOriginalConstructor()->getMock();
+
+        $lead->expects($this->once())
+            ->method('getShowroom')->will($this->returnValue($showroom));
+
+        $leadRepo = $this->getMockBuilder(
+            'EVT\CoreDomainBundle\Repository\LeadRepository'
+        )->disableOriginalConstructor()->getMock();
+
+        $leadRepo->expects($this->once())
+            ->method('getLastLeadByEmail')->will($this->returnValue($lead));
+
+
         $user = new User(new Email('valid@email.com'), new PersonalInformation('a', 'b', 'c'));
         $repo = new UserRepository($em, $metadata);
         $repo->setUserManager($userManagerMock);
+        $repo->setAsyncDispatcher($asyncDispatcher);
+        $repo->setLeadRepository($leadRepo);
         $repo->save($user);
         $this->assertEquals(1, $user->getId());
     }

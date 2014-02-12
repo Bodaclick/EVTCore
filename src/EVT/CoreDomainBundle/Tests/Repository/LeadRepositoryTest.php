@@ -31,6 +31,13 @@ class LeadRepositoryTest extends \PHPUnit_Framework_TestCase
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()
             ->getMock();
 
+        $asyncDispatcher = $this->getMockBuilder(
+            'BDK\AsyncEventDispatcher\AsyncEventDispatcher'
+        )->disableOriginalConstructor()->getMock();
+
+        $asyncDispatcher->expects($this->once())
+            ->method('dispatch')->will($this->returnValue($this->returnSelf()));
+
         $event = new Event(
             new EventType(EventType::BIRTHDAY),
             new Location(10, 10, 'admin1', 'admin2', 'ES'),
@@ -42,6 +49,7 @@ class LeadRepositoryTest extends \PHPUnit_Framework_TestCase
 
         $repo = new LeadRepository($em, $metadata);
         $repo->setMapper($leadMapper);
+        $repo->setAsyncDispatcher($asyncDispatcher);
         $repo->save($lead);
         $this->assertEquals(1, $lead->getId());
     }

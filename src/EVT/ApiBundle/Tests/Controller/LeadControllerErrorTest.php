@@ -133,4 +133,3 @@ class LeadControllerErrorTest extends WebTestCase
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 }
- 
