@@ -8,7 +8,8 @@ use EVT\CoreDomain\Provider\Showroom as DomainShowroom;
 
 /**
  * Class ShowroomRepositoryTest
- * @author Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
+ *
+ * @author    Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
  * @copyright 2014 Bodaclick
  */
 class ShowroomRepositoryTest extends \PHPUnit_Framework_TestCase
@@ -40,7 +41,7 @@ class ShowroomRepositoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
 
         $this->asyncDispatcher = $this->getMockBuilder(
-            'BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventDispatcher'
+            'BDK\AsyncEventDispatcher\AsyncEventDispatcher'
         )->disableOriginalConstructor()->getMock();
 
         $this->asyncDispatcher->expects($this->once())

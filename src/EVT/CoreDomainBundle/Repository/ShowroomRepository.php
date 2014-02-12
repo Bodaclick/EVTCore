@@ -7,11 +7,12 @@ use EVT\CoreDomainBundle\Events\Event;
 use EVT\CoreDomain\Provider\ShowroomRepositoryInterface as DomainRepository;
 use Doctrine\ORM\EntityRepository;
 use EVT\CoreDomainBundle\Mapping\ShowroomMapping;
-use BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncEventDispatcherInterface;
+use BDK\AsyncEventDispatcher\AsyncEventDispatcherInterface;
 
 /**
  * Class ShowroomRepository
- * @author Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
+ *
+ * @author    Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
  * @copyright 2014 Bodaclick
  */
 class ShowroomRepository extends EntityRepository implements DomainRepository

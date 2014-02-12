@@ -61,7 +61,7 @@ services:
         arguments: [@doctrine.orm.entity_manager, @evt.mapper.showroom]
 
     evt.showroom.async_event_driver_create:
-        class: BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncDriver\RabbitMQDriver
+        class: BDK\AsyncEventDispatcher\AsyncDriver\RabbitMQDriver
         arguments:  [@old_sound_rabbit_mq.showroom_create_producer, @jms_serializer]
         calls:
             - [setRoutingKey, ['create.showroom']]
@@ -69,7 +69,7 @@ services:
             - { name: bdk.async_event_dispatcher, event: evt.event.showroom_create }
 
     evt.showroom.async_event_driver_update:
-        class: BDK\AsyncDispatcherBundle\Model\EventDispatcher\AsyncDriver\RabbitMQDriver
+        class: BDK\AsyncEventDispatcher\AsyncDriver\RabbitMQDriver
         arguments:  [@old_sound_rabbit_mq.showroom_update_producer, @jms_serializer]
         calls:
             - [setRoutingKey, ['update.showroom']]

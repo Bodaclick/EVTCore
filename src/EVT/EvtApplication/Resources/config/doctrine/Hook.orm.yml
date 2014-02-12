@@ -1,0 +1,33 @@
+EVT\EvtApplication\Entity\Hook:
+    repositoryClass: EVT\EvtApplication\Repository\HookRepository 
+    type: entity
+    table: hook
+    indexes:
+        event_hook:
+            columns:
+                - event
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        event:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+            comment: ''
+            column: event
+        url:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            column: url
+                
