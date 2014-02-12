@@ -28,6 +28,7 @@
         "liip/functional-test-bundle": "1.0.x-dev",
         "doctrine/doctrine-fixtures-bundle": "v2.2.0",
         "bodaclick/async-dispatcher-bundle": "dev-master@dev",
+        "bodaclick/async-event-dispatcher": "dev-master@dev",
         "oldsound/rabbitmq-bundle": "dev-master@dev"
     },
     "scripts": {
