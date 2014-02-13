@@ -73,7 +73,9 @@ end
 task :compile_go do
   try_sudo "mkdir -p #{latest_release}/bin"
   run "sh -c 'export GOPATH=#{latest_release} && cd #{latest_release}/bin && go get EMDCommunication'"
+  run "sh -c 'export GOPATH=#{latest_release} && cd #{latest_release}/bin && go get HookConsumers'"
   run "sh -c 'export GOPATH=#{latest_release} && cd #{latest_release}/bin && go build ../src/EMDCommunication/NewShowroomSync.go'"
+  run "sh -c 'export GOPATH=#{latest_release} && cd #{latest_release}/bin && go build ../src/HookConsumers/HookConsumers.go'"
 end
 
 before "deploy:share_childs", "evt:parameters"
