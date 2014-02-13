@@ -8,8 +8,8 @@ import (
 	"github.com/streadway/amqp"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -101,7 +101,7 @@ func main() {
 
 	db, err := sql.Open("mysql", "root:root@/evt_core")
 	if err != nil {
-		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
+		panic(err.Error())
 	}
 	defer db.Close()
 
@@ -109,18 +109,17 @@ func main() {
 		for msg := range msgs {
 			fmt.Printf("\n----------------------------\n%s\n", msg.Body)
 
-			var hookEvent HookEvent
-			err := json.Unmarshal(msg.Body, &hookEvent)
-			if err != nil {
+			var dat map[string]interface{}
+			if err := json.Unmarshal(msg.Body, &dat); err != nil {
 				moveToFailQueue(ch, msg.Body)
 				fmt.Printf("can't process the message: %s\n", err)
 				msg.Ack(false)
 				continue
 			}
 
-			fmt.Printf("Event name: %s\n", hookEvent.Name)
+			var hookName = dat["name"].(string)
 
-			rows, err := db.Query("SELECT url FROM hook WHERE event = ?", hookEvent.Name)
+			rows, err := db.Query("SELECT url FROM hook WHERE event = ?", hookName)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -132,17 +131,25 @@ func main() {
 				if err := rows.Scan(&hookurl); err != nil {
 					log.Fatal(err)
 				}
-				fmt.Printf("Url is: %s for event: %s\n", hookurl, hookEvent.Name)
-				postParams := url.Values{}
-				postParams.Set("event", hookEvent.Name)
+				log.Printf("Url is: %s for event: %s\n", hookurl, hookName)
 
-				resp, err := http.PostForm(hookurl, postParams)
+				leadJson, _ := json.Marshal(dat["lead"])
+
+				postParams := strings.NewReader(string(leadJson))
+				req, err := http.NewRequest("POST", hookurl, postParams)
+				// Don't forget to set the content type, this will contain the boundary.
+				req.Header.Set("Content-Type", "application/json")
+
+				// Submit the request
+				client := &http.Client{}
+				resp, err := client.Do(req)
+
 				if err != nil {
 					hasFailed = true
 					log.Printf("response err: %s", err)
-				} else if resp.StatusCode != 201 {
+				} else if resp.StatusCode != 202 {
 					hasFailed = true
-					log.Printf("response status code: " + string(resp.StatusCode))
+					log.Printf("response status code: " + strconv.Itoa(resp.StatusCode))
 					defer resp.Body.Close()
 				}
 			}
@@ -160,7 +167,6 @@ func main() {
 		}
 	}()
 
-	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-done
 	os.Exit(0)
 }
@@ -173,8 +179,4 @@ func moveToFailQueue(ch *amqp.Channel, msgBody []byte) bool {
 func moveFromFailToQueue(ch *amqp.Channel, msgBody []byte) bool {
 	ch.Publish("", "events-hook-queue", false, false, amqp.Publishing{Body: msgBody})
 	return true
-}
-
-type HookEvent struct {
-	Name string
 }
