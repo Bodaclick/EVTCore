@@ -29,11 +29,11 @@ func main() {
 	rabbitmq_vhost := "/"
 	rabbitmq_user := "guest"
 	rabbitmq_pass := "guest"
-    database_host := "127.0.0.1"
-    database_port := "3306"
-    database_name := "evt_core"
-    database_user := "root"
-    database_password := "root"
+	database_host := "127.0.0.1"
+	database_port := "3306"
+	database_name := "evt_core"
+	database_user := "root"
+	database_password := "root"
 
 	pwd, err := os.Getwd()
 	if err != nil {
@@ -117,7 +117,7 @@ func main() {
 
 	done := make(chan bool)
 
-	db, err := sql.Open("mysql", database_user + ":" + database_password + "@tcp(" + database_host +":"+ database_port +")/" + database_name)
+	db, err := sql.Open("mysql", database_user+":"+database_password+"@tcp("+database_host+":"+database_port+")/"+database_name)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -142,6 +142,8 @@ func main() {
 				log.Fatal(err)
 			}
 
+			hookMessage := MessageFactory(hookName)
+
 			var hasFailed = false
 
 			for rows.Next() {
@@ -151,7 +153,12 @@ func main() {
 				}
 				log.Printf("Url is: %s for event: %s\n", hookurl, hookName)
 
-				leadJson, _ := json.Marshal(dat["lead"])
+				var leadJson []byte
+				if hookMessage.getDataName() == "" {
+					leadJson, _ = json.Marshal(dat)
+				} else {
+					leadJson, _ = json.Marshal(dat[hookMessage.getDataName()])
+				}
 
 				postParams := strings.NewReader(string(leadJson))
 				req, err := http.NewRequest("POST", hookurl, postParams)
@@ -197,4 +204,31 @@ func moveToFailQueue(ch *amqp.Channel, msgBody []byte) bool {
 func moveFromFailToQueue(ch *amqp.Channel, msgBody []byte) bool {
 	ch.Publish("", "events-hook-queue", false, false, amqp.Publishing{Body: msgBody})
 	return true
+}
+
+type hookMessageInterface interface {
+	getDataName() string
+}
+
+type LeadCreatedEvent struct {
+}
+
+func (this *LeadCreatedEvent) getDataName() string {
+	return "lead"
+}
+
+type UserCreatedEvent struct {
+}
+
+func (this *UserCreatedEvent) getDataName() string {
+	return ""
+}
+
+func MessageFactory(hookName string) hookMessageInterface {
+	if hookName == "evt.event.lead_create" {
+		return new(LeadCreatedEvent)
+	} else if hookName == "evt.event.user_create" {
+		return new(UserCreatedEvent)
+	}
+	return new(LeadCreatedEvent)
 }
