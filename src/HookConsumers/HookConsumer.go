@@ -24,11 +24,16 @@ func failOnError(err error, msg string) {
 
 func main() {
 	// Default values
-	var rabbitmq_host = "localhost"
-	var rabbitmq_port = "5672"
-	var rabbitmq_vhost = "/"
-	var rabbitmq_user = "guest"
-	var rabbitmq_pass = "guest"
+	rabbitmq_host := "localhost"
+	rabbitmq_port := "5672"
+	rabbitmq_vhost := "/"
+	rabbitmq_user := "guest"
+	rabbitmq_pass := "guest"
+    database_host := "127.0.0.1"
+    database_port := "3306"
+    database_name := "evt_core"
+    database_user := "root"
+    database_password := "root"
 
 	pwd, err := os.Getwd()
 	if err != nil {
@@ -62,8 +67,21 @@ func main() {
 				rabbitmq_user = value
 			case "rabbitmq_pass":
 				rabbitmq_pass = value
+			case "database_host":
+				database_host = value
+			case "database_name":
+				database_name = value
+			case "database_user":
+				database_user = value
+			case "database_password":
+				database_password = value
+			case "database_port":
+				if value != "null" {
+					database_port = value
+				}
 			}
 		}
+
 		line, longLine, err = fileReader.ReadLine()
 		if longLine {
 			fmt.Printf("line too long")
@@ -99,7 +117,7 @@ func main() {
 
 	done := make(chan bool)
 
-	db, err := sql.Open("mysql", "root:root@/evt_core")
+	db, err := sql.Open("mysql", database_user + ":" + database_password + "@tcp(" + database_host +":"+ database_port +")/" + database_name)
 	if err != nil {
 		panic(err.Error())
 	}
