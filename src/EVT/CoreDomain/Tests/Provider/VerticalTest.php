@@ -1,4 +1,5 @@
 <?php
+
 namespace EVT\CoreDomain\Tests\Provider;
 
 use EVT\CoreDomain\Email;
@@ -41,12 +42,13 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
         $provider = new Provider(new ProviderId(''), "Test Name", new EmailCollection(new Email('valid@email.com')));
         $informationBag = new InformationBag(['name' => 'myName', 'phone' => '999999999', 'slug' => 'slug']);
 
-        $showroom = $vertical->addShowroom($provider, 1, $informationBag);
+        $showroom = $vertical->addShowroom($provider, 1, $informationBag, 'extra_data_test');
         $this->assertInstanceOf('EVT\CoreDomain\Provider\Showroom', $showroom);
         $this->assertEquals(1, $showroom->getScore());
         $this->assertEquals('myName', $showroom->getName());
         $this->assertEquals('999999999', $showroom->getPhone());
         $this->assertEquals('slug', $showroom->getSlug());
+        $this->assertEquals('extra_data_test', $showroom->getExtraData());
     }
 
     public function testReAddShowroom()
