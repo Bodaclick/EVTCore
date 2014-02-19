@@ -66,9 +66,9 @@ class ShowroomFactory
 
         $infoBag = $this->createInfoBag($data);
 
-        $showroom = $vertical->addShowroom($provider, $data['score'], $infoBag);
+        $showroom = $vertical->addShowroom($provider, $data['score'], $infoBag, $extra_data);
         $this->showroomRepo->save($showroom);
-        $this->sendToEMD($showroom, $extra_data);
+        $this->sendToEMD($showroom);
 
         return $showroom;
     }
@@ -91,10 +91,8 @@ class ShowroomFactory
         return $infoBag;
     }
 
-    private function sendToEMD($showroom, $extra_data)
+    private function sendToEMD($showroom)
     {
-        $msg = new ShowroomWithExtraData($showroom, $extra_data);
-
-        $this->emdQueue->publish($this->serializer->serialize($msg, 'json'));
+        $this->emdQueue->publish($this->serializer->serialize($showroom, 'json'));
     }
 }

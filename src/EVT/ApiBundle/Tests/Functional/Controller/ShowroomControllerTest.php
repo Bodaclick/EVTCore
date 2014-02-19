@@ -29,7 +29,8 @@ class ShowroomControllerTest extends WebTestCase
                     'vertical' => 'test.com',
                     'score' => 1,
                     'name' => 'test vertical'
-                ]
+                ],
+            'extra_data' => 'extra_data_content'
         ];
 
         $this->client->request(

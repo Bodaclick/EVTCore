@@ -1,4 +1,5 @@
 <?php
+
 namespace EVT\CoreDomain\Provider;
 
 use EVT\CoreDomain\InformationBag;
@@ -17,18 +18,21 @@ class Showroom
     private $vertical;
     private $informationBag;
     private $id;
+    private $extraData;
 
     public function __construct(
         Provider $provider,
         Vertical $vertical,
         $score = 0,
-        InformationBag $informationBag = null
+        InformationBag $informationBag = null,
+        $extraData = ''
     ) {
 
         $this->provider = $provider;
         $this->vertical = $vertical;
         $this->score = (int)$score;
         $this->informationBag = ($informationBag) ? $informationBag : new InformationBag();
+        $this->extraData = $extraData;
     }
 
     public function getId()
@@ -89,5 +93,10 @@ class Showroom
     public function getScore()
     {
         return $this->score;
+    }
+
+    public function getExtraData()
+    {
+        return $this->extraData;
     }
 }

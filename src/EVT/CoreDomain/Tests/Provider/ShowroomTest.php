@@ -1,4 +1,5 @@
 <?php
+
 namespace EVT\CoreDomain\Tests\Provider;
 
 use EVT\CoreDomain\Email;
@@ -25,6 +26,16 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
 
         $showroom = new Showroom($provider, $vertical, 0, $informationBag);
         $this->assertEquals('testDomain.test/different', $showroom->getUrl());
+    }
+
+    public function testCreationWithExtraData()
+    {
+        $provider = new Provider(new ProviderId(''), "testName", new EmailCollection(new Email('valid@email.com')));
+        $vertical = new Vertical("testDomain.test");
+        $informationBag = new InformationBag(['slug' => 'different']);
+
+        $showroom = new Showroom($provider, $vertical, 0, $informationBag, 'extra_data_content');
+        $this->assertEquals('extra_data_content', $showroom->getExtraData());
     }
 
     public function testUrlChange()
