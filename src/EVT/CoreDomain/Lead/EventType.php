@@ -14,6 +14,7 @@ class EventType
     const BIRTHDAY = 1;
 
     private $type;
+    private $name;
 
     public function __construct($type)
     {
@@ -21,6 +22,7 @@ class EventType
             throw new \InvalidArgumentException("$type is not a valid type");
         }
         $this->type = $type;
+        $this->setName();
     }
 
     public function getType()
@@ -35,5 +37,11 @@ class EventType
             return false;
         }
         return true;
+    }
+
+    private function setName()
+    {
+        $rfl = new \ReflectionClass($this);
+        $this->name = array_search($this->type, $rfl->getConstants());
     }
 }
