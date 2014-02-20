@@ -13,22 +13,37 @@ use EVT\CoreDomain\User\PersonalInformation;
  */
 abstract class GenericUser
 {
-    protected $personalInfo;
-    protected $email;
     protected $id;
+    protected $username;
+    protected $email;
+    protected $salt;
+    protected $password;
+    protected $personalInfo;
+    protected $roles;
 
     /**
-     * Create a new GenericUser
-     *
-     * @param string $name  The name of the User
-     * @param string $email The email of the User
-     *
-     * @throws \InvalidArgumentException If email not valid
+     * @param $email
+     * @param PersonalInformation $personalInfo
+     * @param null $salt
+     * @param null $password
+     * @param array $roles
+     * @param null $username
      */
-    public function __construct($email, PersonalInformation $personalInfo)
+    public function __construct(
+        $email,
+        PersonalInformation $personalInfo,
+        $salt = null,
+        $password = null,
+        $roles = [],
+        $username = null
+    )
     {
         $this->email = new Email($email);
         $this->personalInfo = $personalInfo;
+        $this->salt = $salt;
+        $this->password = $password;
+        $this->roles = $roles;
+        $this->username = $username;
     }
 
     public function getPersonalInformation()
