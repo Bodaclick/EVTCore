@@ -36,8 +36,7 @@ abstract class GenericUser
         $password = null,
         $roles = [],
         $username = null
-    )
-    {
+    ) {
         $this->email = new Email($email);
         $this->personalInfo = $personalInfo;
         $this->salt = $salt;
