@@ -128,4 +128,23 @@ class LeadRepository extends EntityRepository implements DomainRepository
 
         return $this->mapper->mapEntityToDomain($lead);
     }
+
+    public function findByOwner($username)
+    {
+        $leads = $this->_em->createQueryBuilder()
+            ->select('l')
+            ->from('EVTCoreDomainBundle:Lead','l')
+            ->getQuery()
+            ->getResult();
+
+        if (empty($leads)) {
+            return null;
+        } else {
+            foreach($leads as $lead) {
+                $arrayDomLeads[] = $this->mapper->mapEntityToDomain($lead);
+            }
+        }
+
+        return $arrayDomLeads;
+    }
 }
