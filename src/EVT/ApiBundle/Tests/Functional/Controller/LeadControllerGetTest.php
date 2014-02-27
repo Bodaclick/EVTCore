@@ -70,7 +70,7 @@ class LeadControllerGetTest extends WebTestCase
             [$this->header]
         );
 
-        $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testGetLeadsNotCanView()
@@ -83,6 +83,6 @@ class LeadControllerGetTest extends WebTestCase
             [$this->header]
         );
 
-        $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 }

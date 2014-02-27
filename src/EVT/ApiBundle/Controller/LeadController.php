@@ -64,7 +64,8 @@ class LeadController extends Controller
 
         $statusCode = Codes::HTTP_OK;
         if (empty($leads)) {
-            $statusCode = Codes::HTTP_NO_CONTENT;
+            $statusCode = Codes::HTTP_NOT_FOUND;
+            return new Response('', $statusCode);
         }
 
         $leadsResponse = $this->render('EVTApiBundle:Lead:leads.html.twig', ['leads' => $leads]);
