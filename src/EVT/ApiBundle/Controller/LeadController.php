@@ -6,6 +6,7 @@ use EVT\CoreDomain\User\PersonalInformation;
 use EVT\CoreDomain\User\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -54,5 +55,15 @@ class LeadController extends Controller
             // User already exists
         }
         return array('lead' => $this->generateUrl('post_lead').'/'.$lead->getId());
+    }
+
+    public function getLeadsAction(Request $request)
+    {
+        $leadRepository = $this->container->get('evt.repository.lead');
+        $leads =  $leadRepository->findByOwner('ownerusername');
+
+        $leadsResponse = $this->render('EVTApiBundle:Lead:leads.html.twig', ['leads' => $leads]);
+
+        return new Response($leadsResponse->getContent(), 200, array('Content-Type' => 'application/json'));
     }
 }

@@ -30,6 +30,11 @@ class EventType
         return $this->type;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
     protected function isValidType($type)
     {
         $rfl = new \ReflectionClass($this);
