@@ -38,7 +38,7 @@ class LeadControllerGetTest extends WebTestCase
     {
         $this->client->request(
             'GET',
-            '/api/leads?apikey=apikeyValue',
+            '/api/leads?apikey=apikeyValue&canView=usernameManager',
             [],
             [],
             [$this->header]
@@ -56,7 +56,33 @@ class LeadControllerGetTest extends WebTestCase
         $arrayLeads = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('items', $arrayLeads);
         $this->assertArrayHasKey('pagination', $arrayLeads);
-        $this->assertCount(1, ['items']);
+        $this->assertCount(1, $arrayLeads['items']);
         $this->assertEquals('valid@email.com', $arrayLeads['items'][0]['email']['email']);
+    }
+
+    public function testGetLeadsCannotView()
+    {
+        $this->client->request(
+            'GET',
+            '/api/leads?apikey=apikeyValue&canView=usernameManagerCannot',
+            [],
+            [],
+            [$this->header]
+        );
+
+        $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testGetLeadsNotCanView()
+    {
+        $this->client->request(
+            'GET',
+            '/api/leads?apikey=apikeyValue',
+            [],
+            [],
+            [$this->header]
+        );
+
+        $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
     }
 }
