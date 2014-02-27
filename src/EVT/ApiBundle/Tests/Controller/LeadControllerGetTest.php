@@ -40,7 +40,7 @@ class LeadControllerGetTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    public function mockContainer()
+    public function mockData ()
     {
         $showroom = new Showroom(
             new Provider(
@@ -58,7 +58,7 @@ class LeadControllerGetTest extends WebTestCase
         $rflId->setAccessible(true);
         $rflId->setValue($showroom, 1);
 
-        $lead1 = new Lead(
+        $lead = new Lead(
             new LeadId(1),
             new PersonalInformation('pepe', 'potamo', '910000000'),
             new Email('valid@email.com'),
@@ -69,7 +69,12 @@ class LeadControllerGetTest extends WebTestCase
                 new \DateTime('2014-01-01'))
         );
 
+        return $lead;
+    }
 
+    public function mockLeadsContainer()
+    {
+        $lead1 = $this->mockData();
 
         $leadRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\LeadRepository')
             ->disableOriginalConstructor()->getMock();
@@ -82,7 +87,7 @@ class LeadControllerGetTest extends WebTestCase
 
     public function testGetLeads()
     {
-        $this->mockContainer();
+        $this->mockLeadsContainer();
         $this->client->request(
             'GET',
             '/api/leads?apikey=apikeyValue',
@@ -97,5 +102,39 @@ class LeadControllerGetTest extends WebTestCase
         $this->assertArrayHasKey('pagination', $arrayLeads);
         $this->assertCount(1, ['items']);
         $this->assertEquals('valid@email.com', $arrayLeads['items'][0]['email']['email']);
+    }
+
+    public function mockLeadContainer()
+    {
+        $lead2 = $this->mockData();
+
+        $leadRepo2 = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\LeadRepository')
+            ->disableOriginalConstructor()->getMock();
+        $leadRepo2->expects($this->once())
+            ->method('findBy')
+            ->will($this->returnvalue([$lead2]));
+
+        $this->client->getContainer()->set('evt.repository.lead', $leadRepo2);
+    }
+
+    public function testGetLead()
+    {
+        $this->mockLeadContainer();
+        $id = 1;
+        $this->client->request(
+            'GET',
+            '/api/leads/' . $id . '?apikey=apikeyValue',
+            [],
+            [],
+            ['Content-Type' => 'application/x-www-form-urlencoded', 'HTTP_ACCEPT' => 'application/json']
+        );
+
+        $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $arrayLeads = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('items', $arrayLeads);
+        $this->assertArrayHasKey('pagination', $arrayLeads);
+        $this->assertCount(1, ['items']);
+        $this->assertEquals('valid@email.com', $arrayLeads['items'][0]['email']['email']);
+        $this->assertEquals('1', $arrayLeads['items'][0]['id']);
     }
 }

@@ -66,4 +66,22 @@ class LeadController extends Controller
 
         return new Response($leadsResponse->getContent(), 200, array('Content-Type' => 'application/json'));
     }
+
+    /**
+     * Get one lead
+     *
+     * @View(statusCode=200)
+     */
+    public function getLeadAction($id)
+    {
+        $leadRepository = $this->container->get('evt.repository.lead');
+        try {
+            $lead = $leadRepository->findBy(array("id" => $id));
+        } catch (\InvalidArgumentException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        $leadsResponse = $this->render('EVTApiBundle:Lead:leads.html.twig', ['leads' => $lead]);
+        return new Response($leadsResponse->getContent(), 200, array('Content-Type' => 'application/json'));
+    }
 }
