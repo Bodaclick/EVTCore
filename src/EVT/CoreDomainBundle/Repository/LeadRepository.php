@@ -131,10 +131,19 @@ class LeadRepository extends EntityRepository implements DomainRepository
 
     public function findByOwner($username)
     {
-        $leads = $this->_em->createQueryBuilder()
-            ->select('l')
-            ->from('EVTCoreDomainBundle:Lead','l')
-            ->getQuery()
+        if (empty($username)) {
+            return null;
+        }
+
+        $leads = $this->_em->createQuery("
+            select l
+            from EVTCoreDomainBundle:Lead l
+            join l.showroom s
+            join s.provider p
+            join p.genericUser u
+            where u.username = :username
+            ")
+            ->setParameter("username", $username)
             ->getResult();
 
         if (empty($leads)) {
