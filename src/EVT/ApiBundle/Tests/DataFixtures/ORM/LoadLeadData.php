@@ -2,6 +2,8 @@
 
 namespace EVT\ApiBundle\Tests\DataFixtures\ORM;
 
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use EVT\CoreDomainBundle\Entity\Lead;
@@ -16,10 +18,35 @@ use EVT\CoreDomainBundle\Entity\Vertical;
  *
  * @copyright 2014 Bodaclick S.A.
  */
-class LoadLeadData implements FixtureInterface
+class LoadLeadData implements FixtureInterface, ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
     public function load(ObjectManager $manager)
     {
+        $userManager = $this->container->get('fos_user.user_manager');
+
+        $user = $userManager->createUser();
+        $user->setUsername('usernameManager');
+        $user->setEmail('valid@emailManager.com');
+        $user->setPlainPassword('passManager');
+        $user->addRole('ROLE_MANAGER');
+        $user->setName('nameManager');
+        $user->setSurnames('surnamesManager');
+        $user->setPhone('0132465987');
+
+        $userManager->updateUser($user);
+
         $prov = new Provider();
         $prov->setName('name');
         $prov->setNotificationEmails(['valid@email.com']);
@@ -28,6 +55,7 @@ class LoadLeadData implements FixtureInterface
         $prov->setLocationAdminLevel1('test');
         $prov->setLocationAdminLevel2('test');
         $prov->setLocationCountry('Spain');
+        $prov->addGenericUser($user);
         $manager->persist($prov);
         $manager->flush();
 
