@@ -72,7 +72,7 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $manager->flush();
 
         $lead = new Lead();
-        $lead->setEventDate(new \DateTime('2014-02-20 23:50:26'));
+        $lead->setEventDate(new \DateTime('2014-02-20 23:50:26', new \DateTimeZone('UTC')));
         $lead->setEventLocationAdminLevel1('Madrid');
         $lead->setEventLocationAdminLevel2('Madrid');
         $lead->setEventLocationCountry('Spain');
@@ -84,6 +84,8 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $lead->setUserName('Pepe');
         $lead->setUserSurnames('Potamo');
         $lead->setUserPhone('919999999');
+        $lead->setCreatedAt(new \DateTime('2013-10-10', new \DateTimeZone('UTC')));
+        $lead->setReadAt(new \DateTime('2013-10-12', new \DateTimeZone('UTC')));
 
         $manager->persist($lead);
         $manager->flush();

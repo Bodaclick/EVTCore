@@ -55,6 +55,15 @@ class LeadMapping implements MappingInterface
             )
         );
 
+        $rflLead = new \ReflectionClass($domain);
+        $rflCreateAt = $rflLead->getProperty('createdAt');
+        $rflCreateAt->setAccessible(true);
+        $rflCreateAt->setValue($domain, $lead->getCreatedAt());
+
+        $rflReadAt = $rflLead->getProperty('readAt');
+        $rflReadAt->setAccessible(true);
+        $rflReadAt->setValue($domain, $lead->getReadAt());
+
         return $domain;
     }
 
@@ -81,6 +90,8 @@ class LeadMapping implements MappingInterface
             $lead->getShowroom()->getId()
         );
         $entity->setShowroom($showroomEntity);
+        $entity->setCreatedAt($lead->getCreatedAt());
+        $entity->setReadAt($lead->getReadAt());
         return $entity;
     }
 }
