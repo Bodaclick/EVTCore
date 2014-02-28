@@ -72,7 +72,7 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $manager->flush();
 
         $lead = new Lead();
-        $lead->setEventDate(new \DateTime('2014-02-20 23:50:26'));
+        $lead->setEventDate(new \DateTime('2014-02-20 23:50:26', new \DateTimeZone('UTC')));
         $lead->setEventLocationAdminLevel1('Madrid');
         $lead->setEventLocationAdminLevel2('Madrid');
         $lead->setEventLocationCountry('Spain');
