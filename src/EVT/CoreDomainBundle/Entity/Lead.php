@@ -418,7 +418,7 @@ class Lead
      * @param \DateTime $readAt
      * @return Lead
      */
-    public function setRead($readAt)
+    public function setReadAt($readAt)
     {
         $this->readAt = $readAt;
 

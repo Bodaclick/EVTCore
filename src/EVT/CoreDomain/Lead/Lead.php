@@ -22,6 +22,7 @@ class Lead
     private $showroom;
     private $informationBag;
     private $createdAt;
+    private $readAt;
     private $email;
     protected $id;
 
@@ -48,6 +49,11 @@ class Lead
         $this->createdAt      = new \DateTime('now', new \DateTimeZone('UTC'));
         $this->email          = $email;
         $this->informationBag = new LeadInformationBag();
+    }
+
+    public function read()
+    {
+        $this->readAt = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
     public function setInformationBag(LeadInformationBag $informationBag)
@@ -95,5 +101,10 @@ class Lead
     public function getEmail()
     {
         return $this->email;
+    }
+
+    public function getReadAt()
+    {
+        return $this->readAt;
     }
 }
