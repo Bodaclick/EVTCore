@@ -141,7 +141,8 @@ class LeadRepository extends EntityRepository implements DomainRepository
             join l.showroom s
             join s.provider p
             join p.genericUser u
-            where u.username = :username"
+            where u.username = :username
+            order by l.id DESC"
         )
             ->setParameter("username", $username)
             ->getResult();
