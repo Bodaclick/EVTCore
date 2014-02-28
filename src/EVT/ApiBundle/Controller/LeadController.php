@@ -90,4 +90,22 @@ class LeadController extends Controller
         $leadsResponse = $this->render('EVTApiBundle:Lead:lead.html.twig', ['lead' => $lead]);
         return new Response($leadsResponse->getContent(), $statusCode, array('Content-Type' => 'application/json'));
     }
+
+
+    public function readLeadAction(Request $request, $id)
+    {
+        $leadRepository = $this->container->get('evt.repository.lead');
+        $lead = $leadRepository->findByIdOwner($id, $request->get('canView', null));
+
+        $statusCode = Codes::HTTP_ACCEPTED;
+        if (empty($lead)) {
+            $statusCode = Codes::HTTP_NOT_FOUND;
+            return new Response('', $statusCode);
+        }
+
+        $lead->read();
+        $leadRepository->save($lead);
+
+        return new Response('{}', $statusCode, array('Content-Type' => 'application/json'));
+    }
 }
