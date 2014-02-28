@@ -73,22 +73,20 @@ class LeadControllerGetTest extends WebTestCase
         return $lead;
     }
 
-    public function mockLeadsContainer()
+    public function mockLeadsContainer($method, $lead1)
     {
-        $lead1 = $this->mockData();
-
         $leadRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\LeadRepository')
             ->disableOriginalConstructor()->getMock();
         $leadRepo->expects($this->once())
-            ->method('findByOwner')
-            ->will($this->returnvalue([$lead1]));
+            ->method($method)
+            ->will($this->returnvalue($lead1));
 
         $this->client->getContainer()->set('evt.repository.lead', $leadRepo);
     }
 
     public function testGetLeads()
     {
-        $this->mockLeadsContainer();
+        $this->mockLeadsContainer('findByOwner', [$this->mockData()]);
         $this->client->request(
             'GET',
             '/api/leads?apikey=apikeyValue',
@@ -106,37 +104,21 @@ class LeadControllerGetTest extends WebTestCase
         $this->assertEquals('2014-01-01CET14:00:01+0100', $arrayLeads['items'][0]['event']['date']);
     }
 
-    public function mockLeadContainer()
-    {
-        $lead2 = $this->mockData();
-
-        $leadRepo2 = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\LeadRepository')
-            ->disableOriginalConstructor()->getMock();
-        $leadRepo2->expects($this->once())
-            ->method('findBy')
-            ->will($this->returnvalue([$lead2]));
-
-        $this->client->getContainer()->set('evt.repository.lead', $leadRepo2);
-    }
-
     public function testGetLead()
     {
-        $this->mockLeadContainer();
-        $id = 1;
+        $this->mockLeadsContainer('findByIdOwner', $this->mockData());
         $this->client->request(
             'GET',
-            '/api/leads/' . $id . '?apikey=apikeyValue',
+            '/api/leads/1?apikey=apikeyValue',
             [],
             [],
-            ['Content-Type' => 'application/x-www-form-urlencoded', 'HTTP_ACCEPT' => 'application/json']
+            ['Content-Type' => 'application/json', 'HTTP_ACCEPT' => 'application/json']
         );
 
         $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $arrayLeads = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('items', $arrayLeads);
-        $this->assertArrayHasKey('pagination', $arrayLeads);
-        $this->assertCount(1, ['items']);
-        $this->assertEquals('valid@email.com', $arrayLeads['items'][0]['email']['email']);
-        $this->assertEquals('1', $arrayLeads['items'][0]['id']);
+        $lead = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('event', $lead);
+        $this->assertEquals('valid@email.com', $lead['email']['email']);
+        $this->assertEquals('1', $lead['id']);
     }
 }

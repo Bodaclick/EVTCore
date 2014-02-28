@@ -91,10 +91,9 @@ class LeadControllerGetTest extends WebTestCase
 
     public function testGetLead()
     {
-        $id = 1;
         $this->client->request(
             'GET',
-            '/api/leads/' . $id . '?apikey=apikeyValue&canView=usernameManager',
+            '/api/leads/1?apikey=apikeyValue&canView=usernameManager',
             [],
             [],
             [$this->header]
@@ -116,10 +115,9 @@ class LeadControllerGetTest extends WebTestCase
 
     public function testGetLeadCannotView()
     {
-        $id = 1;
         $this->client->request(
             'GET',
-            '/api/leads/' . $id . '?apikey=apikeyValue&canView=usernameManagerCannot',
+            '/api/leads/1?apikey=apikeyValue&canView=usernameManagerCannot',
             [],
             [],
             [$this->header]
@@ -130,10 +128,9 @@ class LeadControllerGetTest extends WebTestCase
 
     public function testGetLeadNotCanView()
     {
-        $id = 1;
         $this->client->request(
             'GET',
-            '/api/leads/' . $id . '?apikey=apikeyValue',
+            '/api/leads/1?apikey=apikeyValue',
             [],
             [],
             [$this->header]
