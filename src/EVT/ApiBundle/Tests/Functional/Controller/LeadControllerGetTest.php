@@ -85,4 +85,57 @@ class LeadControllerGetTest extends WebTestCase
 
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
+
+    public function testGetLead()
+    {
+        $id = 1;
+        $this->client->request(
+            'GET',
+            '/api/leads/' . $id . '?apikey=apikeyValue&canView=usernameManager',
+            [],
+            [],
+            [$this->header]
+        );
+
+        $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $this->assertTrue(
+            $this->client->getResponse()->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+
+        $lead = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('event', $lead);
+        $this->assertEquals('valid@email.com', $lead['email']['email']);
+    }
+
+    public function testGetLeadCannotView()
+    {
+        $id = 1;
+        $this->client->request(
+            'GET',
+            '/api/leads/' . $id . '?apikey=apikeyValue&canView=usernameManagerCannot',
+            [],
+            [],
+            [$this->header]
+        );
+
+        $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testGetLeadNotCanView()
+    {
+        $id = 1;
+        $this->client->request(
+            'GET',
+            '/api/leads/' . $id . '?apikey=apikeyValue',
+            [],
+            [],
+            [$this->header]
+        );
+
+        $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
 }

@@ -13,6 +13,7 @@ use EVT\CoreDomainBundle\Entity\Lead;
 use EVT\CoreDomainBundle\Entity\LeadInformation as ORMLeadInformation;
 use EVT\CoreDomainBundle\Mapping\LeadToEntityMapping;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * UserRepository
@@ -155,5 +156,33 @@ class LeadRepository extends EntityRepository implements DomainRepository
         }
 
         return $arrayDomLeads;
+    }
+
+    public function findById ($id, $username)
+    {
+        if (empty($id)) {
+            return null;
+        }
+
+        $lead = $this->_em->createQuery("
+        select l
+        from EVTCoreDomainBundle:Lead l
+        join l.showroom s
+        join s.provider p
+        join p.genericUser u
+        where u.username = :username
+        and l.id = :id
+        ")
+        ->setParameter("username", $username)
+        ->setParameter("id", $id)
+        ->getResult();
+
+        if (empty($lead)) {
+            return null;
+        } else {
+            $leadDom = $this->mapper->mapEntityToDomain($lead[0]);
+        }
+
+        return $leadDom;
     }
 }

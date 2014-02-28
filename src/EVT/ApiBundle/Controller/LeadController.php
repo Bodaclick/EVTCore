@@ -68,6 +68,8 @@ class LeadController extends Controller
             return new Response('', $statusCode);
         }
 
+       // var_dump($leads);die();
+
         $leadsResponse = $this->render('EVTApiBundle:Lead:leads.html.twig', ['leads' => $leads]);
 
         return new Response($leadsResponse->getContent(), $statusCode, array('Content-Type' => 'application/json'));
@@ -75,19 +77,19 @@ class LeadController extends Controller
 
     /**
      * Get one lead
-     *
-     * @View(statusCode=200)
      */
-    public function getLeadAction($id)
+    public function getLeadAction($id, Request $request)
     {
         $leadRepository = $this->container->get('evt.repository.lead');
-        try {
-            $lead = $leadRepository->findBy(array("id" => $id));
-        } catch (\InvalidArgumentException $e) {
-            throw new BadRequestHttpException($e->getMessage());
+        $lead = $leadRepository->findById($id, $request->get('canView', null));
+
+        $statusCode = Codes::HTTP_OK;
+        if (empty($lead)) {
+            $statusCode = Codes::HTTP_NOT_FOUND;
+            return new Response('', $statusCode);
         }
 
-        $leadsResponse = $this->render('EVTApiBundle:Lead:leads.html.twig', ['leads' => $lead]);
+        $leadsResponse = $this->render('EVTApiBundle:Lead:lead.html.twig', ['lead' => $lead]);
         return new Response($leadsResponse->getContent(), 200, array('Content-Type' => 'application/json'));
     }
 }
