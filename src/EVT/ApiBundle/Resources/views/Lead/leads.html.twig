@@ -4,7 +4,7 @@
         {% for lead in leads %}
         {
             "event": {
-                "date": "{{ lead.event.date | date }}",
+                "date": "{{ lead.event.date | date('Y-m-d\TH:i:sO') }}",
                 "type": {
                     "type": {{ lead.event.geteventtype.type }},
                     "name": "{{ lead.event.geteventtype.name }}"
@@ -41,7 +41,7 @@
                     "observations": "{{ lead.informationBag.get('observations') }}"
                 }
             },
-            "created_at": "{{ lead.getcreatedat | date }}",
+            "created_at": "{{ lead.getcreatedat | date('Y-m-d\TH:i:sO') }}",
             "email": {
                 "email": "{{ lead.email.email }}"
             },
