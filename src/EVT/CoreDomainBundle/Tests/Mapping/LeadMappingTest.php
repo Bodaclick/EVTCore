@@ -38,6 +38,8 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $entity->setEventLocationAdminLevel2('Madrid');
         $entity->setEventLocationCountry('spain');
         $entity->setShowroom(new Showroom());
+        $entity->setCreatedAt(new \DateTime('2013-10-15', new \DateTimeZone('UTC')));
+        $entity->setReadAt(new \DateTime('2013-10-12', new \DateTimeZone('UTC')));
 
         $mapping = new LeadMapping($em, $showroomMapper);
         $lead = $mapping->mapEntityToDomain($entity);
@@ -57,6 +59,8 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($entity->getEventLocationAdminLevel1(), $event->getLocation()->getAdminLevel1());
         $this->assertEquals($entity->getEventLocationAdminLevel2(), $event->getLocation()->getAdminLevel2());
         $this->assertEquals($entity->getEventLocationCountry(), $event->getLocation()->getCountry());
+        $this->assertEquals($entity->getCreatedAt(), $lead->getCreatedAt());
+        $this->assertEquals($entity->getReadAt(), $lead->getReadAt());
     }
 
     public function testDomainToEntity()
@@ -82,6 +86,7 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $user = new User(new Email('valid@email.com'), $personalInfo);
         $infoBag = new LeadInformationBag(['observations' => 'test']);
         $lead = $user->doLead($dShowroom, $event, $infoBag);
+        $lead->read();
 
         $mapping = new LeadMapping($em, $showroomMapper);
 
@@ -98,5 +103,7 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($event->getLocation()->getAdminLevel1(), $entity->getEventLocationAdminLevel1());
         $this->assertEquals($event->getLocation()->getAdminLevel2(), $entity->getEventLocationAdminLevel2());
         $this->assertEquals($event->getLocation()->getCountry(), $entity->getEventLocationCountry());
+        $this->assertEquals($lead->getCreatedAt(), $entity->getCreatedAt());
+        $this->assertNotNull($entity->getReadAt());
     }
 }

@@ -84,6 +84,8 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $lead->setUserName('Pepe');
         $lead->setUserSurnames('Potamo');
         $lead->setUserPhone('919999999');
+        $lead->setCreatedAt(new \DateTime('2013-10-10', new \DateTimeZone('UTC')));
+        $lead->setReadAt(new \DateTime('2013-10-12', new \DateTimeZone('UTC')));
 
         $manager->persist($lead);
         $manager->flush();

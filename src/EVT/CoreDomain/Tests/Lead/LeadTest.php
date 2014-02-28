@@ -19,7 +19,9 @@ class LeadTest extends \PHPUnit_Framework_TestCase
         $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
         $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
         $personalInfo = new PersonalInformation('a', 'b', 'c');
+
         $lead = new Lead(new LeadId(''), $personalInfo, $email, $showroom, $event);
+
         $this->assertEquals('', $lead->getId());
         $this->assertEquals($event, $lead->getEvent());
         $this->assertEquals($personalInfo, $lead->getPersonalInformation('a', 'b', 'c'));
@@ -38,10 +40,28 @@ class LeadTest extends \PHPUnit_Framework_TestCase
             new Location(10, 10, 'Madrid', 'Madrid', 'Spain'),
             new \DateTime('now')
         );
+
         $lead = new Lead(new LeadId(''), $personalInfo, $email, $showroom, $event);
+
         $informationBag = new LeadInformationBag();
         $lead->setInformationBag($informationBag);
         $this->assertEquals($informationBag, $lead->getInformationBag());
         $this->assertInstanceOf('EVT\CoreDomain\Lead\LeadInformationBag', $lead->getInformationBag());
+    }
+
+    public function testLeadRead()
+    {
+        $email = new Email('email@mail.com');
+        $showroom = $this->getMockBuilder('EVT\CoreDomain\Provider\Showroom')->disableOriginalConstructor()->getMock();
+        $event = $this->getMockBuilder('EVT\CoreDomain\Lead\Event')->disableOriginalConstructor()->getMock();
+        $personalInfo = new PersonalInformation('a', 'b', 'c');
+
+        $lead = new Lead(new LeadId(''), $personalInfo, $email, $showroom, $event);
+
+        $this->assertEquals($showroom, $lead->getShowroom());
+        $this->assertNull($lead->getReadAt());
+        $lead->read();
+        $this->assertNotNull($lead->getReadAt());
+        $this->assertEquals('UTC', $lead->getReadAt()->getTimeZone()->getName());
     }
 }
