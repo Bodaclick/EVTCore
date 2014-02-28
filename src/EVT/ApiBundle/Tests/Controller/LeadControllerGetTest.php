@@ -66,7 +66,8 @@ class LeadControllerGetTest extends WebTestCase
             new Event(
                 new EventType(EventType::BIRTHDAY),
                 new Location(10, 10, 'Parla', 'Madrid', 'España'),
-                new \DateTime('2014-01-01'))
+                new \DateTime('2014-01-01')
+            )
         );
 
 

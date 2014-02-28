@@ -135,21 +135,21 @@ class LeadRepository extends EntityRepository implements DomainRepository
             return null;
         }
 
-        $leads = $this->_em->createQuery("
-            select l
+        $leads = $this->_em->createQuery(
+            "select l
             from EVTCoreDomainBundle:Lead l
             join l.showroom s
             join s.provider p
             join p.genericUser u
-            where u.username = :username
-            ")
+            where u.username = :username"
+        )
             ->setParameter("username", $username)
             ->getResult();
 
         if (empty($leads)) {
             return null;
         } else {
-            foreach($leads as $lead) {
+            foreach ($leads as $lead) {
                 $arrayDomLeads[] = $this->mapper->mapEntityToDomain($lead);
             }
         }
