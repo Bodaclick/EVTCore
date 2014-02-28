@@ -88,4 +88,54 @@ class LeadControllerGetTest extends WebTestCase
 
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
+
+    public function testGetLead()
+    {
+        $this->client->request(
+            'GET',
+            '/api/leads/1?apikey=apikeyValue&canView=usernameManager',
+            [],
+            [],
+            [$this->header]
+        );
+
+        $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $this->assertTrue(
+            $this->client->getResponse()->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+
+        $lead = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('event', $lead);
+        $this->assertEquals('valid@email.com', $lead['email']['email']);
+    }
+
+    public function testGetLeadCannotView()
+    {
+        $this->client->request(
+            'GET',
+            '/api/leads/1?apikey=apikeyValue&canView=usernameManagerCannot',
+            [],
+            [],
+            [$this->header]
+        );
+
+        $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testGetLeadNotCanView()
+    {
+        $this->client->request(
+            'GET',
+            '/api/leads/1?apikey=apikeyValue',
+            [],
+            [],
+            [$this->header]
+        );
+
+        $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
 }
