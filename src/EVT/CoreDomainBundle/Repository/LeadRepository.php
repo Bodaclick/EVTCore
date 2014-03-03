@@ -38,8 +38,17 @@ class LeadRepository extends EntityRepository implements DomainRepository
         }
 
         $leadEntity = $this->mapper->mapDomainToEntity($lead);
+
         $leadInfo = $lead->getInformationBag();
-        $this->_em->persist($leadEntity);
+
+        $uowEntity = $leadEntity;
+        if (!empty($lead->getId())) {
+            $metadata = $this->_em->getClassMetaData(get_class($leadEntity));
+            $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
+            $uowEntity = $this->_em->merge($leadEntity);
+        }
+        $this->_em->persist($uowEntity);
+
         foreach ($leadInfo as $key => $element) {
             $infoEntity = new ORMLeadInformation();
             $infoEntity->setKey($key);
@@ -47,6 +56,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
             $infoEntity->setLead($leadEntity);
             $this->_em->persist($infoEntity);
         }
+
         $this->_em->flush();
         $this->setLeadId($leadEntity->getId(), $lead);
 
@@ -173,11 +183,12 @@ class LeadRepository extends EntityRepository implements DomainRepository
                 join s.provider p
                 join p.genericUser u
                 where u.username = :username
-                and l.id = :id")
-                ->setParameter("username", $username)
-                ->setParameter("id", $id)
-                ->getSingleResult();
-        } catch (\Exception $e){
+                and l.id = :id"
+            )
+            ->setParameter("username", $username)
+            ->setParameter("id", $id)
+            ->getSingleResult();
+        } catch (\Exception $e) {
             return null;
         }
 
