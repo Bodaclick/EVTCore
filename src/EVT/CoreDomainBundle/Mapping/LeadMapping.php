@@ -74,6 +74,14 @@ class LeadMapping implements MappingInterface
     public function mapDomainToEntity($lead)
     {
         $entity = new Lead();
+
+        if (!empty($lead->getId())) {
+            $rflLead = new \ReflectionClass($entity);
+            $rflId = $rflLead->getProperty('id');
+            $rflId->setAccessible(true);
+            $rflId->setValue($entity, $lead->getId());
+        }
+
         $entity->setUserName($lead->getPersonalInformation()->getName());
         $entity->setUserSurnames($lead->getPersonalInformation()->getSurnames());
         $entity->setUserPhone($lead->getPersonalInformation()->getPhone());
