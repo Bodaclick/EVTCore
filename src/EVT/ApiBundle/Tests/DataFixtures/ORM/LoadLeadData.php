@@ -2,6 +2,7 @@
 
 namespace EVT\ApiBundle\Tests\DataFixtures\ORM;
 
+use EVT\CoreDomainBundle\Entity\LeadInformation;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -57,19 +58,21 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $prov->setLocationCountry('Spain');
         $prov->addGenericUser($user);
         $manager->persist($prov);
-        $manager->flush();
 
         $vert = new Vertical();
         $vert->setDomain('test.com');
         $manager->persist($vert);
-        $manager->flush();
 
         $showroom = new Showroom();
         $showroom->setProvider($prov);
         $showroom->setVertical($vert);
         $showroom->setScore(0);
         $manager->persist($showroom);
-        $manager->flush();
+
+        $leadInformation = new LeadInformation();
+        $leadInformation->setKey("observations");
+        $leadInformation->setValue("This is great");
+        $manager->persist($leadInformation);
 
         $lead = new Lead();
         $lead->setEventDate(new \DateTime('2014-02-20 23:50:26', new \DateTimeZone('UTC')));
@@ -86,6 +89,7 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $lead->setUserPhone('919999999');
         $lead->setCreatedAt(new \DateTime('2013-10-10', new \DateTimeZone('UTC')));
         $lead->setReadAt(new \DateTime('2013-10-12', new \DateTimeZone('UTC')));
+        $lead->addLeadInformation($leadInformation);
 
         $manager->persist($lead);
         $manager->flush();
