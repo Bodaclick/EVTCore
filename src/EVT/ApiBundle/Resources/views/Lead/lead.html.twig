@@ -38,7 +38,10 @@
             "observations": "{{ lead.informationBag.get('observations') }}"
         }
     },
-    "created_at": "{{ lead.getcreatedat | date }}",
+    "created_at": "{{ lead.getcreatedat | date('Y-m-d\TH:i:sO') }}",
+    {% if lead.getreadat %}
+        "read_at": "{{ lead.getreadat | date('Y-m-d\TH:i:sO') }}",
+    {% endif %}
     "email": {
         "email": "{{ lead.email.email }}"
     },
