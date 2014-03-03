@@ -57,11 +57,13 @@ class LeadMapping implements MappingInterface
             )
         );
 
-        $domain->setInformationBag(
-            new LeadInformationBag([
-                $lead->getLeadInformation()->current()->getKey() => $lead->getLeadInformation()->current()->getValue()
-            ])
-        );
+        if ($lead->getLeadInformation()->current()){
+            $domain->setInformationBag(
+                new LeadInformationBag([
+                    $lead->getLeadInformation()->current()->getKey() => $lead->getLeadInformation()->current()->getValue()
+                ])
+            );
+        }
 
         $rflLead = new \ReflectionClass($domain);
         $rflCreateAt = $rflLead->getProperty('createdAt');
