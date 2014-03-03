@@ -88,6 +88,12 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $lead = $user->doLead($dShowroom, $event, $infoBag);
         $lead->read();
 
+        $rflLead = new \ReflectionClass($lead);
+        $rflId = $rflLead->getProperty('id');
+        $rflId->setAccessible(true);
+        $rflId->setValue($lead, 10);
+
+
         $mapping = new LeadMapping($em, $showroomMapper);
 
         $entity = $mapping->mapDomainToEntity($lead);
@@ -105,5 +111,6 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($event->getLocation()->getCountry(), $entity->getEventLocationCountry());
         $this->assertEquals($lead->getCreatedAt(), $entity->getCreatedAt());
         $this->assertNotNull($entity->getReadAt());
+        $this->assertEquals(10, $entity->getId());
     }
 }
