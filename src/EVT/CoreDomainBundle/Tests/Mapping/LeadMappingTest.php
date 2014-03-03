@@ -3,6 +3,7 @@
 namespace EVT\CoreDomainBundle\Test\Mapping;
 
 use EVT\CoreDomainBundle\Entity\Lead;
+use EVT\CoreDomainBundle\Entity\LeadInformation;
 use EVT\CoreDomainBundle\Entity\Showroom;
 use EVT\CoreDomainBundle\Mapping\LeadMapping;
 use EVT\CoreDomain\Lead\Event;
@@ -41,6 +42,13 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $entity->setCreatedAt(new \DateTime('2013-10-15', new \DateTimeZone('UTC')));
         $entity->setReadAt(new \DateTime('2013-10-12', new \DateTimeZone('UTC')));
 
+        $entityInformation = new LeadInformation();
+        $entityInformation->setLead($entity);
+        $entityInformation->setKey("observations");
+        $entityInformation->setValue("This is great");
+
+        $entity->addLeadInformation($entityInformation);
+
         $mapping = new LeadMapping($em, $showroomMapper);
         $lead = $mapping->mapEntityToDomain($entity);
 
@@ -61,6 +69,8 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($entity->getEventLocationCountry(), $event->getLocation()->getCountry());
         $this->assertEquals($entity->getCreatedAt(), $lead->getCreatedAt());
         $this->assertEquals($entity->getReadAt(), $lead->getReadAt());
+        $this->assertEquals($entity->getLeadInformation()->count(), $lead->getInformationBag()->count());
+        $this->assertEquals($entity->getLeadInformation()->current()->getValue(), $lead->getInformationBag()->get("observations"));
     }
 
     public function testDomainToEntity()
@@ -92,7 +102,6 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $rflId = $rflLead->getProperty('id');
         $rflId->setAccessible(true);
         $rflId->setValue($lead, 10);
-
 
         $mapping = new LeadMapping($em, $showroomMapper);
 

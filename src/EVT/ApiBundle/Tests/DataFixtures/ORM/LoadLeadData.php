@@ -2,6 +2,7 @@
 
 namespace EVT\ApiBundle\Tests\DataFixtures\ORM;
 
+use EVT\CoreDomainBundle\Entity\LeadInformation;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -88,6 +89,13 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $lead->setReadAt(new \DateTime('2013-10-12', new \DateTimeZone('UTC')));
 
         $manager->persist($lead);
+        $manager->flush();
+
+        $leadInformation = new LeadInformation();
+        $leadInformation->setLead($lead);
+        $leadInformation->setKey("observations");
+        $leadInformation->setValue("This is great");
+        $manager->persist($leadInformation);
         $manager->flush();
     }
 }

@@ -4,6 +4,7 @@ namespace EVT\CoreDomainBundle\Mapping;
 
 use Doctrine\ORM\EntityManager;
 use EVT\CoreDomain\Lead\EventType;
+use EVT\CoreDomain\Lead\LeadInformationBag;
 use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\InformationBag;
 use EVT\CoreDomain\Lead\Event;
@@ -12,6 +13,7 @@ use EVT\CoreDomain\Email;
 use EVT\CoreDomain\Lead\LeadId;
 use EVT\CoreDomain\Lead\Lead as DomainLead;
 use EVT\CoreDomainBundle\Entity\Lead;
+use EVT\CoreDomainBundle\Entity\LeadInformation;
 
 /**
  * LeadMapping
@@ -53,6 +55,12 @@ class LeadMapping implements MappingInterface
                 ),
                 $lead->getEventDate()
             )
+        );
+
+        $domain->setInformationBag(
+            new LeadInformationBag([
+                $lead->getLeadInformation()->current()->getKey() => $lead->getLeadInformation()->current()->getValue()
+            ])
         );
 
         $rflLead = new \ReflectionClass($domain);
