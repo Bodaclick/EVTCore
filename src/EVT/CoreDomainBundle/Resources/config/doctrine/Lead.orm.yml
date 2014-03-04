@@ -115,10 +115,12 @@ EVT\CoreDomainBundle\Entity\Lead:
             nullable: true
             comment: ''
             column: read_at
-    oneToMany:
         lead_information:
-            targetEntity: LeadInformation
-            mappedBy: lead
+            type: object
+            nullable: false
+            length: null
+            comment: ''
+            column: lead_information
     manyToOne:
         showroom:
             targetEntity: Showroom

@@ -10,7 +10,7 @@ use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Lead\LeadRepositoryInterface as DomainRepository;
 use EVT\CoreDomain\Lead\LeadId;
 use EVT\CoreDomainBundle\Entity\Lead;
-use EVT\CoreDomainBundle\Entity\LeadInformation as ORMLeadInformation;
+use EVT\CoreDomainBundle\Model\LeadInformation as ORMLeadInformation;
 use EVT\CoreDomainBundle\Mapping\LeadToEntityMapping;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -53,8 +53,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
             $infoEntity = new ORMLeadInformation();
             $infoEntity->setKey($key);
             $infoEntity->setValue($element);
-            $infoEntity->setLead($leadEntity);
-            $this->_em->persist($infoEntity);
+            $leadEntity->addLeadInformation($infoEntity);
         }
 
         $this->_em->flush();

@@ -3,7 +3,7 @@
 namespace EVT\CoreDomainBundle\Test\Mapping;
 
 use EVT\CoreDomainBundle\Entity\Lead;
-use EVT\CoreDomainBundle\Entity\LeadInformation;
+use EVT\CoreDomainBundle\Model\LeadInformation;
 use EVT\CoreDomainBundle\Entity\Showroom;
 use EVT\CoreDomainBundle\Mapping\LeadMapping;
 use EVT\CoreDomain\Lead\Event;
@@ -70,7 +70,10 @@ class LeadMappingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($entity->getCreatedAt(), $lead->getCreatedAt());
         $this->assertEquals($entity->getReadAt(), $lead->getReadAt());
         $this->assertEquals($entity->getLeadInformation()->count(), $lead->getInformationBag()->count());
-        $this->assertEquals($entity->getLeadInformation()->current()->getValue(), $lead->getInformationBag()->get("observations"));
+        $this->assertEquals(
+            $entity->getLeadInformation()->current()->getValue(),
+            $lead->getInformationBag()->get("observations")
+        );
     }
 
     public function testDomainToEntity()

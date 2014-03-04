@@ -2,11 +2,11 @@
 
 namespace EVT\ApiBundle\Tests\DataFixtures\ORM;
 
-use EVT\CoreDomainBundle\Entity\LeadInformation;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use EVT\CoreDomainBundle\Model\LeadInformation;
 use EVT\CoreDomainBundle\Entity\Lead;
 use EVT\CoreDomainBundle\Entity\Showroom;
 use EVT\CoreDomainBundle\Entity\Provider;
@@ -16,7 +16,7 @@ use EVT\CoreDomainBundle\Entity\Vertical;
  * LoadLeadData
  *
  * @author    Quique Torras <etorras@bodaclick.com>
- *
+ * @author    Marco Ferrari <marco.ferrari@bodaclick.com>
  * @copyright 2014 Bodaclick S.A.
  */
 class LoadLeadData implements FixtureInterface, ContainerAwareInterface
@@ -72,7 +72,6 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $leadInformation = new LeadInformation();
         $leadInformation->setKey("observations");
         $leadInformation->setValue("This is great");
-        $manager->persist($leadInformation);
 
         $lead = new Lead();
         $lead->setEventDate(new \DateTime('2014-02-20 23:50:26', new \DateTimeZone('UTC')));
