@@ -1,6 +1,6 @@
 <?php
 
-namespace EVT\CoreDomainBundle\Entity;
+namespace EVT\CoreDomainBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,11 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class LeadInformation
 {
-    /**
-     * @var integer
-     */
-    private $id;
-
     /**
      * @var string
      */
@@ -28,17 +23,6 @@ class LeadInformation
      * @var \EVT\CoreDomainBundle\Entity\Lead
      */
     private $lead;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set key
@@ -56,7 +40,7 @@ class LeadInformation
     /**
      * Get key
      *
-     * @return string 
+     * @return string
      */
     public function getKey()
     {
@@ -79,7 +63,7 @@ class LeadInformation
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
     public function getValue()
     {
@@ -102,7 +86,7 @@ class LeadInformation
     /**
      * Get lead
      *
-     * @return \EVT\CoreDomainBundle\Entity\Lead 
+     * @return \EVT\CoreDomainBundle\Entity\Lead
      */
     public function getLead()
     {

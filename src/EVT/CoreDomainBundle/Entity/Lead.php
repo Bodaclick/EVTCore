@@ -3,6 +3,7 @@
 namespace EVT\CoreDomainBundle\Entity;
 
 use EVT\CoreDomainBundle\Entity\Showroom;
+use EVT\CoreDomainBundle\Model\LeadInformation;
 
 /**
  * Lead
@@ -461,7 +462,7 @@ class Lead
     /**
      * Add lead_information
      *
-     * @param \EVT\CoreDomainBundle\Entity\LeadInformation $leadInformation
+     * @param \EVT\CoreDomainBundle\Model\LeadInformation $leadInformation
      * @return Lead
      */
     public function addLeadInformation(LeadInformation $leadInformation)
@@ -474,7 +475,7 @@ class Lead
     /**
      * Remove lead_information
      *
-     * @param \EVT\CoreDomainBundle\Entity\LeadInformation $leadInformation
+     * @param \EVT\CoreDomainBundle\Model\LeadInformation $leadInformation
      */
     public function removeLeadInformation(LeadInformation $leadInformation)
     {

@@ -13,13 +13,13 @@ use EVT\CoreDomain\Email;
 use EVT\CoreDomain\Lead\LeadId;
 use EVT\CoreDomain\Lead\Lead as DomainLead;
 use EVT\CoreDomainBundle\Entity\Lead;
-use EVT\CoreDomainBundle\Entity\LeadInformation;
+use EVT\CoreDomainBundle\Model\LeadInformation;
 
 /**
  * LeadMapping
  *
  * @author    Marco Ferrari <marco.ferrari@bodaclick.com>
- * @author    Eduardo Gulias Davis >eduardo.gulias@bodaclick.com>
+ * @author    Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
  * @copyright 2014 Bodaclick S.A
  */
 class LeadMapping implements MappingInterface
@@ -57,12 +57,9 @@ class LeadMapping implements MappingInterface
             )
         );
 
-        if ($lead->getLeadInformation()->current()){
-            $domain->setInformationBag(
-                new LeadInformationBag([
-                    $lead->getLeadInformation()->current()->getKey() => $lead->getLeadInformation()->current()->getValue()
-                ])
-            );
+        $infoIterator = $lead->getLeadInformation()->getIterator();
+        foreach ($infoIterator as $information) {
+            $domain->setInformationBag(new LeadInformationBag([$information->getKey() => $information->getValue()]));
         }
 
         $rflLead = new \ReflectionClass($domain);
