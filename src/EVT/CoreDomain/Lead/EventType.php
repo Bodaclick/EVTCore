@@ -12,6 +12,25 @@ class EventType
 {
 
     const BIRTHDAY = 1;
+    const ANNIVERSARY = 2;
+    const CHRISTENING = 3;
+    const COMMUNION = 4;
+    const FAMILY_CELEBRATION = 5;
+    const DEBS = 6;
+    const VX_YEARS = 7;
+    const CORPORATE = 8;
+    const GRADUATION = 9;
+    const MEMORIAL = 10;
+    const RETIREMENT = 11;
+    const ENGAGEMENT_PARTY = 12;
+    const PARTY = 13;
+    const CHRISTMAS = 14;
+    const WEDDING = 15;
+    const DIVORCE = 16;
+    const CATERING = 17;
+    const BUFFET = 18;
+    const BAR_MITZVAH = 19;
+    const GENERIC_SPACE = 20;
 
     private $type;
     private $name;
