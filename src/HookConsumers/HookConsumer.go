@@ -224,11 +224,22 @@ func (this *UserCreatedEvent) getDataName() string {
 	return ""
 }
 
+type ShowroomCreatedEvent struct {
+}
+
+func (this *ShowroomCreatedEvent) getDataName() string {
+	return "showroom"
+}
+
+
+
 func MessageFactory(hookName string) hookMessageInterface {
 	if hookName == "evt.event.lead_create" {
 		return new(LeadCreatedEvent)
 	} else if hookName == "evt.event.user_create" {
 		return new(UserCreatedEvent)
+	} else if hookName == "evt.event.showroom_create"{
+	    return new(ShowroomCreatedEvent)
 	}
 	return new(LeadCreatedEvent)
 }

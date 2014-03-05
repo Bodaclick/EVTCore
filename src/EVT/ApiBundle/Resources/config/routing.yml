@@ -13,3 +13,6 @@ evt_api_showroom:
 evt_api_user:
     resource: EVT\ApiBundle\Controller\UserController
     type: rest
+evt_api_reset_password:
+    resource: EVT\ApiBundle\Controller\ResetPasswordController
+    type: rest
