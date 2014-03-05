@@ -121,4 +121,16 @@ class UserRepository extends EntityRepository implements DomainRepository
         }
         return $this->userMapping->mapEntityToDomain($eGenericUser);
     }
+
+    public function resetPassword ($username)
+    {
+        $user = $this->userManager->findUserByUsername($username);
+        $user->setPlainPassword(substr(uniqid(microtime(true), true),-6));
+        $password = $user->getPlainPassword();
+        $this->userManager->updatePassword($user);
+        $this->_em->persist($user);
+        $this->_em->flush();
+
+        return $password;
+    }
 }
