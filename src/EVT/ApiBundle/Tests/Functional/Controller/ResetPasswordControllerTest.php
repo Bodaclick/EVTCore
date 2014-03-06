@@ -39,9 +39,9 @@ class ResetPasswordControllerTest extends WebTestCase
         $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $arrayContent = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('passwd', $arrayContent);
-        $this->assertNotEquals('passManager',$arrayContent['passwd']);
+        $this->assertNotEquals('passManager', $arrayContent['passwd']);
         $nwPass = $this->getUserPassword();
-        $this->assertNotEquals($oldPass,$nwPass);
+        $this->assertNotEquals($oldPass, $nwPass);
     }
 
     private function getUserPassword()
