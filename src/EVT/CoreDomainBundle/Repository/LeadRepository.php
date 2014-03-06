@@ -42,10 +42,12 @@ class LeadRepository extends EntityRepository implements DomainRepository
         $leadInfo = $lead->getInformationBag();
 
         $uowEntity = $leadEntity;
+        $notificationEvent = Event::ON_CREATE_LEAD;
         if (!empty($lead->getId())) {
             $metadata = $this->_em->getClassMetaData(get_class($leadEntity));
             $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
             $uowEntity = $this->_em->merge($leadEntity);
+            $notificationEvent = Event::ON_UPDATE_LEAD;
         }
         $this->_em->persist($uowEntity);
 
@@ -59,7 +61,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
         $this->_em->flush();
         $this->setLeadId($leadEntity->getId(), $lead);
 
-        $event = new LeadEvent($lead, Event::ON_CREATE_LEAD);
+        $event = new LeadEvent($lead, $notificationEvent);
         $this->asyncDispatcher->dispatch($event);
     }
 

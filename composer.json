@@ -24,12 +24,14 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "jms/serializer-bundle": "0.13.*@dev",
         "jms/di-extra-bundle": "1.4.*@dev",
-        "liip/monitor-bundle": "dev-master",
         "liip/functional-test-bundle": "1.0.x-dev",
+        "liip/monitor-bundle": "1.0.*@dev",
         "doctrine/doctrine-fixtures-bundle": "v2.2.0",
         "bodaclick/async-dispatcher-bundle": "dev-master@dev",
         "bodaclick/async-event-dispatcher": "dev-master@dev",
-        "oldsound/rabbitmq-bundle": "dev-master@dev"
+        "oldsound/rabbitmq-bundle": "dev-master@dev",
+        "doctrine/migrations": "dev-master",
+        "doctrine/doctrine-migrations-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

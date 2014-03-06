@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "8c80dd67e12d20322f105dc4023e0403",
+    "hash": "65f09b30a207c3594d5e313d52b17272",
     "packages": [
         {
             "name": "bodaclick/async-dispatcher-bundle",
@@ -642,6 +642,67 @@
             "time": "2013-09-05 11:23:37"
         },
         {
+            "name": "doctrine/doctrine-migrations-bundle",
+            "version": "dev-master",
+            "target-dir": "Doctrine/Bundle/MigrationsBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/DoctrineMigrationsBundle.git",
+                "reference": "667f20875f0dd3f3fce3e5a7d97cceac92a8e9d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/667f20875f0dd3f3fce3e5a7d97cceac92a8e9d1",
+                "reference": "667f20875f0dd3f3fce3e5a7d97cceac92a8e9d1",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "~1.0",
+                "doctrine/migrations": "~1.0@dev",
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": "~2.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Bundle\\MigrationsBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Doctrine Project",
+                    "homepage": "http://www.doctrine-project.org"
+                }
+            ],
+            "description": "Symfony DoctrineMigrationsBundle",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "dbal",
+                "migrations",
+                "schema"
+            ],
+            "time": "2014-01-02 21:27:15"
+        },
+        {
             "name": "doctrine/inflector",
             "version": "v1.0",
             "source": {
@@ -756,6 +817,66 @@
                 "parser"
             ],
             "time": "2013-01-12 18:59:04"
+        },
+        {
+            "name": "doctrine/migrations",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/migrations.git",
+                "reference": "4837b4afac4469c8740f33eae6bdcd8bd1545d2e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/4837b4afac4469c8740f33eae6bdcd8bd1545d2e",
+                "reference": "4837b4afac4469c8740f33eae6bdcd8bd1545d2e",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "~2.0",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "symfony/console": "2.*",
+                "symfony/yaml": "2.*"
+            },
+            "suggest": {
+                "symfony/console": "to run the migration from the console"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\DBAL\\Migrations": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                }
+            ],
+            "description": "Database Schema migrations using Doctrine DBAL",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database",
+                "migrations"
+            ],
+            "time": "2014-03-04 01:42:11"
         },
         {
             "name": "doctrine/orm",
@@ -963,12 +1084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "23d15ad680fe5b695df1565e7854342e608bc483"
+                "reference": "7867dfc7aa67969a24fec7f8aa1051eda23098e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/23d15ad680fe5b695df1565e7854342e608bc483",
-                "reference": "23d15ad680fe5b695df1565e7854342e608bc483",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/7867dfc7aa67969a24fec7f8aa1051eda23098e9",
+                "reference": "7867dfc7aa67969a24fec7f8aa1051eda23098e9",
                 "shasum": ""
             },
             "require": {
@@ -1023,7 +1144,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2014-01-26 23:20:11"
+            "time": "2014-03-04 23:23:39"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1373,16 +1494,16 @@
         },
         {
             "name": "jms/serializer",
-            "version": "0.14.0",
+            "version": "0.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "22daa254e54f4b69292bd8679d7a6f3a78dc85d4"
+                "reference": "4a49caf0a20babcf8040fb1cf84f26faff6e7d85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/22daa254e54f4b69292bd8679d7a6f3a78dc85d4",
-                "reference": "22daa254e54f4b69292bd8679d7a6f3a78dc85d4",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/4a49caf0a20babcf8040fb1cf84f26faff6e7d85",
+                "reference": "4a49caf0a20babcf8040fb1cf84f26faff6e7d85",
                 "shasum": ""
             },
             "require": {
@@ -1398,7 +1519,7 @@
                 "jackalope/jackalope-doctrine-dbal": "1.0.*",
                 "propel/propel1": "~1.7",
                 "symfony/filesystem": "2.*",
-                "symfony/form": ">=2.1,<2.2-dev",
+                "symfony/form": ">=2.1,<=2.4-dev",
                 "symfony/translation": ">=2.0,<2.2-dev",
                 "symfony/validator": ">=2.0,<2.2-dev",
                 "symfony/yaml": "2.*",
@@ -1439,7 +1560,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2013-12-04 16:46:05"
+            "time": "2014-02-10 11:00:05"
         },
         {
             "name": "jms/serializer-bundle",
@@ -1589,12 +1710,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "06584ef6638140ed9637bac577983237271c5244"
+                "reference": "e29ffe225c0845af809fd1644327888ce44cb00c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/06584ef6638140ed9637bac577983237271c5244",
-                "reference": "06584ef6638140ed9637bac577983237271c5244",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/e29ffe225c0845af809fd1644327888ce44cb00c",
+                "reference": "e29ffe225c0845af809fd1644327888ce44cb00c",
                 "shasum": ""
             },
             "require": {
@@ -1637,7 +1758,7 @@
             "keywords": [
                 "Symfony2"
             ],
-            "time": "2013-10-14 06:10:06"
+            "time": "2014-03-03 18:14:50"
         },
         {
             "name": "liip/monitor",
@@ -1705,17 +1826,17 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "dev-master",
+            "version": "1.0.x-dev",
             "target-dir": "Liip/MonitorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "c69a14c0d6f2d7dee5f0e290a9ac8bf875a37866"
+                "reference": "9928a3a614ba2c80fb5892f180511c44f8983846"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/c69a14c0d6f2d7dee5f0e290a9ac8bf875a37866",
-                "reference": "c69a14c0d6f2d7dee5f0e290a9ac8bf875a37866",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/9928a3a614ba2c80fb5892f180511c44f8983846",
+                "reference": "9928a3a614ba2c80fb5892f180511c44f8983846",
                 "shasum": ""
             },
             "require": {
@@ -1762,7 +1883,7 @@
                 "monitor",
                 "monitoring"
             ],
-            "time": "2014-02-08 12:49:51"
+            "time": "2014-01-05 19:05:43"
         },
         {
             "name": "monolog/monolog",
@@ -1838,12 +1959,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/videlalvaro/RabbitMqBundle.git",
-                "reference": "69463caba2bcf400af99ea557af3a906ef24e4ce"
+                "reference": "4ea8166e8b5d689d6a0a9511ade62bbd39e2e6e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/videlalvaro/RabbitMqBundle/zipball/69463caba2bcf400af99ea557af3a906ef24e4ce",
-                "reference": "69463caba2bcf400af99ea557af3a906ef24e4ce",
+                "url": "https://api.github.com/repos/videlalvaro/RabbitMqBundle/zipball/4ea8166e8b5d689d6a0a9511ade62bbd39e2e6e5",
+                "reference": "4ea8166e8b5d689d6a0a9511ade62bbd39e2e6e5",
                 "shasum": ""
             },
             "require": {
@@ -1882,7 +2003,7 @@
                 "queue",
                 "rabbitmq"
             ],
-            "time": "2014-01-27 12:09:08"
+            "time": "2014-02-27 15:43:24"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -2332,17 +2453,17 @@
         },
         {
             "name": "symfony/monolog-bundle",
-            "version": "v2.5.0",
+            "version": "v2.5.1",
             "target-dir": "Symfony/Bundle/MonologBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/MonologBundle.git",
-                "reference": "29a17a347dfc41aed34ce9b72cceaf375635c408"
+                "reference": "71ad844ac29401f86619f9d643393265451e858b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/29a17a347dfc41aed34ce9b72cceaf375635c408",
-                "reference": "29a17a347dfc41aed34ce9b72cceaf375635c408",
+                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/71ad844ac29401f86619f9d643393265451e858b",
+                "reference": "71ad844ac29401f86619f9d643393265451e858b",
                 "shasum": ""
             },
             "require": {
@@ -2375,7 +2496,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -2388,7 +2511,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2014-01-19 13:23:40"
+            "time": "2014-02-19 14:49:26"
         },
         {
             "name": "symfony/swiftmailer-bundle",
@@ -2447,16 +2570,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.4.1",
+            "version": "v2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "377a5fb23bfdc2fb616610b7b7ab7cc9a50e614d"
+                "reference": "b70633f92ff71ef490af4c17e7ca3f3bf3d0f304"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/377a5fb23bfdc2fb616610b7b7ab7cc9a50e614d",
-                "reference": "377a5fb23bfdc2fb616610b7b7ab7cc9a50e614d",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/b70633f92ff71ef490af4c17e7ca3f3bf3d0f304",
+                "reference": "b70633f92ff71ef490af4c17e7ca3f3bf3d0f304",
                 "shasum": ""
             },
             "require": {
@@ -2544,7 +2667,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -2556,7 +2681,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2014-01-05 02:12:11"
+            "time": "2014-02-12 19:27:03"
         },
         {
             "name": "twig/extensions",
@@ -2607,16 +2732,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.15.0",
+            "version": "v1.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "85e4ff98000157ff753d934b9f13659a953f5666"
+                "reference": "1fb5784662f438d7d96a541e305e28b812e2eeed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/85e4ff98000157ff753d934b9f13659a953f5666",
-                "reference": "85e4ff98000157ff753d934b9f13659a953f5666",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/1fb5784662f438d7d96a541e305e28b812e2eeed",
+                "reference": "1fb5784662f438d7d96a541e305e28b812e2eeed",
                 "shasum": ""
             },
             "require": {
@@ -2640,11 +2765,19 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com"
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Twig Team",
+                    "homepage": "https://github.com/fabpot/Twig/graphs/contributors",
+                    "role": "Contributors"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
@@ -2652,7 +2785,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-12-06 07:47:10"
+            "time": "2014-02-13 10:19:29"
         },
         {
             "name": "videlalvaro/php-amqplib",
@@ -2761,11 +2894,13 @@
         "friendsofsymfony/user-bundle": 20,
         "jms/serializer-bundle": 20,
         "jms/di-extra-bundle": 20,
-        "liip/monitor-bundle": 20,
         "liip/functional-test-bundle": 20,
+        "liip/monitor-bundle": 20,
         "bodaclick/async-dispatcher-bundle": 20,
         "bodaclick/async-event-dispatcher": 20,
-        "oldsound/rabbitmq-bundle": 20
+        "oldsound/rabbitmq-bundle": 20,
+        "doctrine/migrations": 20,
+        "doctrine/doctrine-migrations-bundle": 20
     },
     "platform": {
         "php": ">=5.3.3"
