@@ -48,6 +48,17 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
 
         $userManager->updateUser($user);
 
+        $user2 = $userManager->createUser();
+        $user2->setUsername('usernameManager2');
+        $user2->setEmail('valid2@emailManager.com');
+        $user2->setPlainPassword('passManager2');
+        $user2->addRole('ROLE_MANAGER');
+        $user2->setName('nameManager2');
+        $user2->setSurnames('surnamesManager2');
+        $user2->setPhone('0132465987');
+
+        $userManager->updateUser($user2);
+
         $prov = new Provider();
         $prov->setName('name');
         $prov->setNotificationEmails(['valid@email.com']);
@@ -91,6 +102,26 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $lead->addLeadInformation($leadInformation);
 
         $manager->persist($lead);
+
+        $lead2 = new Lead();
+        $lead2->setEventDate(new \DateTime('2014-01-25 13:55:56', new \DateTimeZone('UTC')));
+        $lead2->setEventLocationAdminLevel1('Madrid');
+        $lead2->setEventLocationAdminLevel2('Madrid');
+        $lead2->setEventLocationCountry('Spain');
+        $lead2->setEventLocationLat('24.45');
+        $lead2->setEventLocationLong('43.98');
+        $lead2->setEventType(1);
+        $lead2->setShowroom($showroom);
+        $lead2->setUserEmail('valid@email.com');
+        $lead2->setUserName('Pepe');
+        $lead2->setUserSurnames('Potamo');
+        $lead2->setUserPhone('919999999');
+        $lead2->setCreatedAt(new \DateTime('2013-11-11', new \DateTimeZone('UTC')));
+        $lead2->setReadAt(new \DateTime('2013-10-01', new \DateTimeZone('UTC')));
+        $lead2->addLeadInformation($leadInformation);
+
+        $manager->persist($lead2);
+
         $manager->flush();
     }
 }

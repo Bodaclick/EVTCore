@@ -131,6 +131,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
             ->where('l.userEmail = :email')
             ->setParameter('email', $email)
             ->orderBy('l.createdAt', 'desc')
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -194,5 +195,11 @@ class LeadRepository extends EntityRepository implements DomainRepository
         }
 
         return $leadDom = $this->mapper->mapEntityToDomain($lead);
+    }
+
+    public function count()
+    {
+        return $this->_em->createQuery("select count(l.id) from EVTCoreDomainBundle:Lead l")
+           ->getSingleScalarResult();
     }
 }
