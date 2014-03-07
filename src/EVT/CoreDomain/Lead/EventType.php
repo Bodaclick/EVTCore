@@ -31,6 +31,7 @@ class EventType
     const BUFFET = 18;
     const BAR_MITZVAH = 19;
     const GENERIC_SPACE = 20;
+    const UNKNOWN = 21;
 
     private $type;
     private $name;
