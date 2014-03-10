@@ -5,10 +5,8 @@ _monitor:
 evt_api_home:
     resource: EVT\ApiBundle\Controller\DefaultController
     prefix:   /
-    schemes:  [http]
 
 evt_api:
     resource: "@EVTApiBundle/Resources/config/routing.yml"
     type:     rest
     prefix:   /api/
-    schemes:  [http]
