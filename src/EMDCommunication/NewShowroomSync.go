@@ -13,6 +13,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"io/ioutil"
 )
 
 func failOnError(err error, msg string) {
@@ -31,7 +32,6 @@ func main() {
 	var rabbitmq_pass = "guest"
 	var emd_api_root = "emd.api.root/"
 	var emd_api_showroom = "api/showroom"
-	var emd_api_apikey = "?apikey=apikey"
 
 	pwd, err := os.Getwd()
 	if err != nil {
@@ -69,8 +69,6 @@ func main() {
 				emd_api_root = value
 			case "emd_api_showroom":
 				emd_api_showroom = value
-			case "emd_api_apikey":
-				emd_api_apikey = value
 			}
 		}
 		line, longLine, err = fileReader.ReadLine()
@@ -110,8 +108,8 @@ func main() {
 
 	go func() {
 		for msg := range msgs {
-			var showroomCreationEvent types.ShowroomCreationEvent
-			err := json.Unmarshal(msg.Body, &showroomCreationEvent)
+			var showroom types.Showroom
+			err := json.Unmarshal(msg.Body, &showroom)
 			if err != nil {
 				moveToFailQueue(ch, msg.Body)
 				fmt.Printf("can't process the message: %s\n", err)
@@ -120,36 +118,58 @@ func main() {
 			}
 
 			postParams := url.Values{}
-			postParams.Set("showroom[partner]", "1")
 			postParams.Set("showroom[client]", "1")
-			postParams.Set("showroom[evt_id]", strconv.Itoa(showroomCreationEvent.Showroom.Id))
-			postParams.Set("showroom[name]", showroomCreationEvent.Showroom.Name)
-			postParams.Set("showroom[slug]", showroomCreationEvent.Showroom.Slug)
-			postParams.Set("showroom[e-vertical]", showroomCreationEvent.Showroom.Vertical.Domain)
-			postParams.Set("showroom[score]", strconv.Itoa(showroomCreationEvent.Showroom.Score))
-			postParams.Set("showroom[location][lat]", strconv.Itoa(showroomCreationEvent.Showroom.Provider.Location.Lat))
-			postParams.Set("showroom[location][long]", strconv.Itoa(showroomCreationEvent.Showroom.Provider.Location.Long))
-			postParams.Set("showroom[location][country]", showroomCreationEvent.Showroom.Provider.Location.Country)
-			postParams.Set("showroom[extra_data]", "")
+			postParams.Set("showroom[partner]", "bdkEV2014")
+			postParams.Set("showroom[evt_id]", strconv.Itoa(showroom.Id))
+			postParams.Set("showroom[name]", showroom.Provider.Name)
+			postParams.Set("showroom[slug]", showroom.Slug)
+			postParams.Set("showroom[e-vertical]", showroom.Vertical.Domain)
+			postParams.Set("showroom[score]", strconv.Itoa(showroom.Score))
+			postParams.Set("showroom[location][lat]", strconv.Itoa(showroom.Provider.Location.Lat))
+			postParams.Set("showroom[location][long]", strconv.Itoa(showroom.Provider.Location.Long))
+			postParams.Set("showroom[location][country]", showroom.Provider.Location.Country)
+			postParams.Set("showroom[extra_data]", showroom.Extra_data)
 
+log.Printf("------------------------------")
+log.Printf("URL: %s", emd_api_root+emd_api_showroom)
+log.Printf("Params: %s", postParams)
+log.Printf(" ")
 			resp, err := http.PostForm(
-				"http://"+emd_api_root+emd_api_showroom+emd_api_apikey,
+				"http://"+emd_api_root+emd_api_showroom,
 				postParams)
+				
 
 			if err != nil {
 				moveToFailQueue(ch, msg.Body)
 				log.Printf("response err: %s", err)
-			} else if resp.StatusCode != 201 {
-				// Not created
-				moveToFailQueue(ch, msg.Body)
+			} else if resp.StatusCode == 200 {
+				var dat map[string]interface{}
+				body, err := ioutil.ReadAll(resp.Body)
+				if err != nil {
+					moveToFailQueue(ch, msg.Body)
+					log.Printf("ReadAll err: %s", err)
+				}
+				if err := json.Unmarshal(body, &dat); err != nil {
+					moveToFailQueue(ch, msg.Body)
+					log.Printf("response not valid json: " + string(body))
+					defer resp.Body.Close()
+				} else {
+					var status = dat["ok"].(string)
+					if status != "true" {
+						moveToFailQueue(ch, msg.Body)
+						log.Printf("response error: " + dat["result"].(string))
+						defer resp.Body.Close()
+					} else {
+						log.Printf("status true, result: " + dat["result"].(string))
+					}
+				}
+			} else {
 				log.Printf("response status code: " + strconv.Itoa(resp.StatusCode))
-				defer resp.Body.Close()
 			}
 			msg.Ack(false)
 		}
 	}()
 
-	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-done
 	os.Exit(0)
 }
