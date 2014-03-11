@@ -7,4 +7,5 @@ type Showroom struct {
 	Slug string
 	Provider Provider
 	Vertical Vertical
+	Extra_data string
 }
