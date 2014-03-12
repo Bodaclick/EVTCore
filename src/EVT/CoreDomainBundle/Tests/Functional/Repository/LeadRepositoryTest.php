@@ -1,6 +1,7 @@
 <?php
 
 namespace EVT\CoreDomainBundle\Test\Functional\Repository;
+
 use EVT\CoreDomain\Email;
 use EVT\CoreDomain\Lead\Lead;
 use EVT\CoreDomain\Lead\LeadId;
@@ -36,7 +37,7 @@ class LeadRepositoryTest extends WebTestCase
 
     public function testFindByIdOwner()
     {
-        $lead = $this->repo->findByIdOwner(1,'usernameManager');
+        $lead = $this->repo->findByIdOwner(1, 'usernameManager');
 
         $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $lead);
         $this->assertEquals('valid@email.com', $lead->getEmail()->getEmail());
@@ -65,7 +66,7 @@ class LeadRepositoryTest extends WebTestCase
     {
         $leads = $this->repo->findByOwner('usernameManager');
 
-        $this->assertCount(2,$leads);
+        $this->assertCount(2, $leads);
         $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leads[0]);
         $this->assertEquals('valid@email.com', $leads[0]->getEmail()->getEmail());
     }
@@ -108,7 +109,7 @@ class LeadRepositoryTest extends WebTestCase
         $this->repo->save($lead);
         $leadCheck = $this->repo->findByIdOwner($lead->getId(), 'usernameManager');
 
-        $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead',$leadCheck);
+        $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leadCheck);
         $this->assertEquals('email@mail.com', $leadCheck->getEmail()->getEmail());
         $this->assertEquals(($numLeads + 1), $this->repo->count());
     }
