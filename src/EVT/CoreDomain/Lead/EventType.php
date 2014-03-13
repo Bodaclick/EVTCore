@@ -17,7 +17,7 @@ class EventType
     const COMMUNION = 4;
     const FAMILY_CELEBRATION = 5;
     const DEBS = 6;
-    const VX_YEARS = 7;
+    const XV_YEARS = 7;
     const CORPORATE = 8;
     const GRADUATION = 9;
     const MEMORIAL = 10;
