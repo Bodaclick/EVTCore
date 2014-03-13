@@ -22,7 +22,7 @@ class Location
         $args = func_get_args();
 
         foreach ($args as $val => $arg) {
-            if (empty($arg) && !($arg == 0)) {
+            if (empty($arg) && !($arg === 0)) {
                 throw new \InvalidArgumentException('Args ' . $val . ' is Required');
             }
         }
