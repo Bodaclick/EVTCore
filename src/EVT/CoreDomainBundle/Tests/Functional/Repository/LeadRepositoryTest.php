@@ -99,7 +99,7 @@ class LeadRepositoryTest extends WebTestCase
         $showroom = $repoShowroom->findOneById(1);
         $event = new Event(
             new EventType(EventType::BIRTHDAY),
-            new Location(10, 10, 'Madrid', 'Madrid', 'Spain'),
+            new Location(0, -10.6754, 'Madrid', 'Madrid', 'Spain'),
             new \DateTime('now')
         );
 
@@ -112,6 +112,8 @@ class LeadRepositoryTest extends WebTestCase
         $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leadCheck);
         $this->assertEquals('email@mail.com', $leadCheck->getEmail()->getEmail());
         $this->assertEquals(($numLeads + 1), $this->repo->count());
+        $this->assertEquals(0, $leadCheck->getEvent()->getLocation()->getLatLong()['lat']);
+        $this->assertEquals(-10.6754, $leadCheck->getEvent()->getLocation()->getLatLong()['long']);
     }
 
     public function testSaveUpdate()

@@ -6,6 +6,7 @@ namespace EVT\CoreDomain\Lead;
  * EventType
  *
  * @author    Mario Cazorla  <mcazorla@bodaclick.com>
+ * @author    Marco Ferrari  <marco.ferrari@bodaclick.com>
  * @copyright 2014 Bodaclick S.A
  */
 class Location
@@ -21,13 +22,13 @@ class Location
         $args = func_get_args();
 
         foreach ($args as $val => $arg) {
-            if (empty($arg)) {
+            if (empty($arg) && !($arg == 0)) {
                 throw new \InvalidArgumentException('Args ' . $val . ' is Required');
             }
         }
 
-        $this->lat = (int)$lat;
-        $this->long = (int)$long;
+        $this->lat = $lat;
+        $this->long = $long;
         $this->adminLevel1 = $adminLevel1;
         $this->adminLevel2 = $adminLevel2;
         $this->country = $country;
