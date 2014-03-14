@@ -12,13 +12,16 @@ use EVT\CoreDomain\InformationBag;
  */
 class Showroom
 {
-    private $slug;
+    private $id;
+    private $slug; // Only use for serialize
+    private $name; // Only use for serialize
+    private $phone; // Only use for serialize
     private $score;
     private $provider;
     private $vertical;
     private $informationBag;
-    private $id;
     private $extraData;
+
 
     public function __construct(
         Provider $provider,

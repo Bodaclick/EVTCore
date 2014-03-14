@@ -1,0 +1,7 @@
+EVT\CoreDomain\Provider\Provider:
+    exclusion_policy: NONE
+    exclude: false
+    properties:
+        notificationEmails:
+            accessor:
+                getter: getNotificationsEmailsAsString
