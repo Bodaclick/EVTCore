@@ -57,6 +57,17 @@ class Provider
         return $this->notificationEmails;
     }
 
+    public function getNotificationsEmailsAsString()
+    {
+        $arrayEmails = [];
+        $notificationIterator = $this->notificationEmails->getIterator();
+        foreach ($notificationIterator as $email) {
+            array_push($arrayEmails, $email->getEmail());
+        }
+
+        return implode(', ', $arrayEmails);
+    }
+
     public function addManager(Manager $manager)
     {
         if (!$this->managers->offsetExists($manager->getEmail())) {
