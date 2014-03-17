@@ -3,6 +3,7 @@
 namespace EVT\CoreDomainBundle\Test\Mapping;
 
 
+use EVT\CoreDomain\Provider\ShowroomType;
 use EVT\CoreDomainBundle\Mapping\ShowroomMapping;
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomainBundle\Entity\Showroom as EShowroom;
@@ -32,7 +33,7 @@ class ShowroomMappingTest extends \PHPUnit_Framework_TestCase
         $providerMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\ProviderMapping')
             ->disableOriginalConstructor()->getMock();
 
-        $dShowroom = new Showroom($dProvider, $dVertical, 0);
+        $dShowroom = new Showroom($dProvider, $dVertical, new ShowroomType(ShowroomType::FREE));
 
         $mapper = new ShowroomMapping($em, $providerMapper, $verticalMapper);
         $eShowroom = $mapper->mapDomainToEntity($dShowroom);
@@ -62,6 +63,7 @@ class ShowroomMappingTest extends \PHPUnit_Framework_TestCase
         $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
 
         $eShowroom = new EShowroom();
+        $eShowroom->setType(ShowroomType::FREE);
 
         $mapper = new ShowroomMapping($em, $providerMapper, $verticalMapper);
         $dShowroom = $mapper->mapEntityToDomain($eShowroom);
@@ -88,6 +90,7 @@ class ShowroomMappingTest extends \PHPUnit_Framework_TestCase
 
         $eShowroom = $this->getMock('EVT\CoreDomainBundle\Entity\Showroom');
         $eShowroom->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $eShowroom->expects($this->any())->method('getType')->will($this->returnValue(1));
 
         $mapper = new ShowroomMapping($em, $providerMapper, $verticalMapper);
         $dShowroom = $mapper->mapEntityToDomain($eShowroom);

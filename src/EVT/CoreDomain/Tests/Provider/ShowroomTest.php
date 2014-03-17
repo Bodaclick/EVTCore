@@ -2,6 +2,7 @@
 
 namespace EVT\CoreDomain\Tests\Provider;
 
+use EVT\CoreDomain\Provider\ShowroomType;
 use EVT\CoreDomain\Email;
 use EVT\CoreDomain\EmailCollection;
 use EVT\CoreDomain\InformationBag;
@@ -24,7 +25,7 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
         $vertical = new Vertical("testDomain.test");
         $informationBag = new InformationBag(['slug' => 'different']);
 
-        $showroom = new Showroom($provider, $vertical, 0, $informationBag);
+        $showroom = new Showroom($provider, $vertical, new ShowroomType(ShowroomType::FREE), $informationBag);
         $this->assertEquals('testDomain.test/different', $showroom->getUrl());
     }
 
@@ -34,7 +35,13 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
         $vertical = new Vertical("testDomain.test");
         $informationBag = new InformationBag(['slug' => 'different']);
 
-        $showroom = new Showroom($provider, $vertical, 0, $informationBag, 'extra_data_content');
+        $showroom = new Showroom(
+            $provider,
+            $vertical,
+            new ShowroomType(ShowroomType::FREE),
+            $informationBag,
+            'extra_data_content'
+        );
         $this->assertEquals('extra_data_content', $showroom->getExtraData());
     }
 
@@ -44,7 +51,7 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
         $vertical = new Vertical("testDomain.test");
         $informationBag = new InformationBag();
 
-        $showroom = new Showroom($provider, $vertical, 0, $informationBag);
+        $showroom = new Showroom($provider, $vertical, new ShowroomType(ShowroomType::FREE), $informationBag);
 
         $showroom->changeSlug('newSlug');
 

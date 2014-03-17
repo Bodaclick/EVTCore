@@ -5,6 +5,7 @@ namespace EVT\CoreDomainBundle\Tests\Repository;
 use EVT\CoreDomainBundle\Entity\Showroom;
 use EVT\CoreDomainBundle\Repository\ShowroomRepository;
 use EVT\CoreDomain\Provider\Showroom as DomainShowroom;
+use EVT\CoreDomain\Provider\ShowroomType;
 
 /**
  * Class ShowroomRepositoryTest
@@ -28,7 +29,7 @@ class ShowroomRepositoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $this->vertical = $this->getMockBuilder('EVT\CoreDomain\Provider\Vertical')
             ->disableOriginalConstructor()->getMock();
-        $this->showroom = new DomainShowroom($this->provider, $this->vertical, 0);
+        $this->showroom = new DomainShowroom($this->provider, $this->vertical, new ShowroomType(ShowroomType::FREE));
 
         $this->srMapper = $this->getMockBuilder('EVT\CoreDomainBundle\Mapping\ShowroomMapping')
             ->disableOriginalConstructor()->getMock();

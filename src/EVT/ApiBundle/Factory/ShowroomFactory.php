@@ -2,6 +2,7 @@
 
 namespace EVT\ApiBundle\Factory;
 
+use EVT\CoreDomain\Provider\ShowroomType;
 use EVT\CoreDomain\InformationBag;
 use EVT\CoreDomain\Provider\ProviderRepositoryInterface;
 use EVT\CoreDomain\Provider\VerticalRepositoryInterface;
@@ -66,7 +67,7 @@ class ShowroomFactory
 
         $infoBag = $this->createInfoBag($data);
 
-        $showroom = $vertical->addShowroom($provider, $data['score'], $infoBag, $extra_data);
+        $showroom = $vertical->addShowroom($provider, new ShowroomType($data['type']), $infoBag, $extra_data);
         $this->showroomRepo->save($showroom);
         $this->sendToEMD($showroom);
 

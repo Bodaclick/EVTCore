@@ -42,7 +42,7 @@ class ShowroomFactoryTest extends \PHPUnit_Framework_TestCase
 
         $factory = new ShowroomFactory($verticalRepo, $providerRepo, $showroomRepo, $syncEMD, $serializer);
         $data = [
-            'score' => 1,
+            'type' => 2,
             'vertical' => 'test.com',
             'provider' => 1,
             'name' => '',
@@ -82,7 +82,7 @@ class ShowroomFactoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
 
         $data = [
-            'score' => 1,
+            'type' => 2,
             'vertical' => 'test.com',
             'provider' => 1,
             'name' => '',

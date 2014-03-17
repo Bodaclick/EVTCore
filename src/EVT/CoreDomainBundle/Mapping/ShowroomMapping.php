@@ -2,6 +2,7 @@
 
 namespace EVT\CoreDomainBundle\Mapping;
 
+use EVT\CoreDomain\Provider\ShowroomType;
 use EVT\CoreDomainBundle\Entity\Showroom;
 use \EVT\CoreDomain\Provider\Showroom as DShowroom;
 use Doctrine\ORM\EntityManager;
@@ -30,7 +31,7 @@ class ShowroomMapping implements MappingInterface
     {
         $provider = $this->providerMapping->mapEntityToDomain($showroom->getProvider());
         $vertical = $this->verticalMapping->mapEntityToDomain($showroom->getVertical());
-        $dShowroom = new DShowroom($provider, $vertical, $showroom->getScore());
+        $dShowroom = new DShowroom($provider, $vertical, new ShowroomType($showroom->getType()));
         $dShowroom->changeName($showroom->getName());
         $dShowroom->changeSlug($showroom->getSlug());
         $dShowroom->changePhone($showroom->getPhone());
@@ -69,6 +70,7 @@ class ShowroomMapping implements MappingInterface
         $showroomEntity->setName($showroom->getName());
         $showroomEntity->setPhone($showroom->getPhone());
         $showroomEntity->setSlug($showroom->getSlug());
+        $showroomEntity->setType($showroom->getType()->getType());
 
         return $showroomEntity;
     }

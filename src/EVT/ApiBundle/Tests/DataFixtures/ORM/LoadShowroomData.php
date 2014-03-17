@@ -2,6 +2,7 @@
 
 namespace EVT\ApiBundle\Tests\DataFixtures\ORM;
 
+use EVT\CoreDomain\Provider\ShowroomType;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use EVT\CoreDomainBundle\Entity\Showroom;
@@ -28,6 +29,7 @@ class LoadShowroomData implements FixtureInterface
         $showroom = new Showroom();
         $showroom->setProvider($prov);
         $showroom->setVertical($vert);
+        $showroom->setType(ShowroomType::FREE); //Free
         $showroom->setScore(0);
         $manager->persist($showroom);
         $manager->flush();

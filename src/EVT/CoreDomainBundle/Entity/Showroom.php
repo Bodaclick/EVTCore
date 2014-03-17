@@ -34,6 +34,11 @@ class Showroom
     private $score;
 
     /**
+     * @var integer
+     */
+    private $type;
+
+    /**
      * @var \EVT\CoreDomainBundle\Entity\Vertical
      */
     private $vertical;
@@ -144,6 +149,29 @@ class Showroom
     public function getScore()
     {
         return $this->score;
+    }
+
+    /**
+     * Set type
+     *
+     * @param integer $type
+     * @return Showroom
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

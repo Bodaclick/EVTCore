@@ -2,6 +2,7 @@
 
 namespace EVT\ApiBundle\Tests\Controller;
 
+use EVT\CoreDomain\Provider\ShowroomType;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 use EVT\CoreDomain\Email;
@@ -44,7 +45,8 @@ class LeadControllerPatchTest extends WebTestCase
                     new Email('valid2@email.com')
                 )
             ),
-            new Vertical('test.com')
+            new Vertical('test.com'),
+            new ShowroomType(ShowroomType::FREE)
         );
 
         $rflShowroom = new \ReflectionClass($showroom);
