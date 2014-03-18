@@ -61,6 +61,7 @@ class LeadControllerGetTest extends WebTestCase
         $this->assertEquals('2014-02-20CET23:50:26+0100', $arrayLeads['items'][1]['event']['date']);
         $this->assertEquals('2013-10-10CEST00:00:00+0200', $arrayLeads['items'][1]['created_at']);
         $this->assertEquals('2013-10-12CEST00:00:00+0200', $arrayLeads['items'][1]['read_at']);
+        $this->assertEquals('1', $arrayLeads['items'][1]['showroom']['type']);
     }
 
     public function testGetLeadsCannotView()
@@ -111,6 +112,7 @@ class LeadControllerGetTest extends WebTestCase
         $lead = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('event', $lead);
         $this->assertEquals('valid@email.com', $lead['email']['email']);
+        $this->assertEquals('1', $lead['showroom']['type']);
     }
 
     public function testGetLeadCannotView()

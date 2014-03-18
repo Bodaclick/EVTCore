@@ -27,7 +27,7 @@ class ShowroomControllerTest extends WebTestCase
                 [
                     'provider' => 1,
                     'vertical' => 'test.com',
-                    'score' => 1,
+                    'type' => 2,
                     'name' => 'test vertical'
                 ],
             'extra_data' => 'extra_data_content'
@@ -48,12 +48,13 @@ class ShowroomControllerTest extends WebTestCase
         )[0];
 
         $this->assertEquals(1, $id);
-        $eShowroom = $this->getContainer()->get('evt.repository.showroom')->findOneById($id);
-        $this->assertNotNull($eShowroom);
-        $this->assertEquals('1', $eShowroom->getProvider()->getId());
-        $this->assertEquals('test.com', $eShowroom->getVertical()->getDomain());
-        $this->assertEquals('1', $eShowroom->getScore());
-        $this->assertEquals('test vertical', $eShowroom->getName());
+        $dShowroom = $this->getContainer()->get('evt.repository.showroom')->findOneById($id);
+        $this->assertNotNull($dShowroom);
+        $this->assertEquals('1', $dShowroom->getProvider()->getId());
+        $this->assertEquals('test.com', $dShowroom->getVertical()->getDomain());
+        $this->assertEquals(2, $dShowroom->getType()->getType());
+        $this->assertEquals('1', $dShowroom->getScore());
+        $this->assertEquals('test vertical', $dShowroom->getName());
     }
 
     public function wrongDataProvider()

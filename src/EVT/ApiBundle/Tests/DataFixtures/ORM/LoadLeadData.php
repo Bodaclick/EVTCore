@@ -11,6 +11,7 @@ use EVT\CoreDomainBundle\Entity\Lead;
 use EVT\CoreDomainBundle\Entity\Showroom;
 use EVT\CoreDomainBundle\Entity\Provider;
 use EVT\CoreDomainBundle\Entity\Vertical;
+use EVT\CoreDomain\Provider\ShowroomType;
 
 /**
  * LoadLeadData
@@ -77,6 +78,7 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $showroom = new Showroom();
         $showroom->setProvider($prov);
         $showroom->setVertical($vert);
+        $showroom->setType(ShowroomType::FREE);
         $showroom->setScore(0);
         $manager->persist($showroom);
 

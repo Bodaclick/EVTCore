@@ -21,12 +21,12 @@ class Vertical
         $this->showrooms = new \ArrayObject();
     }
 
-    public function addShowroom(Provider $provider, $score, InformationBag $infoBag = null, $extra_data = '')
+    public function addShowroom(Provider $provider, $type, InformationBag $infoBag = null, $extra_data = '')
     {
         $iterator = new ShowroomsProviderFilter($this->showrooms->getIterator(), $provider);
 
         if (iterator_count($iterator) == 0) {
-            $showroom = new Showroom($provider, $this, $score, $infoBag, $extra_data);
+            $showroom = new Showroom($provider, $this, $type, $infoBag, $extra_data);
             $this->showrooms->append($showroom);
             return $showroom;
         }

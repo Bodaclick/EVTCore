@@ -2,54 +2,7 @@
 {
     "items": [
         {% for lead in leads %}
-        {
-            "event": {
-                "date": "{{ lead.event.date | date('Y-m-d\TH:i:sO') }}",
-                "type": {
-                    "type": {{ lead.event.geteventtype.type }},
-                    "name": "{{ lead.event.geteventtype.name }}"
-                },
-                "location": {
-                    "lat": {{ lead.event.location.latlong.lat }},
-                    "long": {{ lead.event.location.latlong.long }},
-                    "admin_level1": "{{ lead.event.location.adminLevel1 }}",
-                    "admin_level2": "{{ lead.event.location.adminLevel2 }}",
-                    "country": "{{ lead.event.location.country }}"
-                }
-            },
-            "personal_info": {
-                "name": "{{ lead.getPersonalInformation.name }}",
-                "surnames": "{{ lead.getPersonalInformation.surnames }}",
-                "phone": "{{ lead.getPersonalInformation.phone }}"
-            },
-            "showroom": {
-                "slug": "{{ lead.showroom.name }}",
-                "score": 1,
-                "provider": {
-                    "id": "{{ lead.showroom.provider.id }}",
-                    "name": "{{ lead.showroom.provider.name }}",
-                    "slug": "{{ lead.showroom.provider.slug }}",
-                    "phone": "{{ lead.showroom.provider.phone }}"
-                },
-                "vertical": {
-                    "domain": "{{ lead.showroom.vertical.domain }}"
-                },
-                "id": {{ lead.showroom.id }}
-            },
-            "information_bag": {
-                "parameters": {
-                    "observations": "{{ lead.informationBag.get('observations') }}"
-                }
-            },
-            "created_at": "{{ lead.getcreatedat | date('Y-m-d\TH:i:sO') }}",
-            {% if lead.getreadat %}
-            "read_at": "{{ lead.getreadat | date('Y-m-d\TH:i:sO') }}",
-            {% endif %}
-            "email": {
-                "email": "{{ lead.email.email }}"
-            },
-            "id": "{{ lead.id }}"
-        }
+        {% include 'EVTApiBundle:Lead:lead.html.twig' %}
         {% if not loop.last %},{% endif %}
         {% endfor %}
     ],

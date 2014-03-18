@@ -2,6 +2,7 @@
 
 namespace EVT\ApiBundle\Tests\Controller;
 
+use EVT\CoreDomain\Provider\ShowroomType;
 use EVT\CoreDomain\Email;
 use EVT\CoreDomain\EmailCollection;
 use EVT\CoreDomain\Lead\Event;
@@ -50,7 +51,8 @@ class LeadControllerGetTest extends WebTestCase
                     new Email('valid2@email.com')
                 )
             ),
-            new Vertical('test.com')
+            new Vertical('test.com'),
+            new ShowroomType(ShowroomType::FREE)
         );
 
         $rflShowroom = new \ReflectionClass($showroom);

@@ -17,23 +17,22 @@ class Showroom
     private $name; // Only use for serialize
     private $phone; // Only use for serialize
     private $score;
+    private $type;
     private $provider;
     private $vertical;
     private $informationBag;
     private $extraData;
 
-
     public function __construct(
         Provider $provider,
         Vertical $vertical,
-        $score = 0,
+        ShowroomType $type,
         InformationBag $informationBag = null,
         $extraData = ''
     ) {
-
         $this->provider = $provider;
         $this->vertical = $vertical;
-        $this->score = (int)$score;
+        $this->changeType($type);
         $this->informationBag = ($informationBag) ? $informationBag : new InformationBag();
         $this->extraData = $extraData;
     }
@@ -98,8 +97,30 @@ class Showroom
         return $this->score;
     }
 
+    public function getType()
+    {
+        return $this->type;
+    }
+
     public function getExtraData()
     {
         return $this->extraData;
+    }
+
+    public function changeType(ShowroomType $newType)
+    {
+        $this->type = $newType;
+        $this->updateScoreFromType();
+    }
+
+    private function updateScoreFromType()
+    {
+        switch ($this->type->getType()) {
+            case ShowroomType::FREE:
+                $this->score = 0;
+                break;
+            default:
+                $this->score = 1;
+        }
     }
 }

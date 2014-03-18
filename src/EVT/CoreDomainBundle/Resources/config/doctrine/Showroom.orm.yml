@@ -52,6 +52,12 @@ EVT\CoreDomainBundle\Entity\Showroom:
             scale: 0
             comment: ''
             default: '0'
+        type:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            default: '1'
     manyToOne:
         vertical:
             targetEntity: Vertical
