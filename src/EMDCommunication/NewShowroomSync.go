@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/streadway/amqp"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -13,7 +14,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"io/ioutil"
 )
 
 func failOnError(err error, msg string) {
@@ -85,9 +85,9 @@ func main() {
 	failOnError(err, "Failed to open a channel")
 
 	defer ch.Close()
-	
+
 	ch.QueueDeclare("emd-showroom-created-comm-fail-queue", true, false, false, false, nil)
-	
+
 	msgs, err := ch.Consume("emd-showroom-created-queue", "", false, false, false, false, nil)
 	failOnError(err, "Failed to register a consumer")
 
@@ -125,19 +125,18 @@ func main() {
 			postParams.Set("showroom[slug]", showroom.Slug)
 			postParams.Set("showroom[e-vertical]", showroom.Vertical.Domain)
 			postParams.Set("showroom[score]", strconv.Itoa(showroom.Score))
-			postParams.Set("showroom[location][lat]", strconv.Itoa(showroom.Provider.Location.Lat))
-			postParams.Set("showroom[location][long]", strconv.Itoa(showroom.Provider.Location.Long))
+			postParams.Set("showroom[location][lat]", strconv.FormatFloat(showroom.Provider.Location.Lat, 'f', 13, 64))
+			postParams.Set("showroom[location][long]", strconv.FormatFloat(showroom.Provider.Location.Long, 'f', 13, 64))
 			postParams.Set("showroom[location][country]", showroom.Provider.Location.Country)
 			postParams.Set("showroom[extra_data]", showroom.Extra_data)
 
-log.Printf("------------------------------")
-log.Printf("URL: %s", emd_api_root+emd_api_showroom)
-log.Printf("Params: %s", postParams)
-log.Printf(" ")
+			log.Printf("------------------------------")
+			log.Printf("URL: %s", emd_api_root+emd_api_showroom)
+			log.Printf("Params: %s", postParams)
+			log.Printf(" ")
 			resp, err := http.PostForm(
 				"http://"+emd_api_root+emd_api_showroom,
 				postParams)
-				
 
 			if err != nil {
 				moveToFailQueue(ch, msg.Body)
