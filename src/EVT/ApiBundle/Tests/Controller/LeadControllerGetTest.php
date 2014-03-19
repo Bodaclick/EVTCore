@@ -15,6 +15,7 @@ use EVT\CoreDomain\Provider\ProviderId;
 use EVT\CoreDomain\Provider\Showroom;
 use EVT\CoreDomain\Provider\Vertical;
 use EVT\CoreDomain\User\PersonalInformation;
+use EVT\CoreDomainBundle\Model\Paginator;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 
@@ -41,7 +42,7 @@ class LeadControllerGetTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    public function mockData ()
+    public function mockDataLead()
     {
         $showroom = new Showroom(
             new Provider(
@@ -75,6 +76,25 @@ class LeadControllerGetTest extends WebTestCase
         return $lead;
     }
 
+    public function mockData ()
+    {
+        $lead = $this->mockDataLead();
+
+        $mockPagination = $this->getMockBuilder('Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination')
+            ->disableOriginalConstructor()->getMock();
+        $mockPagination->expects($this->once())
+            ->method('getCurrentPageNumber')
+            ->will($this->returnvalue(1));
+        $mockPagination->expects($this->once())
+            ->method('getItemNumberPerPage')
+            ->will($this->returnvalue(10));
+        $mockPagination->expects($this->once())
+            ->method('getTotalItemCount')
+            ->will($this->returnvalue(1));
+
+        return new Paginator($mockPagination, [$lead]);
+    }
+
     public function mockLeadsContainer($method, $lead1)
     {
         $leadRepo = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\LeadRepository')
@@ -88,7 +108,7 @@ class LeadControllerGetTest extends WebTestCase
 
     public function testGetLeads()
     {
-        $this->mockLeadsContainer('findByOwner', [$this->mockData()]);
+        $this->mockLeadsContainer('findByOwner', $this->mockData());
         $this->client->request(
             'GET',
             '/api/leads?apikey=apikeyValue',
@@ -104,11 +124,15 @@ class LeadControllerGetTest extends WebTestCase
         $this->assertCount(1, ['items']);
         $this->assertEquals('valid@email.com', $arrayLeads['items'][0]['email']['email']);
         $this->assertEquals('2014-01-01CET14:00:01+0100', $arrayLeads['items'][0]['event']['date']);
+        $this->assertEquals(1, $arrayLeads['pagination']['total_pages']);
+        $this->assertEquals(1, $arrayLeads['pagination']['current_page']);
+        $this->assertEquals(10, $arrayLeads['pagination']['items_per_page']);
+        $this->assertEquals(1, $arrayLeads['pagination']['total_items']);
     }
 
     public function testGetLead()
     {
-        $this->mockLeadsContainer('findByIdOwner', $this->mockData());
+        $this->mockLeadsContainer('findByIdOwner', $this->mockDataLead());
         $this->client->request(
             'GET',
             '/api/leads/1?apikey=apikeyValue',

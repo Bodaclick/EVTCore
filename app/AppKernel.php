@@ -27,7 +27,8 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new BDK\AsyncDispatcherBundle\BDKAsyncDispatcherBundle(),
-            new EVT\EvtApplication\EVTEvtApplication()
+            new EVT\EvtApplication\EVTEvtApplication(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

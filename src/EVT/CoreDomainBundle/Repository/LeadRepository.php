@@ -14,6 +14,7 @@ use EVT\CoreDomainBundle\Model\LeadInformation as ORMLeadInformation;
 use EVT\CoreDomainBundle\Mapping\LeadToEntityMapping;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use EVT\CoreDomainBundle\Factory\PaginatorFactory;
 
 /**
  * UserRepository
@@ -25,10 +26,16 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 class LeadRepository extends EntityRepository implements DomainRepository
 {
     private $asyncDispatcher;
+    private $paginator;
 
     public function setAsyncDispatcher(AsyncEventDispatcherInterface $asyncDispatcher)
     {
         $this->asyncDispatcher = $asyncDispatcher;
+    }
+
+    public function setPaginator($paginator)
+    {
+        $this->paginator = $paginator;
     }
 
     public function save($lead)
@@ -142,7 +149,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
         return $this->mapper->mapEntityToDomain($lead);
     }
 
-    public function findByOwner($username)
+    public function findByOwner($username, $page = 1)
     {
         if (empty($username)) {
             return null;
@@ -157,21 +164,19 @@ class LeadRepository extends EntityRepository implements DomainRepository
             where u.username = :username
             order by l.id DESC"
         )
-            ->setParameter("username", $username)
-            ->getResult();
+            ->setParameter("username", $username);
 
-        if (empty($leads)) {
-            return null;
-        } else {
-            foreach ($leads as $lead) {
-                $arrayDomLeads[] = $this->mapper->mapEntityToDomain($lead);
-            }
+        $pagination = $this->paginator->paginate($leads, $page, 10);
+
+        $arrayDomLeads = [];
+        foreach ($pagination->getItems() as $lead) {
+            $arrayDomLeads[] = $this->mapper->mapEntityToDomain($lead);
         }
-
-        return $arrayDomLeads;
+        if (sizeof($arrayDomLeads) === 0) return null;
+        return PaginatorFactory::create($pagination, $arrayDomLeads);
     }
 
-    public function findByIdOwner ($id, $username)
+    public function findByIdOwner($id, $username)
     {
         if (empty($id)) {
             return null;
