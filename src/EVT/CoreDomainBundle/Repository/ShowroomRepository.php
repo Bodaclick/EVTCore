@@ -71,4 +71,32 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         $rflId->setAccessible(true);
         $rflId->setValue($showroom, $id);
     }
+
+    public function findByOwner($username)
+    {
+        if (empty($username)) {
+            return null;
+        }
+
+        $showrooms = $this->_em->createQuery(
+            "select s
+            from EVTCoreDomainBundle:Showroom s
+            join s.provider p
+            join p.genericUser u
+            where u.username = :username
+            order by s.id ASC"
+        )
+            ->setParameter("username", $username)
+            ->getResult();
+
+        if (empty($showrooms)) {
+            return null;
+        } else {
+            foreach ($showrooms as $showroom) {
+                $arrayDomShowrooms[] = $this->mapping->mapEntityToDomain($showroom);
+            }
+        }
+
+        return $arrayDomShowrooms;
+    }
 }
