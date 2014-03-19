@@ -1,16 +1,16 @@
 {% spaceless %}
 {
     "items": [
-        {% for lead in leads %}
+        {% for lead in leads.getItems %}
         {% include 'EVTApiBundle:Lead:lead.html.twig' %}
         {% if not loop.last %},{% endif %}
         {% endfor %}
     ],
     "pagination": {
-        "total_pages": 1,
-        "current_page": 1,
-        "items_per_page":1,
-        "total_items": 1
+        "total_pages": {{ leads.totalPages }},
+        "current_page": {{ leads.currentPageNumber }},
+        "items_per_page":{{ leads.numItemsPerPage }},
+        "total_items": {{ leads.totalCount }}
     }
 }
 {% endspaceless %}
