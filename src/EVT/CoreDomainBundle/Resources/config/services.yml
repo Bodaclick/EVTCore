@@ -20,6 +20,7 @@ services:
         calls:
             - [setMapper, [@evt.mapper.lead]]
             - [setAsyncDispatcher, [@bdk.async_event_dispatcher]]
+            - [setPaginator, [@knp_paginator]]
 
     evt.repository.showroom:
         parent: evt.repository

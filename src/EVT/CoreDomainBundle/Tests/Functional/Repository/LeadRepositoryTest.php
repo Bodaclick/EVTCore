@@ -66,9 +66,14 @@ class LeadRepositoryTest extends WebTestCase
     {
         $leads = $this->repo->findByOwner('usernameManager');
 
-        $this->assertCount(2, $leads);
-        $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leads[0]);
-        $this->assertEquals('valid@email.com', $leads[0]->getEmail()->getEmail());
+        $this->assertCount(2, $leads->getItems());
+        $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leads->getItems()[0]);
+        $this->assertEquals('valid@email.com', $leads->getItems()[0]->getEmail()->getEmail());
+
+        $this->assertEquals(1, $leads->getTotalPages());
+        $this->assertEquals(1, $leads->getCurrentPageNumber());
+        $this->assertEquals(10, $leads->getNumItemsPerPage());
+        $this->assertEquals(2, $leads->getTotalCount());
     }
 
     public function providerLeads()
