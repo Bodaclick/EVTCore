@@ -8,6 +8,7 @@ use EVT\CoreDomain\Provider\ShowroomRepositoryInterface as DomainRepository;
 use Doctrine\ORM\EntityRepository;
 use EVT\CoreDomainBundle\Mapping\ShowroomMapping;
 use BDK\AsyncEventDispatcher\AsyncEventDispatcherInterface;
+use EVT\CoreDomainBundle\Factory\PaginatorFactory;
 
 /**
  * Class ShowroomRepository
@@ -20,10 +21,16 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
 
     private $mapping;
     private $asyncDispatcher;
+    private $paginator;
 
     public function setAsyncDispatcher(AsyncEventDispatcherInterface $asyncDispatcher)
     {
         $this->asyncDispatcher = $asyncDispatcher;
+    }
+
+    public function setPaginator($paginator)
+    {
+        $this->paginator = $paginator;
     }
 
     public function save($showroom)
@@ -72,7 +79,7 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         $rflId->setValue($showroom, $id);
     }
 
-    public function findByOwner($username)
+    public function findByOwner($username, $page = 1)
     {
         if (empty($username)) {
             return null;
@@ -86,17 +93,16 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
             where u.username = :username
             order by s.id ASC"
         )
-            ->setParameter("username", $username)
-            ->getResult();
+            ->setParameter("username", $username);
 
-        if (empty($showrooms)) {
-            return null;
-        } else {
-            foreach ($showrooms as $showroom) {
-                $arrayDomShowrooms[] = $this->mapping->mapEntityToDomain($showroom);
-            }
+        $pagination = $this->paginator->paginate($showrooms, $page, 10);
+
+        $arrayDomShowrooms = [];
+        foreach ($pagination->getItems() as $showroom) {
+            $arrayDomShowrooms[] = $this->mapping->mapEntityToDomain($showroom);
         }
+        if (sizeof($arrayDomShowrooms) === 0) return null;
 
-        return $arrayDomShowrooms;
+        return PaginatorFactory::create($pagination, $arrayDomShowrooms);
     }
 }

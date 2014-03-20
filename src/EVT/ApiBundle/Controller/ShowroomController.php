@@ -48,7 +48,7 @@ class ShowroomController extends Controller
         $view->setFormat('json');
 
         $showroomRepository = $this->container->get('evt.repository.showroom');
-        $showrooms =  $showroomRepository->findByOwner($request->get('canView', null));
+        $showrooms =  $showroomRepository->findByOwner($request->get('canView', null), $request->get('page', 1));
 
         $statusCode = Codes::HTTP_OK;
         if (empty($showrooms)) {
