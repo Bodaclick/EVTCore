@@ -63,5 +63,4 @@ class ShowroomControllerGetTest extends WebTestCase
         $this->assertEquals(10, $arrayShowrooms['pagination']['items_per_page']);
         $this->assertEquals(2, $arrayShowrooms['pagination']['total_items']);
     }
-
 }

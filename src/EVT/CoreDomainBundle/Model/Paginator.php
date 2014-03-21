@@ -18,10 +18,10 @@ class Paginator
 
     public function __construct(SlidingPagination $slidingPagination, $arrayDomLeads)
     {
-        $this->pagination ["current_page"] = $slidingPagination->getCurrentPageNumber();
-        $this->pagination ["items_per_page"] = $slidingPagination->getItemNumberPerPage();
-        $this->pagination ["total_items"] = $slidingPagination->getTotalItemCount();
-        $this->pagination ["total_pages"] = ceil($this->pagination ["total_items"] / $this->pagination ["items_per_page"]);
+        $this->pagination["current_page"] = $slidingPagination->getCurrentPageNumber();
+        $this->pagination["items_per_page"] = $slidingPagination->getItemNumberPerPage();
+        $this->pagination["total_items"] = $slidingPagination->getTotalItemCount();
+        $this->pagination["total_pages"] = ceil($this->pagination["total_items"] / $this->pagination["items_per_page"]);
         $this->items = $arrayDomLeads;
     }
 

@@ -16,11 +16,10 @@ use EVT\CoreDomain\Provider\ShowroomType;
 /**
  * LoadLeadData
  *
- * @author    Quique Torras <etorras@bodaclick.com>
  * @author    Marco Ferrari <marco.ferrari@bodaclick.com>
  * @copyright 2014 Bodaclick S.A.
  */
-class LoadLeadData implements FixtureInterface, ContainerAwareInterface
+class LoadNotMainLeadData implements FixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -38,42 +37,20 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
     {
         $userManager = $this->container->get('fos_user.user_manager');
 
-        $employee = $userManager->createUser();
-        $employee->setUsername('usernameEmployee');
-        $employee->setEmail('valid@emailEmployee.com');
-        $employee->setPlainPassword('passEmployee');
-        $employee->addRole('ROLE_EMPLOYEE');
-        $employee->setName('nameEmployee');
-        $employee->setSurnames('surnamesEmployee');
-        $employee->setPhone('01');
-
-        $userManager->updateUser($employee);
-
         $user = $userManager->createUser();
-        $user->setUsername('usernameManager');
-        $user->setEmail('valid@emailManager.com');
-        $user->setPlainPassword('passManager');
+        $user->setUsername('usernameOtherManager');
+        $user->setEmail('valid@emailOtherManager.com');
+        $user->setPlainPassword('passOtherManager');
         $user->addRole('ROLE_MANAGER');
-        $user->setName('nameManager');
-        $user->setSurnames('surnamesManager');
+        $user->setName('nameOtherManager');
+        $user->setSurnames('surnamesOtherManager');
         $user->setPhone('0132465987');
 
         $userManager->updateUser($user);
 
-        $user2 = $userManager->createUser();
-        $user2->setUsername('usernameManager2');
-        $user2->setEmail('valid2@emailManager.com');
-        $user2->setPlainPassword('passManager2');
-        $user2->addRole('ROLE_MANAGER');
-        $user2->setName('nameManager2');
-        $user2->setSurnames('surnamesManager2');
-        $user2->setPhone('0132465987');
-
-        $userManager->updateUser($user2);
-
         $prov = new Provider();
         $prov->setName('name');
-        $prov->setNotificationEmails(['valid@email.com']);
+        $prov->setNotificationEmails(['validOther@email.com']);
         $prov->setLocationLat(10);
         $prov->setLocationLong(10);
         $prov->setLocationAdminLevel1('test');
@@ -83,7 +60,7 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $manager->persist($prov);
 
         $vert = new Vertical();
-        $vert->setDomain('test.com');
+        $vert->setDomain('testOther.com');
         $manager->persist($vert);
 
         $showroom = new Showroom();
@@ -106,7 +83,7 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $lead->setEventLocationLong('43.98');
         $lead->setEventType(1);
         $lead->setShowroom($showroom);
-        $lead->setUserEmail('valid@email.com');
+        $lead->setUserEmail('validOther@email.com');
         $lead->setUserName('Pepe');
         $lead->setUserSurnames('Potamo');
         $lead->setUserPhone('919999999');
@@ -115,25 +92,6 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $lead->addLeadInformation($leadInformation);
 
         $manager->persist($lead);
-
-        $lead2 = new Lead();
-        $lead2->setEventDate(new \DateTime('2014-01-25 13:55:56', new \DateTimeZone('UTC')));
-        $lead2->setEventLocationAdminLevel1('Madrid');
-        $lead2->setEventLocationAdminLevel2('Madrid');
-        $lead2->setEventLocationCountry('Spain');
-        $lead2->setEventLocationLat('24.45');
-        $lead2->setEventLocationLong('43.98');
-        $lead2->setEventType(1);
-        $lead2->setShowroom($showroom);
-        $lead2->setUserEmail('valid@email.com');
-        $lead2->setUserName('Pepe');
-        $lead2->setUserSurnames('Potamo');
-        $lead2->setUserPhone('919999999');
-        $lead2->setCreatedAt(new \DateTime('2013-11-11', new \DateTimeZone('UTC')));
-        $lead2->setReadAt(new \DateTime('2013-10-01', new \DateTimeZone('UTC')));
-        $lead2->addLeadInformation($leadInformation);
-
-        $manager->persist($lead2);
 
         $manager->flush();
     }

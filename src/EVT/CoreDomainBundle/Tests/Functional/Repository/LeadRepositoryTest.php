@@ -26,6 +26,7 @@ class LeadRepositoryTest extends WebTestCase
     {
         $classes = [
             'EVT\ApiBundle\Tests\DataFixtures\ORM\LoadLeadData',
+            'EVT\ApiBundle\Tests\DataFixtures\ORM\LoadNotMainLeadData'
         ];
         $this->loadFixtures($classes);
         static::$kernel = static::createKernel();
@@ -154,7 +155,7 @@ class LeadRepositoryTest extends WebTestCase
 
     public function testCount()
     {
-        $this->assertEquals(2, $this->repo->count());
+        $this->assertEquals(3, $this->repo->count());
     }
 
     public function testFindByShowroomEmailSeconds()
@@ -179,5 +180,18 @@ class LeadRepositoryTest extends WebTestCase
 
         $this->assertCount(1, $leads);
         $this->assertEquals('rare@mail.com', $leads[0]->getEmail()->getEmail());
+    }
+
+    public function testFindByOwnerEmployee()
+    {
+        $leads = $this->repo->findByOwner('usernameEmployee');
+
+        $this->assertCount(3, $leads->getItems());
+        $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leads->getItems()[0]);
+        $this->assertEquals('validOther@email.com', $leads->getItems()[0]->getEmail()->getEmail());
+        $this->assertEquals(1, $leads->getPagination()['total_pages']);
+        $this->assertEquals(1, $leads->getPagination()['current_page']);
+        $this->assertEquals(10, $leads->getPagination()['items_per_page']);
+        $this->assertEquals(3, $leads->getPagination()['total_items']);
     }
 }

@@ -101,7 +101,9 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         foreach ($pagination->getItems() as $showroom) {
             $arrayDomShowrooms[] = $this->mapping->mapEntityToDomain($showroom);
         }
-        if (sizeof($arrayDomShowrooms) === 0) return null;
+        if (sizeof($arrayDomShowrooms) === 0) {
+            return null;
+        }
 
         return PaginatorFactory::create($pagination, $arrayDomShowrooms);
     }

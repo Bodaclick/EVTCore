@@ -24,7 +24,7 @@ use EVT\CoreDomain\User\PersonalInformation;
  *
  * @copyright 2014 Bodaclick S.A.
  */
-class PaginatorFactoryTest  extends \PHPUnit_Framework_TestCase
+class PaginatorFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function mockDataLead()
     {

@@ -77,8 +77,8 @@ class ShowroomControllerGetTest extends WebTestCase
 
     public function mockContainer($method, $dataShowroom)
     {
-        $showroomMock = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\ShowroomRepository')->disableOriginalConstructor()
-            ->getMock();
+        $showroomMock = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\ShowroomRepository')
+            ->disableOriginalConstructor()->getMock();
         $showroomMock->expects($this->once())->method($method)->will($this->returnvalue($dataShowroom));
 
         $this->client->getContainer()->set('evt.repository.showroom', $showroomMock);
