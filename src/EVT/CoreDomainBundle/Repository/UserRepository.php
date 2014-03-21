@@ -122,6 +122,21 @@ class UserRepository extends EntityRepository implements DomainRepository
         return $this->userMapping->mapEntityToDomain($eGenericUser);
     }
 
+    public function getEmployeeByUsername($username)
+    {
+        $manager = $this->createQueryBuilder('u');
+        $manager->select('u')
+            ->where('u.roles LIKE :roles')
+            ->andWhere('u.username  = :username')
+            ->setParameter('roles', '%"ROLE_EMPLOYEE"%')
+            ->setParameter('username', $username);
+        $eGenericUser = $manager->getQuery()->getOneOrNullResult();
+        if (null === $eGenericUser) {
+            return null;
+        }
+        return $this->userMapping->mapEntityToDomain($eGenericUser);
+    }
+
     public function resetPassword ($username)
     {
         $user = $this->userManager->findUserByUsername($username);
