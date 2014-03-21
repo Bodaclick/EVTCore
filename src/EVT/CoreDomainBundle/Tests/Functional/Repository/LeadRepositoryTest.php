@@ -30,9 +30,7 @@ class LeadRepositoryTest extends WebTestCase
         $this->loadFixtures($classes);
         static::$kernel = static::createKernel();
         static::$kernel->boot();
-        $this->repo = static::$kernel->getContainer()
-            ->get('evt.repository.lead')
-        ;
+        $this->repo = static::$kernel->getContainer()->get('evt.repository.lead');
     }
 
     public function testFindByIdOwner()

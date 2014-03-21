@@ -93,7 +93,7 @@ class ShowroomControllerGetTest extends WebTestCase
             '/api/showrooms?apikey=apikeyValue',
             [],
             [],
-            [$this->header]
+            $this->header
         );
 
         $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());
