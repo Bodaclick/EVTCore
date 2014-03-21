@@ -39,7 +39,7 @@ class LeadControllerPatchTest extends WebTestCase
             '/api/leads/1/read?apikey=apikeyValue&canView=usernameManager',
             [],
             [],
-            [$this->header]
+            $this->header
         );
 
         $this->assertEquals(Codes::HTTP_ACCEPTED, $this->client->getResponse()->getStatusCode());
@@ -49,7 +49,7 @@ class LeadControllerPatchTest extends WebTestCase
             '/api/leads/1?apikey=apikeyValue&canView=usernameManager',
             [],
             [],
-            [$this->header]
+            $this->header
         );
 
         $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());

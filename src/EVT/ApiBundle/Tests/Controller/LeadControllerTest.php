@@ -97,7 +97,7 @@ class LeadControllerTest extends WebTestCase
             '/api/leads?apikey=apikeyValue',
             $params,
             [],
-            ['Content-Type' => 'application/json', 'Accept' => 'application/json']
+            $this->header
         );
 
         $this->assertEquals(Codes::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
@@ -110,7 +110,7 @@ class LeadControllerTest extends WebTestCase
             '/api/leads/new?apikey=apikeyValue',
             [],
             [],
-            ['Content-Type' => 'text/html', 'Accept' => 'text/html']
+            $this->header
         );
 
         $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());

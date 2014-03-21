@@ -8,6 +8,7 @@ use EVT\CoreDomain\Provider\ShowroomRepositoryInterface as DomainRepository;
 use Doctrine\ORM\EntityRepository;
 use EVT\CoreDomainBundle\Mapping\ShowroomMapping;
 use BDK\AsyncEventDispatcher\AsyncEventDispatcherInterface;
+use EVT\CoreDomainBundle\Factory\PaginatorFactory;
 
 /**
  * Class ShowroomRepository
@@ -20,10 +21,16 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
 
     private $mapping;
     private $asyncDispatcher;
+    private $paginator;
 
     public function setAsyncDispatcher(AsyncEventDispatcherInterface $asyncDispatcher)
     {
         $this->asyncDispatcher = $asyncDispatcher;
+    }
+
+    public function setPaginator($paginator)
+    {
+        $this->paginator = $paginator;
     }
 
     public function save($showroom)
@@ -70,5 +77,32 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         $rflId = $rflShowroom->getProperty('id');
         $rflId->setAccessible(true);
         $rflId->setValue($showroom, $id);
+    }
+
+    public function findByOwner($username, $page = 1)
+    {
+        if (empty($username)) {
+            return null;
+        }
+
+        $showrooms = $this->_em->createQuery(
+            "select s
+            from EVTCoreDomainBundle:Showroom s
+            join s.provider p
+            join p.genericUser u
+            where u.username = :username
+            order by s.id ASC"
+        )
+            ->setParameter("username", $username);
+
+        $pagination = $this->paginator->paginate($showrooms, $page, 10);
+
+        $arrayDomShowrooms = [];
+        foreach ($pagination->getItems() as $showroom) {
+            $arrayDomShowrooms[] = $this->mapping->mapEntityToDomain($showroom);
+        }
+        if (sizeof($arrayDomShowrooms) === 0) return null;
+
+        return PaginatorFactory::create($pagination, $arrayDomShowrooms);
     }
 }

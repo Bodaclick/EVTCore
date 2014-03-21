@@ -41,7 +41,7 @@ class LeadControllerGetTest extends WebTestCase
             '/api/leads?apikey=apikeyValue&canView=usernameManager',
             [],
             [],
-            [$this->header]
+            $this->header
         );
 
         $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());
@@ -71,7 +71,7 @@ class LeadControllerGetTest extends WebTestCase
             '/api/leads?apikey=apikeyValue&canView=usernameManagerCannot',
             [],
             [],
-            [$this->header]
+            $this->header
         );
 
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
@@ -84,7 +84,7 @@ class LeadControllerGetTest extends WebTestCase
             '/api/leads?apikey=apikeyValue',
             [],
             [],
-            [$this->header]
+            $this->header
         );
 
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
@@ -97,7 +97,7 @@ class LeadControllerGetTest extends WebTestCase
             '/api/leads/1?apikey=apikeyValue&canView=usernameManager',
             [],
             [],
-            [$this->header]
+            $this->header
         );
 
         $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());
@@ -122,7 +122,7 @@ class LeadControllerGetTest extends WebTestCase
             '/api/leads/1?apikey=apikeyValue&canView=usernameManagerCannot',
             [],
             [],
-            [$this->header]
+            $this->header
         );
 
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
@@ -135,7 +135,7 @@ class LeadControllerGetTest extends WebTestCase
             '/api/leads/1?apikey=apikeyValue',
             [],
             [],
-            [$this->header]
+            $this->header
         );
 
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());

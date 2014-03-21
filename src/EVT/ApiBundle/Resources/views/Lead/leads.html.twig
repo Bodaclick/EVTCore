@@ -7,10 +7,10 @@
         {% endfor %}
     ],
     "pagination": {
-        "total_pages": {{ leads.totalPages }},
-        "current_page": {{ leads.currentPageNumber }},
-        "items_per_page":{{ leads.numItemsPerPage }},
-        "total_items": {{ leads.totalCount }}
+        "total_pages": {{ leads.getPagination.total_pages }},
+        "current_page": {{ leads.getPagination.current_page }},
+        "items_per_page":{{ leads.getPagination.items_per_page }},
+        "total_items": {{ leads.getPagination.total_items }}
     }
 }
 {% endspaceless %}

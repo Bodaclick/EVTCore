@@ -6,6 +6,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\View\View as FosView;
+use FOS\RestBundle\Util\Codes;
+use Symfony\Component\HttpFoundation\Response;
 
 class ShowroomController extends Controller
 {
@@ -34,5 +37,25 @@ class ShowroomController extends Controller
             throw new BadRequestHttpException($e->getMessage());
         }
         return ['showroom' => '/api/showrooms/' .$showroom->getId()];
+    }
+
+    /**
+     * @View(statusCode=200)
+     */
+    public function getShowroomsAction(Request $request)
+    {
+        $view = FosView::create();
+        $view->setFormat('json');
+
+        $showroomRepository = $this->container->get('evt.repository.showroom');
+        $showrooms =  $showroomRepository->findByOwner($request->get('canView', null), $request->get('page', 1));
+
+        $statusCode = Codes::HTTP_OK;
+        if (empty($showrooms)) {
+            $statusCode = Codes::HTTP_NOT_FOUND;
+            return new Response('', $statusCode);
+        }
+
+        return $view->setStatusCode($statusCode)->setData($showrooms);
     }
 }

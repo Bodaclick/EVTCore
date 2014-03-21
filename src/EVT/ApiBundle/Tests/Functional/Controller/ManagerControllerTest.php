@@ -26,7 +26,7 @@ class ManagerControllerTest extends WebTestCase
         $this->client = static::createClient();
         $this->header = ['Content-Type' => 'application/x-www-form-urlencoded', 'HTTP_ACCEPT' => 'application/json'];
         $this->loadFixtures(
-            ['EVT\ApiBundle\Tests\DataFixtures\ORM\LoadShowroomData']
+            ['EVT\ApiBundle\Tests\DataFixtures\ORM\LoadVerticalData']
         );
 
     }

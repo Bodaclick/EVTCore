@@ -30,9 +30,7 @@ class LeadRepositoryTest extends WebTestCase
         $this->loadFixtures($classes);
         static::$kernel = static::createKernel();
         static::$kernel->boot();
-        $this->repo = static::$kernel->getContainer()
-            ->get('evt.repository.lead')
-        ;
+        $this->repo = static::$kernel->getContainer()->get('evt.repository.lead');
     }
 
     public function testFindByIdOwner()
@@ -69,11 +67,10 @@ class LeadRepositoryTest extends WebTestCase
         $this->assertCount(2, $leads->getItems());
         $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leads->getItems()[0]);
         $this->assertEquals('valid@email.com', $leads->getItems()[0]->getEmail()->getEmail());
-
-        $this->assertEquals(1, $leads->getTotalPages());
-        $this->assertEquals(1, $leads->getCurrentPageNumber());
-        $this->assertEquals(10, $leads->getNumItemsPerPage());
-        $this->assertEquals(2, $leads->getTotalCount());
+        $this->assertEquals(1, $leads->getPagination()['total_pages']);
+        $this->assertEquals(1, $leads->getPagination()['current_page']);
+        $this->assertEquals(10, $leads->getPagination()['items_per_page']);
+        $this->assertEquals(2, $leads->getPagination()['total_items']);
     }
 
     public function providerLeads()

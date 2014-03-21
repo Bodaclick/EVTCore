@@ -13,35 +13,24 @@ use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
  */
 class Paginator
 {
-    private $currentPageNumber;
-    private $numItemsPerPage;
-    private $totalCount;
-    private $totalPages;
     private $items = [];
+    private $pagination = [];
 
     public function __construct(SlidingPagination $slidingPagination, $arrayDomLeads)
     {
-        $this->currentPageNumber = $slidingPagination->getCurrentPageNumber();
-        $this->numItemsPerPage = $slidingPagination->getItemNumberPerPage();
-        $this->totalCount = $slidingPagination->getTotalItemCount();
-        $this->totalPages = ceil($this->getTotalCount() / $this->numItemsPerPage);
+        $this->pagination ["current_page"] = $slidingPagination->getCurrentPageNumber();
+        $this->pagination ["items_per_page"] = $slidingPagination->getItemNumberPerPage();
+        $this->pagination ["total_items"] = $slidingPagination->getTotalItemCount();
+        $this->pagination ["total_pages"] = ceil($this->pagination ["total_items"] / $this->pagination ["items_per_page"]);
         $this->items = $arrayDomLeads;
     }
 
     /**
-     * @return int
+     * @return array
      */
-    public function getTotalPages()
+    public function getPagination()
     {
-        return $this->totalPages;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCurrentPageNumber()
-    {
-        return $this->currentPageNumber;
+        return $this->pagination;
     }
 
     /**
@@ -50,21 +39,5 @@ class Paginator
     public function getItems()
     {
         return $this->items;
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumItemsPerPage()
-    {
-        return $this->numItemsPerPage;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTotalCount()
-    {
-        return $this->totalCount;
     }
 }
