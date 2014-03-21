@@ -84,9 +84,9 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     {
         $pagination = $this->mockData();
 
-        $this->assertEquals(3, $pagination->getTotalPages());
-        $this->assertEquals(3, $pagination->getCurrentPageNumber());
-        $this->assertEquals(1, sizeof($pagination->getItems()));
-        $this->assertEquals(10, $pagination->getNumItemsPerPage());
+        $this->assertEquals(3, $pagination->getPagination()['total_pages']);
+        $this->assertEquals(3, $pagination->getPagination()['current_page']);
+        $this->assertEquals(1, sizeof($pagination->getPagination()['total_items']));
+        $this->assertEquals(10, $pagination->getPagination()['items_per_page']);
     }
 }
