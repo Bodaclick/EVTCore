@@ -161,7 +161,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
             return null;
         }
 
-        if (empty($page) || !is_int($page)) {
+        if (empty($page) || !is_numeric($page)) {
             throw new \InvalidArgumentException('Page not valid', 0);
         }
 
