@@ -161,6 +161,10 @@ class LeadRepository extends EntityRepository implements DomainRepository
             return null;
         }
 
+        if (empty($page) || !is_int($page)) {
+            throw new \InvalidArgumentException('Page not valid', 0);
+        }
+
         $leads = $this->_em->createQuery(
             "SELECT l
             FROM EVTCoreDomainBundle:Lead l
