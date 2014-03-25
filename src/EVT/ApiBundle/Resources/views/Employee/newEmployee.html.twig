@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>New Manager</title>
+    <title>New employee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
     <!--[if lt IE 9]>
@@ -16,37 +16,37 @@
   {% if form is defined %}
       <p class="bg-danger">Submited that is wrong</p>
   {% endif %}
-  <h2>New Manager</h2>
-    <form role="form" action="{{ url('post_manager') }}?apikey={{ app.request.query.get('apikey') }}" method="POST">
+  <h2>New employee</h2>
+    <form role="form" action="{{ url('post_employee') }}?apikey={{ app.request.query.get('apikey') }}" method="POST">
       <fieldset>
-        <legend>Manager:</legend>
+        <legend>employee:</legend>
         <div class="form-group">
           <label for="user_name">Name</label>
-          <input type="text" class="form-control" id="manager_user_name" name="user[name]" placeholder="Enter name"  value="name">
+          <input type="text" class="form-control" id="employee_user_name" name="user[name]" placeholder="Enter name"  value="name">
         </div>
         <div class="form-group">
             <label for="user_username">Username</label>
-            <input type="text" class="form-control" id="manager_user_username" name="user[username]" placeholder="Enter username"  value="username">
+            <input type="text" class="form-control" id="employee_user_username" name="user[username]" placeholder="Enter username"  value="username">
         </div>
         <div class="form-group">
           <label for="user_surname">Surname</label>
-          <input type="text" class="form-control" id="manager_user_surnames" name="user[surnames]" placeholder="Enter surnames"  value="surnames">
+          <input type="text" class="form-control" id="employee_user_surnames" name="user[surnames]" placeholder="Enter surnames"  value="surnames">
         </div>
         <div class="form-group">
           <label for="user_email">Email</label>
-          <input type="email" class="form-control" id="manager_user_email" name="user[email]" placeholder="Enter email"  value="email@email.com">
+          <input type="email" class="form-control" id="employee_user_email" name="user[email]" placeholder="Enter email"  value="email@email.com">
         </div>
         <div class="form-group">
           <label for="user_phone">Phone</label>
-          <input type="text" class="form-control" id="manager_user_phone" name="user[phone]" placeholder="Enter phone"  value="0132456789">
+          <input type="text" class="form-control" id="employee_user_phone" name="user[phone]" placeholder="Enter phone"  value="0132456789">
         </div>
         <div class="form-group">
             <label for="user_name">Password</label>
-            <input type="password" class="form-control" id="manager_user_name" name="user[plainPassword][first]" placeholder="Enter Password">
+            <input type="password" class="form-control" id="employee_user_name" name="user[plainPassword][first]" placeholder="Enter Password">
         </div>
         <div class="form-group">
             <label for="user_name">Repeat password</label>
-            <input type="password" class="form-control" id="manager_user_name" name="user[plainPassword][second]" placeholder="Repeat Password">
+            <input type="password" class="form-control" id="employee_user_name" name="user[plainPassword][second]" placeholder="Repeat Password">
         </div>
       </fieldset>
       <button type="submit" class="btn btn-default btn-primary">Submit</button>

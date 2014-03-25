@@ -32,8 +32,10 @@ class ShowroomRepositoryTest extends WebTestCase
 
         $this->assertCount(2, $showroom->getItems());
         $this->assertInstanceOf('EVT\CoreDomain\Provider\Showroom', $showroom->getItems()[0]);
-        $this->assertEquals('valid@email.com', $showroom->getItems()[0]->getProvider()
-                ->getNotificationEmails()[0]->getEmail());
+        $this->assertEquals(
+            'valid@email.com',
+            $showroom->getItems()[0]->getProvider()->getNotificationEmails()[0]->getEmail()
+        );
         $this->assertEquals(1, $showroom->getPagination()['total_pages']);
         $this->assertEquals(1, $showroom->getPagination()['current_page']);
         $this->assertEquals(10, $showroom->getPagination()['items_per_page']);

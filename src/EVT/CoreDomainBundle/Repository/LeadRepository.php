@@ -27,6 +27,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
 {
     private $asyncDispatcher;
     private $paginator;
+    private $userRepo;
 
     public function setAsyncDispatcher(AsyncEventDispatcherInterface $asyncDispatcher)
     {
@@ -36,6 +37,11 @@ class LeadRepository extends EntityRepository implements DomainRepository
     public function setPaginator($paginator)
     {
         $this->paginator = $paginator;
+    }
+
+    public function setUserRepo($userRepo)
+    {
+        $this->userRepo = $userRepo;
     }
 
     public function save($lead)
@@ -156,23 +162,36 @@ class LeadRepository extends EntityRepository implements DomainRepository
         }
 
         $leads = $this->_em->createQuery(
-            "select l
-            from EVTCoreDomainBundle:Lead l
-            join l.showroom s
-            join s.provider p
-            join p.genericUser u
-            where u.username = :username
-            order by l.id DESC"
+            "SELECT l
+            FROM EVTCoreDomainBundle:Lead l
+                JOIN l.showroom s
+                JOIN s.provider p
+                JOIN p.genericUser u
+            WHERE u.username = :username
+            ORDER BY l.id DESC"
         )
             ->setParameter("username", $username);
 
         $pagination = $this->paginator->paginate($leads, $page, 10);
 
+        if ($pagination->count() == 0 && null !== $this->userRepo->getEmployeeByUsername($username)) {
+            $leads = $this->_em->createQuery(
+                "SELECT l
+                FROM EVTCoreDomainBundle:Lead l
+                ORDER BY l.id DESC"
+            );
+
+            $pagination = $this->paginator->paginate($leads, $page, 10);
+        }
+
         $arrayDomLeads = [];
         foreach ($pagination->getItems() as $lead) {
             $arrayDomLeads[] = $this->mapper->mapEntityToDomain($lead);
         }
-        if (sizeof($arrayDomLeads) === 0) return null;
+        if (sizeof($arrayDomLeads) === 0) {
+            return null;
+        }
+
         return PaginatorFactory::create($pagination, $arrayDomLeads);
     }
 
@@ -184,13 +203,13 @@ class LeadRepository extends EntityRepository implements DomainRepository
 
         try {
             $lead = $this->_em->createQuery(
-                "select l
-                from EVTCoreDomainBundle:Lead l
-                join l.showroom s
-                join s.provider p
-                join p.genericUser u
-                where u.username = :username
-                and l.id = :id"
+                "SELECT l
+                FROM EVTCoreDomainBundle:Lead l
+                    JOIN l.showroom s
+                    JOIN s.provider p
+                    JOIN p.genericUser u
+                WHERE u.username = :username
+                AND l.id = :id"
             )
             ->setParameter("username", $username)
             ->setParameter("id", $id)

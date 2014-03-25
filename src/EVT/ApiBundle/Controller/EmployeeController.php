@@ -11,16 +11,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations as FOS;
 
 /**
- * Class ManagerController
- * @author Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
+ * Class EmployeeController
+ *
+ * @author    Marco Ferrari <marco.ferrari@bodaclick.com>
  * @copyright 2014 Bodaclick
  */
-class ManagerController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * @FOS\View()
      */
-    public function newManagerAction()
+    public function newEmployeeAction()
     {
         return [];
     }
@@ -28,33 +29,33 @@ class ManagerController extends Controller
     /**
      * @FOS\View()
      */
-    public function postManagerAction(Request $request)
+    public function postEmployeeAction(Request $request)
     {
         $view = new View(null, Codes::HTTP_CREATED);
 
-        $userManager = $this->container->get('fos_user.user_manager');
+        $userEmployee = $this->container->get('fos_user.user_manager');
 
-        $user = $userManager->createUser();
+        $user = $userEmployee->createUser();
         $user->setEnabled(true);
-        $user->addRole('ROLE_MANAGER');
+        $user->addRole('ROLE_EMPLOYEE');
 
         $form = $this->createForm(new GenericUserFormType());
         $form->setData($user);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $userManager->updateUser($user);
+            $userEmployee->updateUser($user);
 
-            return $view->setData(['user' => sprintf('/api/managers/%d', $user->getId())]);
+            return $view->setData(['user' => sprintf('/api/employee/%d', $user->getId())]);
         }
 
         if ($user = $this->container->get('evt.repository.user')->findOneByEmail($user->getEmail())) {
             $view->setStatusCode(Codes::HTTP_CONFLICT);
-            return $view->setData(['user' => sprintf('/api/managers/%d', $user->getId())]);
+            return $view->setData(['user' => sprintf('/api/employee/%d', $user->getId())]);
         }
 
         $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
-        $view->setTemplate('EVTApiBundle:Manager:newManager.html.twig');
+        $view->setTemplate('EVTApiBundle:Employee:newEmployee.html.twig');
         $view->setData(['form' => $form->createView()]);
         return $this->get('fos_rest.view_handler')->handle($view);
     }

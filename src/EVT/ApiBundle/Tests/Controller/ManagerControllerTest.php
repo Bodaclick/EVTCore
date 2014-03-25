@@ -71,7 +71,7 @@ class ManagerControllerTest extends WebTestCase
 
         $this->assertRegExp(
             '/\/api\/managers\/\d+/',
-            json_decode($this->client->getResponse()->getContent(), true)['manager'],
+            json_decode($this->client->getResponse()->getContent(), true)['user'],
             $this->client->getResponse()->getContent()
         );
     }
@@ -156,7 +156,7 @@ class ManagerControllerTest extends WebTestCase
         );
         $this->assertRegExp(
             '/\/api\/managers\/\d+/',
-            json_decode($this->client->getResponse()->getContent(), true)['manager'],
+            json_decode($this->client->getResponse()->getContent(), true)['user'],
             $this->client->getResponse()->getContent()
         );
     }
