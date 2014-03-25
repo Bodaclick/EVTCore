@@ -92,6 +92,26 @@ class LeadRepositoryTest extends WebTestCase
         $this->assertNull($lead);
     }
 
+    public function providerLeadsWrongPage()
+    {
+        return [
+            ['username', 0],
+            ['username', ''],
+            ['username', '-'],
+            ['username', 'a'],
+        ];
+    }
+
+    /**
+     *
+     * @dataProvider providerLeadsWrongPage
+     * @expectedException InvalidArgumentException
+     */
+    public function testFindByOwnerWrongPage($username, $page)
+    {
+        $lead = $this->repo->findByOwner($username, $page);
+    }
+
     public function testSaveCreate()
     {
         $repoShowroom = static::$kernel->getContainer()
