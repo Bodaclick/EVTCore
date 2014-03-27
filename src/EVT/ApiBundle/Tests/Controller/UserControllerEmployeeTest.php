@@ -35,13 +35,13 @@ class UserControllerEmployeeTest extends WebTestCase
         $user = new User();
         $user->setName('demoName');
         $user->setEmail('demo@demo.com');
-        
+
         $userManager = $this->getMockBuilder('EVT\CoreDomainBundle\Repository\UserRepository')
             ->disableOriginalConstructor()->getMock();
-        
+
         $userManager->expects($this->once())->method('getManagerByUsername')->will($this->returnValue(null));
         $userManager->expects($this->once())->method('getEmployeeByUsername')->will($this->returnValue($user));
-        
+
         $this->client->getContainer()->set('evt.repository.user', $userManager);
     }
 
@@ -49,14 +49,14 @@ class UserControllerEmployeeTest extends WebTestCase
     {
         $this->mockContainerManager();
         $this->client->request('GET', '/api/users/demo@demo.com?apikey=apikeyValue', [], [], $this->header);
-         $this->assertEquals(
+        $this->assertEquals(
             Codes::HTTP_OK,
             $this->client->getResponse()->getStatusCode(),
             $this->client->getResponse()->getContent()
         );
-        
-        $arrayEmployee = json_decode($this->client->getResponse()->getContent(), true);    
+
+        $arrayEmployee = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertEquals('demoName', $arrayEmployee['name']);
-        $this->assertEquals('demo@demo.com', $arrayEmployee['email']); 
+        $this->assertEquals('demo@demo.com', $arrayEmployee['email']);
     }
 }
