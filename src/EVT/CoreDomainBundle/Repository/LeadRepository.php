@@ -219,7 +219,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
         ->setParameter("id", $id)
         ->getOneOrNullResult();
 
-        if (null !== $this->userRepo->getEmployeeByUsername($username)) {
+        if (null == $lead && null !== $this->userRepo->getEmployeeByUsername($username)) {
             $lead = $this->_em->createQuery(
                 "SELECT l
                 FROM EVTCoreDomainBundle:Lead l
@@ -229,7 +229,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
             ->getOneOrNullResult();
         }
 
-        return $leadDom = $this->mapper->mapEntityToDomain($lead);
+        return ($lead != null ) ? $this->mapper->mapEntityToDomain($lead) : null;
     }
 
     public function count()
