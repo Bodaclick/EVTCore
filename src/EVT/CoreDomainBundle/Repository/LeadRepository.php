@@ -21,6 +21,7 @@ use EVT\CoreDomainBundle\Factory\PaginatorFactory;
  *
  * @author    Eduardo Gulias Davis <eduardo.gulias@bodaclick.com>
  * @author    Marco Ferrari <marco.ferrari@bodaclick.com>
+ * @author    Enrique Torras <etorras@bodaclick.com>
  * @copyright 2014 Bodaclick S.A
  */
 class LeadRepository extends EntityRepository implements DomainRepository
@@ -205,21 +206,27 @@ class LeadRepository extends EntityRepository implements DomainRepository
             return null;
         }
 
-        try {
+        $lead = $this->_em->createQuery(
+            "SELECT l
+            FROM EVTCoreDomainBundle:Lead l
+                JOIN l.showroom s
+                JOIN s.provider p
+                JOIN p.genericUser u
+            WHERE u.username = :username
+            AND l.id = :id"
+        )
+        ->setParameter("username", $username)
+        ->setParameter("id", $id)
+        ->getOneOrNullResult();
+
+        if (null !== $this->userRepo->getEmployeeByUsername($username)) {
             $lead = $this->_em->createQuery(
                 "SELECT l
                 FROM EVTCoreDomainBundle:Lead l
-                    JOIN l.showroom s
-                    JOIN s.provider p
-                    JOIN p.genericUser u
-                WHERE u.username = :username
-                AND l.id = :id"
+                WHERE l.id = :id"
             )
-            ->setParameter("username", $username)
             ->setParameter("id", $id)
-            ->getSingleResult();
-        } catch (\Exception $e) {
-            return null;
+            ->getOneOrNullResult();
         }
 
         return $leadDom = $this->mapper->mapEntityToDomain($lead);
