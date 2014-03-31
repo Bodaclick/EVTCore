@@ -176,7 +176,9 @@ func main() {
 					hasFailed = true
 					log.Printf("response status code: " + strconv.Itoa(resp.StatusCode))
 					defer resp.Body.Close()
-				}
+				} else {
+					defer resp.Body.Close()
+        }
 			}
 
 			if hasFailed {
