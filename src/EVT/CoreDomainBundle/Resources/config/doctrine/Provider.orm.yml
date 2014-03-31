@@ -72,6 +72,12 @@ EVT\CoreDomainBundle\Entity\Provider:
             length: 45
             fixed: false
             comment: ''
+        lang:
+            type: string
+            nullable: false
+            length: 5
+            fixed: false
+            comment: ''
     manyToMany:
         genericUser:
             targetEntity: GenericUser

@@ -79,6 +79,7 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $prov->setLocationAdminLevel1('test');
         $prov->setLocationAdminLevel2('test');
         $prov->setLocationCountry('Spain');
+        $prov->setLang('es_ES');
         $prov->addGenericUser($user);
         $manager->persist($prov);
 

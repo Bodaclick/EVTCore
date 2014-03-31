@@ -46,7 +46,8 @@ class ProviderControllerTest extends WebTestCase
                 'locationCountry' => 'asdf',
                 'locationLat' => 10,
                 'locationLong' => 10,
-                'notificationEmails' => ['valid@email.com', 'valid2@email.com']
+                'notificationEmails' => ['valid@email.com', 'valid2@email.com'],
+                'lang' => 'es_ES'
             ]
         ];
 
@@ -91,7 +92,8 @@ class ProviderControllerTest extends WebTestCase
                         'locationCountry' => 'Span',
                         'locationLat' => 10,
                         'locationLong' => 10,
-                        'notificationEmails' => ['valid@email.com']
+                        'notificationEmails' => ['valid@email.com'],
+                        'lang' => 'es_ES'
                     ]
                 ],
                 [
@@ -104,7 +106,8 @@ class ProviderControllerTest extends WebTestCase
                         'locationCountry' => 'Span',
                         'locationLat' => 10,
                         'locationLong' => 10,
-                        'notificationEmails' => ['valid@email.com']
+                        'notificationEmails' => ['valid@email.com'],
+                        'lang' => 'es_ES'
                     ]
                 ],
                 [
@@ -117,7 +120,8 @@ class ProviderControllerTest extends WebTestCase
                         'locationCountry' => 'Span',
                         'locationLat' => 10,
                         'locationLong' => 10,
-                        'notificationEmails' => 'valid@email.com'
+                        'notificationEmails' => 'valid@email.com',
+                        'lang' => 'es_ES'
                     ]
                 ],
                 [
@@ -129,7 +133,8 @@ class ProviderControllerTest extends WebTestCase
                         'locationAdminLevel2' => 'test',
                         'locationCountry' => 'Span',
                         'locationLong' => 10,
-                        'notificationEmails' => 'valid@email.com'
+                        'notificationEmails' => 'valid@email.com',
+                        'lang' => 'es_ES'
                     ]
                 ],
             ]

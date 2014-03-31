@@ -42,7 +42,8 @@ class ShowroomControllerGetTest extends WebTestCase
                 'providername',
                 new EmailCollection(
                     new Email('valid2@email.com')
-                )
+                ),
+                'es_ES'
             ),
             new Vertical('test.com'),
             new ShowroomType(ShowroomType::FREE)
