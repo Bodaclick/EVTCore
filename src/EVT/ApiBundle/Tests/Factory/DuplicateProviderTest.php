@@ -18,7 +18,8 @@ class DuplicateProviderTest extends \PHPUnit_Framework_TestCase
             'locationCountry' => 'asdf',
             'locationLat' => 10,
             'locationLong' => 10,
-            'notificationEmails' => ['valid@email.com', 'valid2@email.com']
+            'notificationEmails' => ['valid@email.com', 'valid2@email.com'],
+            'lang' => 'es_ES'
         ];
         $manager = $this->getMockBuilder('EVT\CoreDomain\User\Manager')
             ->disableOriginalConstructor()->getMock();

@@ -63,6 +63,12 @@ class Provider
     private $genericUser;
 
     /**
+     * @var string
+     */
+    private $lang;
+
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -318,5 +324,21 @@ class Provider
     public function getGenericUser()
     {
         return $this->genericUser;
+    }
+
+    /**
+     * @param string $lang
+     */
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLang()
+    {
+        return $this->lang;
     }
 }

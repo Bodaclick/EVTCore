@@ -45,6 +45,7 @@ class ProviderMapping implements MappingInterface
         $eProvider->setName($provider->getName());
         $eProvider->setSlug($provider->getSlug());
         $eProvider->setPhone($provider->getPhone());
+        $eProvider->setLang($provider->getLang());
         $location = $provider->getLocation();
 
         if ($location) {
