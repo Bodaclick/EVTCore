@@ -21,7 +21,12 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreation()
     {
-        $provider = new Provider(new ProviderId(''), "testName", new EmailCollection(new Email('valid@email.com')));
+        $provider = new Provider(
+            new ProviderId(''),
+            "testName",
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
+        );
         $vertical = new Vertical("testDomain.test");
         $informationBag = new InformationBag(['slug' => 'different']);
 
@@ -31,7 +36,12 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
 
     public function testCreationWithExtraData()
     {
-        $provider = new Provider(new ProviderId(''), "testName", new EmailCollection(new Email('valid@email.com')));
+        $provider = new Provider(
+            new ProviderId(''),
+            "testName",
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
+        );
         $vertical = new Vertical("testDomain.test");
         $informationBag = new InformationBag(['slug' => 'different']);
 
@@ -47,7 +57,12 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
 
     public function testUrlChange()
     {
-        $provider = new Provider(new ProviderId(''), "testName", new EmailCollection(new Email('valid@email.com')));
+        $provider = new Provider(
+            new ProviderId(''),
+            "testName",
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
+        );
         $vertical = new Vertical("testDomain.test");
         $informationBag = new InformationBag();
 

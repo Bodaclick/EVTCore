@@ -52,7 +52,7 @@ class ProviderFactory
             $providerRequest['locationCountry']
         );
 
-        $provider = new Provider(new ProviderId(''), $providerRequest['name'], $emails, $location);
+        $provider = new Provider(new ProviderId(''), $providerRequest['name'], $emails, $providerRequest['lang'], $location);
         $provider->setPhone($providerRequest['phone']);
 
         $manager = $this->userRepo->getManagerById($providerRequest['genericUser']);

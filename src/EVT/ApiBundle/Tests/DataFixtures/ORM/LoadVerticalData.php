@@ -19,6 +19,7 @@ class LoadVerticalData implements FixtureInterface
         $prov->setLocationAdminLevel1('test');
         $prov->setLocationAdminLevel2('test');
         $prov->setLocationCountry('Spain');
+        $prov->setLang('es_ES');
         $manager->persist($prov);
         $vert = new Vertical();
         $vert->setDomain('test.com');
