@@ -25,6 +25,7 @@ class LeadRepositoryTest extends WebTestCase
     public function setUp()
     {
         $classes = [
+            'EVT\ApiBundle\Tests\DataFixtures\ORM\LoadEmployeeData',
             'EVT\ApiBundle\Tests\DataFixtures\ORM\LoadLeadData',
             'EVT\ApiBundle\Tests\DataFixtures\ORM\LoadNotMainLeadData'
         ];

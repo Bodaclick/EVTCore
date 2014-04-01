@@ -38,17 +38,6 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
     {
         $userManager = $this->container->get('fos_user.user_manager');
 
-        $employee = $userManager->createUser();
-        $employee->setUsername('usernameEmployee');
-        $employee->setEmail('valid@emailEmployee.com');
-        $employee->setPlainPassword('passEmployee');
-        $employee->addRole('ROLE_EMPLOYEE');
-        $employee->setName('nameEmployee');
-        $employee->setSurnames('surnamesEmployee');
-        $employee->setPhone('01');
-
-        $userManager->updateUser($employee);
-
         $user = $userManager->createUser();
         $user->setUsername('usernameManager');
         $user->setEmail('valid@emailManager.com');

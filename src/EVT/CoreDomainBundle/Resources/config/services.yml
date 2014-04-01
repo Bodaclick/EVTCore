@@ -30,6 +30,8 @@ services:
             - [setMapper, [@evt.mapper.showroom]]
             - [setAsyncDispatcher, [@bdk.async_event_dispatcher]]
             - [setPaginator, [@knp_paginator]]
+            - [setUserRepo, [@evt.repository.user]]
+
 
     evt.repository.provider:
         parent: evt.repository
