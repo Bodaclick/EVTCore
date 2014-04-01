@@ -163,6 +163,7 @@ func main() {
 					}
 				}
 			} else {
+        moveToFailQueue(ch, msg.Body)
 				log.Printf("response status code: " + strconv.Itoa(resp.StatusCode))
 			}
 			msg.Ack(false)
