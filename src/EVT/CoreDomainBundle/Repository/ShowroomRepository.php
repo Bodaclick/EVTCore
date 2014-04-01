@@ -22,6 +22,7 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
     private $mapping;
     private $asyncDispatcher;
     private $paginator;
+    private $userRepo;
 
     public function setAsyncDispatcher(AsyncEventDispatcherInterface $asyncDispatcher)
     {
@@ -33,6 +34,10 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         $this->paginator = $paginator;
     }
 
+    public function setUserRepo($userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
     public function save($showroom)
     {
         $entity = $this->mapping->mapDomainToEntity($showroom);
@@ -86,16 +91,26 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         }
 
         $showrooms = $this->_em->createQuery(
-            "select s
-            from EVTCoreDomainBundle:Showroom s
-            join s.provider p
-            join p.genericUser u
-            where u.username = :username
-            order by s.id ASC"
+            "SELECT s
+            FROM EVTCoreDomainBundle:Showroom s
+                JOIN s.provider p
+                JOIN p.genericUser u
+            WHERE u.username = :username
+            ORDER BY s.id ASC"
         )
             ->setParameter("username", $username);
 
         $pagination = $this->paginator->paginate($showrooms, $page, 10);
+
+        if ($pagination->count() == 0 && null !== $this->userRepo->getEmployeeByUsername($username)) {
+            $showrooms = $this->_em->createQuery(
+                "SELECT s
+                FROM EVTCoreDomainBundle:Showroom s
+                ORDER BY s.id DESC"
+            );
+
+            $pagination = $this->paginator->paginate($showrooms, $page, 10);
+        }
 
         $arrayDomShowrooms = [];
         foreach ($pagination->getItems() as $showroom) {
