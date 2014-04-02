@@ -85,6 +85,22 @@ class LeadRepository extends EntityRepository implements DomainRepository
 
     public function findAll()
     {
+        $leads = $this->_em->createQuery(
+            "SELECT l
+            FROM EVTCoreDomainBundle:Lead l
+            ORDER BY l.id ASC"
+        )
+            ->getResult();
+
+        $arrayDomLeads = [];
+        foreach ($leads as $lead) {
+            $arrayDomLeads[] = $this->mapper->mapEntityToDomain($lead);
+        }
+        if (sizeof($arrayDomLeads) === 0) {
+            return null;
+        } else {
+            return $arrayDomLeads;
+        }
     }
 
     public function findByCountry()
