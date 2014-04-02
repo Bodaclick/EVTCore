@@ -30,3 +30,6 @@ doctrine:
             default:
                 driver:   pdo_sqlite
                 path:     %kernel.cache_dir%/test.db
+            stats:
+                driver:   pdo_sqlite
+                path:     %kernel.cache_dir%/stats_test.db

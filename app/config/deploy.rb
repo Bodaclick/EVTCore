@@ -70,6 +70,10 @@ task :setup_rabbit do
   run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} rabbitmq:setup-fabric'"
 end
 
+task :stats_schema_update do
+  run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} doctrine:schema:update --em stats --force'"
+end
+
 task :compile_go do
   try_sudo "mkdir -p #{latest_release}/bin"
   run "sh -c 'export PATH=$PATH:/usr/local/go/bin && export GOPATH=#{latest_release} && cd #{latest_release}/bin && go get EMDCommunication'"
@@ -88,5 +92,5 @@ end
 before "deploy:share_childs", "evt:parameters"
 before "symfony:composer:install","evt:vendors"
 before "symfony:composer:update", "evt:vendors"
-before "symfony:cache:warmup", "symfony:doctrine:schema:update", "symfony:doctrine:cache:clear_query", "setup_rabbit", "compile_go", "php_fpm:reload"
+before "symfony:cache:warmup", "symfony:doctrine:schema:update", "stats_schema_update", "symfony:doctrine:cache:clear_query", "setup_rabbit", "compile_go", "php_fpm:reload"
 after "symfony:assets:install", "evt:assetic"
