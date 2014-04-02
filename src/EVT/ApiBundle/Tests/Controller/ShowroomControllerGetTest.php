@@ -45,7 +45,7 @@ class ShowroomControllerGetTest extends WebTestCase
                 ),
                 'es_ES'
             ),
-            new Vertical('test.com'),
+            new Vertical('test.com', 'es_ES'),
             new ShowroomType(ShowroomType::FREE)
         );
 

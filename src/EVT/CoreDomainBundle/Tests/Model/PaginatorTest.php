@@ -37,7 +37,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 'es_ES'
             ),
-            new Vertical('test.com'),
+            new Vertical('test.com', 'es_ES'),
             new ShowroomType(ShowroomType::FREE)
         );
 

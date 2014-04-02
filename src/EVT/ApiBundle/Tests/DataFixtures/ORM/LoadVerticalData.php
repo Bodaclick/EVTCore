@@ -23,6 +23,7 @@ class LoadVerticalData implements FixtureInterface
         $manager->persist($prov);
         $vert = new Vertical();
         $vert->setDomain('test.com');
+        $vert->setLang('es_ES');
         $manager->persist($vert);
         $manager->flush();
     }

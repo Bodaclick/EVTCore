@@ -11,4 +11,11 @@ EVT\CoreDomainBundle\Entity\Vertical:
             id: true
             generator:
                 strategy: none
+    fields:
+        lang:
+            type: string
+            nullable: false
+            length: 5
+            fixed: false
+            comment: ''
     lifecycleCallbacks: {  }

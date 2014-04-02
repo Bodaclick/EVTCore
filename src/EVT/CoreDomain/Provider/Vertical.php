@@ -13,11 +13,13 @@ use EVT\CoreDomain\InformationBag;
 class Vertical
 {
     private $domain;
+    private $lang;
     private $showrooms;
 
-    public function __construct($domain)
+    public function __construct($domain, $lang)
     {
         $this->domain = $domain;
+        $this->lang = $lang;
         $this->showrooms = new \ArrayObject();
     }
 
@@ -38,5 +40,10 @@ class Vertical
     public function getDomain()
     {
         return $this->domain;
+    }
+
+    public function getLang()
+    {
+        return $this->lang;
     }
 }

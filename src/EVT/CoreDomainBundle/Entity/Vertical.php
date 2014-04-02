@@ -19,6 +19,11 @@ class Vertical
      */
     private $domain;
 
+    /**
+     * @var string
+     */
+    private $lang;
+
 
     /**
      * Get id
@@ -52,4 +57,22 @@ class Vertical
     {
         return $this->domain;
     }
+
+    /**
+     * @param string $lang
+     */
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
+
 }
