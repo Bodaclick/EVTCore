@@ -2,9 +2,16 @@ parameters:
     database_driver:   pdo_mysql
     database_host:     127.0.0.1
     database_port:     ~
-    database_name:     symfony
+    database_name:     evt_core
     database_user:     root
     database_password: ~
+
+    stats_database_driver: pdo_mysql
+    stats_database_host: 127.0.0.1
+    stats_database_port: ~
+    stats_database_name: evt_stats
+    stats_database_user: root
+    stats_database_password: ~
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
