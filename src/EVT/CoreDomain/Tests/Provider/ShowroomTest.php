@@ -27,7 +27,7 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
             new EmailCollection(new Email('valid@email.com')),
             'es_ES'
         );
-        $vertical = new Vertical("testDomain.test");
+        $vertical = new Vertical("testDomain.test", 'es_ES');
         $informationBag = new InformationBag(['slug' => 'different']);
 
         $showroom = new Showroom($provider, $vertical, new ShowroomType(ShowroomType::FREE), $informationBag);
@@ -42,7 +42,7 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
             new EmailCollection(new Email('valid@email.com')),
             'es_ES'
         );
-        $vertical = new Vertical("testDomain.test");
+        $vertical = new Vertical("testDomain.test", 'es_ES');
         $informationBag = new InformationBag(['slug' => 'different']);
 
         $showroom = new Showroom(
@@ -63,7 +63,7 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
             new EmailCollection(new Email('valid@email.com')),
             'es_ES'
         );
-        $vertical = new Vertical("testDomain.test");
+        $vertical = new Vertical("testDomain.test", 'es_ES');
         $informationBag = new InformationBag();
 
         $showroom = new Showroom($provider, $vertical, new ShowroomType(ShowroomType::FREE), $informationBag);

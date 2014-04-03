@@ -18,7 +18,7 @@ class VerticalMapping implements MappingInterface
      */
     public function mapEntityToDomain($vertical)
     {
-        return new DomainVertical($vertical->getDomain());
+        return new DomainVertical($vertical->getDomain(), $vertical->getLang());
     }
 
     /**
@@ -29,6 +29,7 @@ class VerticalMapping implements MappingInterface
     {
         $entityVertical = new Vertical();
         $entityVertical->setDomain($vertical->getDomain());
+        $entityVertical->setLang($vertical->getLang());
         return $entityVertical;
     }
 }

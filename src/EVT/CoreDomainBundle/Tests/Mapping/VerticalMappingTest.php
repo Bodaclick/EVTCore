@@ -11,7 +11,7 @@ class VerticalMappingTest extends \PHPUnit_Framework_TestCase
 
     public function testDomainToEntityIsMapped()
     {
-        $dVertical = new DomainVertical('domain');
+        $dVertical = new DomainVertical('domain', 'es_ES');
 
         $mapper = new VerticalMapping();
         $eVertical = $mapper->mapDomainToEntity($dVertical);

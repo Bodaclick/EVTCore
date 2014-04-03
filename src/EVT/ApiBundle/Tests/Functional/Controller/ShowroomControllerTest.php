@@ -52,6 +52,7 @@ class ShowroomControllerTest extends WebTestCase
         $this->assertNotNull($dShowroom);
         $this->assertEquals('1', $dShowroom->getProvider()->getId());
         $this->assertEquals('test.com', $dShowroom->getVertical()->getDomain());
+        $this->assertEquals('es_ES', $dShowroom->getVertical()->getLang());
         $this->assertEquals(2, $dShowroom->getType()->getType());
         $this->assertEquals('1', $dShowroom->getScore());
         $this->assertEquals('test vertical', $dShowroom->getName());
