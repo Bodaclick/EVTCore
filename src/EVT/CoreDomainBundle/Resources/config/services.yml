@@ -13,6 +13,7 @@ services:
             - [setUserMapping, [@evt.mapper.user]]
             - [setAsyncDispatcher, [@bdk.async_event_dispatcher]]
             - [setLeadRepository, [@evt.repository.lead]]
+            - [setPaginator, [@knp_paginator]]
 
     evt.repository.lead:
         parent: evt.repository

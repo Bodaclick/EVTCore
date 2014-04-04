@@ -8,6 +8,7 @@ use EVT\CoreDomain\RepositoryInterface as DomainRepository;
 use Doctrine\ORM\EntityRepository;
 use FOS\UserBundle\Model\UserManager;
 use BDK\AsyncEventDispatcher\AsyncEventDispatcherInterface;
+use EVT\CoreDomainBundle\Factory\PaginatorFactory;
 
 /**
  * UserRepository
@@ -21,6 +22,7 @@ class UserRepository extends EntityRepository implements DomainRepository
     private $userMapping;
     private $asyncDispatcher;
     private $leadRepo;
+    private $paginator;
 
     public function setAsyncDispatcher(AsyncEventDispatcherInterface $asyncDispatcher)
     {
@@ -30,6 +32,11 @@ class UserRepository extends EntityRepository implements DomainRepository
     public function setLeadRepository(LeadRepository $leadRepo)
     {
         $this->leadRepo = $leadRepo;
+    }
+
+    public function setPaginator($paginator)
+    {
+        $this->paginator = $paginator;
     }
 
     public function save($user)
@@ -90,6 +97,40 @@ class UserRepository extends EntityRepository implements DomainRepository
     public function setUserMapping($userMapping)
     {
         $this->userMapping = $userMapping;
+    }
+
+    public function getManagers($username, $page = 1)
+    {
+        if (empty($username)) {
+            return null;
+        }
+
+        if (empty($page) || !is_numeric($page)) {
+            throw new \InvalidArgumentException('Page not valid', 0);
+        }
+
+        $user = $this->userManager->findUserByUsername($username);
+
+        $arrayDomManagers = [];
+        if (null !== $user && in_array("ROLE_EMPLOYEE", $user->getRoles())) {
+            $manager = $this->createQueryBuilder('u');
+            $manager->select('u')
+                ->where('u.roles LIKE :roles')
+                ->setParameter('roles', '%"ROLE_MANAGER"%');
+            $managerUsers = $manager->getQuery()->getResult();
+
+            $pagination = $this->paginator->paginate($managerUsers, $page, 10);
+
+            foreach ($pagination->getItems() as $managerUser) {
+                $arrayDomManagers[] = $this->userMapping->mapEntityToDomain($managerUser);
+            }
+        }
+
+        if (sizeof($arrayDomManagers) === 0) {
+            return null;
+        }
+
+        return PaginatorFactory::create($pagination, $arrayDomManagers);
     }
 
     public function getManagerById($id)
