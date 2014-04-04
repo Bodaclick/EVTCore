@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"crypto/md5"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -109,7 +110,7 @@ func main() {
 		} else {
 			for msg := range masgFailed {
 				time.Sleep(time.Duration(10) * time.Second)
-				moveFromFailToQueue(ch, msg.Body)
+				moveFromFailToQueue(ch, msg)
 				msg.Ack(false)
 			}
 		}
@@ -129,7 +130,7 @@ func main() {
 
 			var dat map[string]interface{}
 			if err := json.Unmarshal(msg.Body, &dat); err != nil {
-				moveToFailQueue(ch, msg.Body)
+				moveToFailQueue(ch, msg.Body, nil)
 				fmt.Printf("can't process the message: %s\n", err)
 				msg.Ack(false)
 				continue
@@ -144,6 +145,19 @@ func main() {
 
 			hookMessage := MessageFactory(hookName)
 
+			// Get the headers
+			sended := msg.Headers["sended"]
+
+			var sendedUrlHashArray map[string]string
+			if sended != nil {
+				// Get the sended urlshashs
+				if err := json.Unmarshal([]byte(sended.(string)), &sendedUrlHashArray); err != nil {
+					log.Fatal(err)
+				}
+			} else {
+				sendedUrlHashArray = make(map[string]string)
+			}
+
 			var hasFailed = false
 
 			for rows.Next() {
@@ -151,38 +165,50 @@ func main() {
 				if err := rows.Scan(&hookurl); err != nil {
 					log.Fatal(err)
 				}
-				log.Printf("Url is: %s for event: %s\n", hookurl, hookName)
 
-				var leadJson []byte
-				if hookMessage.getDataName() == "" {
-					leadJson, _ = json.Marshal(dat)
+				hash := md5.New()
+				hash.Write([]byte(hookurl))
+				hookUrlMD5 := fmt.Sprintf("%x", hash.Sum(nil))
+
+				// Check if already send
+				if sendedUrlHashArray[hookUrlMD5] == "202" {
+					log.Printf("Url: %s for event: %s Already Called\n", hookurl, hookName)
 				} else {
-					leadJson, _ = json.Marshal(dat[hookMessage.getDataName()])
+					log.Printf("Url: %s for event: %s (hash: %s)\n", hookurl, hookName, hookUrlMD5)
+					var leadJson []byte
+					if hookMessage.getDataName() == "" {
+						leadJson, _ = json.Marshal(dat)
+					} else {
+						leadJson, _ = json.Marshal(dat[hookMessage.getDataName()])
+					}
+
+					postParams := strings.NewReader(string(leadJson))
+					req, err := http.NewRequest("POST", hookurl, postParams)
+					// Don't forget to set the content type, this will contain the boundary.
+					req.Header.Set("Content-Type", "application/json")
+
+					// Submit the request
+					client := &http.Client{}
+					resp, err := client.Do(req)
+
+					if err != nil {
+						hasFailed = true
+						log.Printf("response err: %s", err)
+						sendedUrlHashArray[hookUrlMD5] = "error"
+					} else if resp.StatusCode != 202 {
+						hasFailed = true
+						log.Printf("response status code: " + strconv.Itoa(resp.StatusCode))
+						sendedUrlHashArray[hookUrlMD5] = strconv.Itoa(resp.StatusCode)
+						defer resp.Body.Close()
+					} else {
+						sendedUrlHashArray[hookUrlMD5] = strconv.Itoa(resp.StatusCode)
+						defer resp.Body.Close()
+					}
 				}
-
-				postParams := strings.NewReader(string(leadJson))
-				req, err := http.NewRequest("POST", hookurl, postParams)
-				// Don't forget to set the content type, this will contain the boundary.
-				req.Header.Set("Content-Type", "application/json")
-
-				// Submit the request
-				client := &http.Client{}
-				resp, err := client.Do(req)
-
-				if err != nil {
-					hasFailed = true
-					log.Printf("response err: %s", err)
-				} else if resp.StatusCode != 202 {
-					hasFailed = true
-					log.Printf("response status code: " + strconv.Itoa(resp.StatusCode))
-					defer resp.Body.Close()
-				} else {
-					defer resp.Body.Close()
-        }
 			}
 
 			if hasFailed {
-				moveToFailQueue(ch, msg.Body)
+				moveToFailQueue(ch, msg.Body, sendedUrlHashArray)
 			}
 
 			msg.Ack(false)
@@ -198,13 +224,17 @@ func main() {
 	os.Exit(0)
 }
 
-func moveToFailQueue(ch *amqp.Channel, msgBody []byte) bool {
-	ch.Publish("", "events-hook-comm-fail-queue", false, false, amqp.Publishing{Body: msgBody})
+func moveToFailQueue(ch *amqp.Channel, msgBody []byte, headers map[string]string) bool {
+	var tableHeader amqp.Table
+	tableHeader = make(amqp.Table)
+	mapB, _ := json.Marshal(headers)
+	tableHeader["sended"] = string(mapB)
+	ch.Publish("", "events-hook-comm-fail-queue", false, false, amqp.Publishing{Headers: tableHeader, Body: msgBody})
 	return true
 }
 
-func moveFromFailToQueue(ch *amqp.Channel, msgBody []byte) bool {
-	ch.Publish("", "events-hook-queue", false, false, amqp.Publishing{Body: msgBody})
+func moveFromFailToQueue(ch *amqp.Channel, msg amqp.Delivery) bool {
+	ch.Publish("", "events-hook-queue", false, false, amqp.Publishing{Headers: msg.Headers, Body: msg.Body})
 	return true
 }
 
@@ -233,15 +263,13 @@ func (this *ShowroomCreatedEvent) getDataName() string {
 	return "showroom"
 }
 
-
-
 func MessageFactory(hookName string) hookMessageInterface {
 	if hookName == "evt.event.lead_create" {
 		return new(LeadCreatedEvent)
 	} else if hookName == "evt.event.user_create" {
 		return new(UserCreatedEvent)
-	} else if hookName == "evt.event.showroom_create"{
-	    return new(ShowroomCreatedEvent)
+	} else if hookName == "evt.event.showroom_create" {
+		return new(ShowroomCreatedEvent)
 	}
 	return new(LeadCreatedEvent)
 }
