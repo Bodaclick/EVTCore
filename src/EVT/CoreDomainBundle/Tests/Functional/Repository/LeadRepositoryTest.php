@@ -10,6 +10,7 @@ use EVT\CoreDomain\Lead\EventType;
 use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\User\PersonalInformation;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * LeadRepositoryTest
@@ -64,7 +65,7 @@ class LeadRepositoryTest extends WebTestCase
 
     public function testFindByOwner()
     {
-        $leads = $this->repo->findByOwner('usernameManager');
+        $leads = $this->repo->findByOwner('usernameManager', new ParameterBag([]));
 
         $this->assertCount(2, $leads->getItems());
         $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leads->getItems()[0]);
@@ -88,7 +89,7 @@ class LeadRepositoryTest extends WebTestCase
      */
     public function testFindByOwnerKO($username)
     {
-        $lead = $this->repo->findByOwner($username);
+        $lead = $this->repo->findByOwner($username, new ParameterBag([]));
 
         $this->assertNull($lead);
     }
@@ -110,7 +111,7 @@ class LeadRepositoryTest extends WebTestCase
      */
     public function testFindByOwnerWrongPage($username, $page)
     {
-        $lead = $this->repo->findByOwner($username, $page);
+        $lead = $this->repo->findByOwner($username, new ParameterBag(['page' => $page]));
     }
 
     public function testSaveCreate()
@@ -205,7 +206,7 @@ class LeadRepositoryTest extends WebTestCase
 
     public function testFindByOwnerEmployee()
     {
-        $leads = $this->repo->findByOwner('usernameEmployee');
+        $leads = $this->repo->findByOwner('usernameEmployee', new ParameterBag([]));
 
         $this->assertCount(3, $leads->getItems());
         $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leads->getItems()[0]);

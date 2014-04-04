@@ -29,6 +29,14 @@ class VerticalRepository extends EntityRepository implements DomainRepository
 
     public function findAll()
     {
+        if (!$verticalsResult = parent::findAll()) {
+            return null;
+        }
+        foreach ($verticalsResult as $vertical) {
+            $verticals[] = $this->mapping->mapEntityToDomain($vertical);
+        }
+
+        return $verticals;
     }
 
     public function findOneByDomain($domain)

@@ -13,6 +13,9 @@ evt_api_provider:
 evt_api_showroom:
     resource: EVT\ApiBundle\Controller\ShowroomController
     type: rest
+evt_api_vertical:
+    resource: EVT\ApiBundle\Controller\VerticalController
+    type: rest
 evt_api_user:
     resource: EVT\ApiBundle\Controller\UserController
     type: rest
