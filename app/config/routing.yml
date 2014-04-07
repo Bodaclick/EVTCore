@@ -10,3 +10,8 @@ evt_api:
     resource: "@EVTApiBundle/Resources/config/routing.yml"
     type:     rest
     prefix:   /api/
+
+evt_stats:
+    resource: "@EVTStatsBundle/Resources/config/routing.yml"
+    type:     rest
+    prefix:   /stats/
