@@ -5,7 +5,7 @@ namespace EVT\ApiBundle\Controller;
 use Doctrine\DBAL\DBALException;
 use EVT\CoreDomainBundle\Form\Type\GenericUserFormType;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View;
+use FOS\RestBundle\View\View as FosView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,7 +31,7 @@ class ManagerController extends Controller
      */
     public function postManagerAction(Request $request)
     {
-        $view = new View(null, Codes::HTTP_CREATED);
+        $view = new FosView(null, Codes::HTTP_CREATED);
 
         $userManager = $this->container->get('fos_user.user_manager');
 
@@ -60,6 +60,9 @@ class ManagerController extends Controller
         return $this->get('fos_rest.view_handler')->handle($view);
     }
 
+    /**
+     * @FOS\View()
+     */
     public function getManagersAction(Request $request)
     {
         $userRepository = $this->container->get('evt.repository.user');
@@ -71,8 +74,6 @@ class ManagerController extends Controller
             return new Response('', $statusCode);
         }
 
-        $usersResponse = $this->render('EVTApiBundle:Manager:users.html.twig', ['users' => $users]);
-        return new Response($usersResponse->getContent(), $statusCode, array('Content-Type' => 'application/json'));
-
+        return $users;
     }
 }
