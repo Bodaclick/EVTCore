@@ -18,6 +18,19 @@ class LeadController extends Controller
     /**
      * Create a new lead stat from a hook
      *
+     * @View(statusCode=200)
+     */
+    public function getLeadsAction(Request $request)
+    {
+        $from_date = $request->query->get('from_date', '2010-01-01');
+        $to_date = $request->query->get('to_date', '2010-01-01');
+        $statsLeadsRepo = $this->get('doctrine.orm.stats_entity_manager')->getRepository('EVTStatsBundle:Lead');
+        return $statsLeadsRepo->findBetweenDates($from_date, $to_date);
+    }
+
+    /**
+     * Create a new lead stat from a hook
+     *
      * @View(statusCode=202)
      */
     public function postLeadAction(Request $request)
