@@ -57,7 +57,7 @@ class ManagerControllerGetTest extends WebTestCase
         $this->assertArrayHasKey('items', $arrayManagers);
         $this->assertArrayHasKey('pagination', $arrayManagers);
         $this->assertCount(2, $arrayManagers['items']);
-        $this->assertEquals('valid@emailManager.com', $arrayManagers['items'][0]['user']['email']);
+        $this->assertEquals('valid@emailManager.com', $arrayManagers['items'][0]['email']['email']);
         $this->assertEquals('10', $arrayManagers['pagination']['items_per_page']);
         $this->assertEquals('2', $arrayManagers['pagination']['total_items']);
     }
