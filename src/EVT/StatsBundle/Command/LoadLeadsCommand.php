@@ -41,7 +41,7 @@ EOT
 
         foreach ($leads as $lead) {
             $statsLeadsRepo->add(
-                $lead->getEvent()->getDate()->format('Y-m-d'),
+                $lead->getCreatedAt()->format('Y-m-d'),
                 $lead->getShowroom()->getVertical()->getTimezone(),
                 $lead->getShowroom()->getVertical()->getDomain(),
                 $lead->getShowroom()->getProvider()->getId(),

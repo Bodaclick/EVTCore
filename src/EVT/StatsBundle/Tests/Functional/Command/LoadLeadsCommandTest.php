@@ -55,7 +55,7 @@ class LoadLeadsCommandTest extends WebTestCase
 
         $leadRepo = $this->container->get('doctrine.orm.stats_entity_manager')
             ->getRepository('EVTStatsBundle:Lead');
-        $finalLeads = $leadRepo->findBetweenDates('2014-01-01', '2014-02-30');
+        $finalLeads = $leadRepo->findBetweenDates('2013-10-01', '2013-12-31');
         $this->assertEquals(2, count($finalLeads));
         $this->assertEquals(1, $finalLeads[0]->getNumber());
         $this->assertEquals(1, $finalLeads[1]->getNumber());
