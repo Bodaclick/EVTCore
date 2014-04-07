@@ -14,12 +14,14 @@ class Vertical
 {
     private $domain;
     private $lang;
+    private $timezone;
     private $showrooms;
 
-    public function __construct($domain, $lang)
+    public function __construct($domain, $lang, $timeZone)
     {
         $this->domain = $domain;
         $this->lang = $lang;
+        $this->timezone = $timeZone;
         $this->showrooms = new \ArrayObject();
     }
 
@@ -45,5 +47,10 @@ class Vertical
     public function getLang()
     {
         return $this->lang;
+    }
+
+    public function getTimezone()
+    {
+        return $this->timezone;
     }
 }

@@ -18,4 +18,10 @@ EVT\CoreDomainBundle\Entity\Vertical:
             length: 5
             fixed: false
             comment: ''
+        timezone:
+            type: string
+            nullable: false
+            length: 30
+            fixed: false
+            comment: ''
     lifecycleCallbacks: {  }

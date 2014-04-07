@@ -21,7 +21,6 @@ use EVT\CoreDomain\User\PersonalInformation;
  * PaginatorTest
  *
  * @author    Quique Torras <etorras@bodaclick.com>
- *
  * @copyright 2014 Bodaclick S.A.
  */
 class PaginatorTest extends \PHPUnit_Framework_TestCase
@@ -37,7 +36,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 'es_ES'
             ),
-            new Vertical('test.com', 'es_ES'),
+            new Vertical('test.com', 'es_ES', 'Europe/Madrid'),
             new ShowroomType(ShowroomType::FREE)
         );
 

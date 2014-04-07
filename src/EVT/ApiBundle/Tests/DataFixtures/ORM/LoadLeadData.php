@@ -75,6 +75,7 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $vert = new Vertical();
         $vert->setDomain('test.com');
         $vert->setLang('es_ES');
+        $vert->setTimezone('Europe/Madrid');
         $manager->persist($vert);
 
         $showroom = new Showroom();

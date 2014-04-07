@@ -21,13 +21,13 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $testName = "Test Name";
-        $vertcal = new Vertical($testName, 'es_ES');
+        $vertcal = new Vertical($testName, 'es_ES', 'Europe/Madrid');
         $this->assertEquals($testName, $vertcal->getDomain());
     }
 
     public function testAddShowroom()
     {
-        $vertical = new Vertical("Test Name", 'es_ES');
+        $vertical = new Vertical("Test Name", 'es_ES', 'Europe/Madrid');
         $provider = new Provider(
             new ProviderId(''),
             "Test Name",
@@ -44,7 +44,7 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
 
     public function testAddShowroomFullInfo()
     {
-        $vertical = new Vertical("Test Name", 'es_ES');
+        $vertical = new Vertical("Test Name", 'es_ES', 'Europe/Madrid');
         $provider = new Provider(
             new ProviderId(''),
             "Test Name",
@@ -69,7 +69,7 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
 
     public function testReAddShowroom()
     {
-        $vertical = new Vertical("Test Name", 'es_ES');
+        $vertical = new Vertical("Test Name", 'es_ES', 'Europe/Madrid');
         $provider = new Provider(
             new ProviderId(''),
             "Test Name",
