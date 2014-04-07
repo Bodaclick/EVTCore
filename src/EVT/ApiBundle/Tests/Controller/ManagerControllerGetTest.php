@@ -33,7 +33,6 @@ class ManagerControllerGetTest extends WebTestCase
 
     public function mockDataManager()
     {
-
         $user1 = new User(
             'email1@email.com',
             new PersonalInformation('name', 'b', 'c'),
@@ -112,7 +111,7 @@ class ManagerControllerGetTest extends WebTestCase
         $this->assertArrayHasKey('items', $arrayManagers);
         $this->assertArrayHasKey('pagination', $arrayManagers);
         $this->assertCount(1, ['items']);
-        $this->assertEquals('email1@email.com', $arrayManagers['items'][0]['user']['email']);
+        $this->assertEquals('email1@email.com', $arrayManagers['items'][0]['email']['email']);
         $this->assertEquals(1, $arrayManagers['pagination']['total_pages']);
         $this->assertEquals(1, $arrayManagers['pagination']['current_page']);
         $this->assertEquals(10, $arrayManagers['pagination']['items_per_page']);
