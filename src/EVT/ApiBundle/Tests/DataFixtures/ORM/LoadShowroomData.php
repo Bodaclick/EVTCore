@@ -56,6 +56,7 @@ class LoadShowroomData implements FixtureInterface, ContainerAwareInterface
         $vert = new Vertical();
         $vert->setDomain('test.com');
         $vert->setLang('es_ES');
+        $vert->setTimezone('Europe/Madrid');
         $manager->persist($vert);
 
         $showroom = new Showroom();
@@ -68,6 +69,7 @@ class LoadShowroomData implements FixtureInterface, ContainerAwareInterface
         $vert2 = new Vertical();
         $vert2->setDomain('test2.com');
         $vert2->setLang('es_ES');
+        $vert2->setTimezone('Europe/Madrid');
         $manager->persist($vert2);
 
         $showroom2 = new Showroom();
