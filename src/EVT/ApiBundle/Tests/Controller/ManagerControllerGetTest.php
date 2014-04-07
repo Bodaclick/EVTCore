@@ -33,7 +33,6 @@ class ManagerControllerGetTest extends WebTestCase
 
     public function mockDataManager()
     {
-
         $user1 = new User(
             'email1@email.com',
             new PersonalInformation('name', 'b', 'c'),
