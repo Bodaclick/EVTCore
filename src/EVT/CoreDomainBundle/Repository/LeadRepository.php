@@ -15,6 +15,7 @@ use EVT\CoreDomainBundle\Mapping\LeadToEntityMapping;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use EVT\CoreDomainBundle\Factory\PaginatorFactory;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * UserRepository
@@ -172,14 +173,51 @@ class LeadRepository extends EntityRepository implements DomainRepository
         return $this->mapper->mapEntityToDomain($lead);
     }
 
-    public function findByOwner($username, $page = 1)
+    public function findByOwner($username, ParameterBag $params)
     {
         if (empty($username)) {
             return null;
         }
 
+        $page = $params->get('page', 1);
+
         if (empty($page) || !is_numeric($page)) {
             throw new \InvalidArgumentException('Page not valid', 0);
+        }
+
+        $queryFilter = '';
+        if ($params->get('vertical') != '') {
+            $queryFilter.=" AND s.vertical='".$params->get('vertical')."' ";
+        }
+        if ($params->get('location_level2') != '') {
+            $queryFilter.=" AND l.eventLocationAdminLevel2 LIKE '%".$params->get('location_level2')."%' ";
+        }
+        if ($params->get('location_level1') != '') {
+            $queryFilter.=" AND l.eventLocationAdminLevel1 LIKE '%".$params->get('location_level1')."%' ";
+        }
+        if ($params->get('event_type') != '') {
+            $queryFilter.=" AND l.eventType='".$params->get('event_type')."' ";
+        }
+        if ($params->get('create_start') != '') {
+            $queryFilter.=" AND l.createdAt>='".$params->get('create_start')." 00:00:00' ";
+        }
+        if ($params->get('create_end') != '') {
+            $queryFilter.=" AND l.createdAt<='".$params->get('create_end')." 23:59:59' ";
+        }
+        if ($params->get('provider') != '') {
+            $queryFilter.=" AND p.name LIKE '%".$params->get('provider')."%' ";
+        }
+        if ($params->get('lead_status') == 'read') {
+            $queryFilter.=" AND l.readAt IS NOT NULL ";
+        }
+        if ($params->get('lead_status') == 'unread') {
+            $queryFilter.=" AND l.readAt IS NULL ";
+        }
+        if ($params->get('event_start') != '') {
+            $queryFilter.=" AND l.eventDate>='".$params->get('event_start')." 00:00:00' ";
+        }
+        if ($params->get('event_end') != '') {
+            $queryFilter.=" AND l.eventDate<='".$params->get('event_end')." 23:59:59' ";
         }
 
         $leads = $this->_em->createQuery(
@@ -189,6 +227,7 @@ class LeadRepository extends EntityRepository implements DomainRepository
                 JOIN s.provider p
                 JOIN p.genericUser u
             WHERE u.username = :username
+            " . $queryFilter . "
             ORDER BY l.id DESC"
         )
             ->setParameter("username", $username);
@@ -199,6 +238,10 @@ class LeadRepository extends EntityRepository implements DomainRepository
             $leads = $this->_em->createQuery(
                 "SELECT l
                 FROM EVTCoreDomainBundle:Lead l
+                JOIN l.showroom s
+                JOIN s.provider p
+                WHERE 1=1
+                ".$queryFilter."
                 ORDER BY l.id DESC"
             );
 
