@@ -71,11 +71,15 @@ doctrine:
         default_entity_manager: default
         entity_managers:
             default:
+                metadata_cache_driver: redis
+                query_cache_driver: redis
                 connection: default
                 mappings:
                     EVTCoreDomainBundle: ~
                     EVTEvtApplication: ~
             stats:
+                metadata_cache_driver: redis
+                query_cache_driver: redis
                 connection: stats
                 mappings:
                     EVTStatsBundle: ~
@@ -97,6 +101,23 @@ evt_stats:
 sensio_framework_extra:
     view:    { annotations: false }
     router:  { annotations: true }
+
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: %redis_default%
+    doctrine:
+        metadata_cache:
+            client: default
+            entity_manager: [default, stats]
+            namespace: "evt:core:meta:"
+        query_cache:
+            client: default
+            entity_manager: [default, stats]
+            namespace: "evt:core:query:"
+
 
 fos_rest:
     routing_loader:

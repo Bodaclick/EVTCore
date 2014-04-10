@@ -32,7 +32,9 @@
         "oldsound/rabbitmq-bundle": "dev-master@dev",
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
-        "knplabs/knp-paginator-bundle": "~2.4"
+        "knplabs/knp-paginator-bundle": "~2.4",
+        "snc/redis-bundle": "1.1.*@dev",
+        "predis/predis": "0.8.x-dev"
     },
     "scripts": {
         "post-install-cmd": [

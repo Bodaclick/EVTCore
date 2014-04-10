@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new EVT\EvtApplication\EVTEvtApplication(),
             new EVT\CoreDomainBundle\EVTCoreDomainBundle(),
             new EVT\StatsBundle\EVTStatsBundle(),
+            new Snc\RedisBundle\SncRedisBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

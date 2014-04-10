@@ -39,3 +39,5 @@ parameters:
 
     emd_api_root: http://emd.api.root/
     emd_api_showroom: api/showroom
+
+    redis_default: redis://localhost
