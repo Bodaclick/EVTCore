@@ -61,7 +61,7 @@ class LeadController extends Controller
     {
         $leadRepository = $this->container->get('evt.repository.lead');
 
-        $leads = $leadRepository->findByOwner($request->get('canView', null), $request->query);
+        $leads = $leadRepository->findByOwner($request->query);
 
         $statusCode = Codes::HTTP_OK;
         if (empty($leads)) {
