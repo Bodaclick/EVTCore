@@ -30,7 +30,7 @@ class LeadControllerGetTest extends WebTestCase
         ];
         $this->loadFixtures($classes);
         $this->client = static::createClient();
-        $this->header = ['Content-Type' => 'application/json', 'HTTP_ACCEPT' => 'application/json'];
+        $this->header = ['Content-Type' => 'application/json', 'HTTP_Accept' => 'application/json'];
 
     }
 

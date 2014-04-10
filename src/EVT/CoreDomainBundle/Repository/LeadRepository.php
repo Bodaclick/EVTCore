@@ -173,8 +173,9 @@ class LeadRepository extends EntityRepository implements DomainRepository
         return $this->mapper->mapEntityToDomain($lead);
     }
 
-    public function findByOwner($username, ParameterBag $params)
+    public function findByOwner(ParameterBag $params)
     {
+        $username = $params->get('canView', null);
         if (empty($username)) {
             return null;
         }
