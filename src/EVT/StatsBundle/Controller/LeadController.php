@@ -25,7 +25,29 @@ class LeadController extends Controller
         $from_date = $request->query->get('from_date', '2010-01-01');
         $to_date = $request->query->get('to_date', '2010-01-01');
         $statsLeadsRepo = $this->get('doctrine.orm.stats_entity_manager')->getRepository('EVTStatsBundle:Lead');
-        return $statsLeadsRepo->findBetweenDates($from_date, $to_date);
+
+        $username = $request->get('canView', null);
+        $providers = $this->container->get('evt.repository.provider')->findByUser($username);
+        if ($providers != null){
+            foreach ($providers as $key=>$provider){
+                $pResult = $statsLeadsRepo->findByProviderBetweenDates($provider->getId(), $from_date, $to_date);
+                if (!empty($pResult)){
+                    if ($key == 0){
+                        $result = $pResult;
+                    }else{
+                        $result [] = $pResult;
+                    }
+                }
+            }
+        }else{
+            if (null != $this->container->get('evt.repository.user')->getEmployeeByUsername($username)){
+                $result = $statsLeadsRepo->findBetweenDates($from_date, $to_date);
+            }else{
+                throw new BadRequestHttpException('leads not found');
+            }
+        }
+
+        return $result;
     }
 
     /**

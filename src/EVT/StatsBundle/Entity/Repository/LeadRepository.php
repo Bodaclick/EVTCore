@@ -60,6 +60,22 @@ class LeadRepository extends EntityRepository
         return $result;
     }
 
+    public function findByProviderBetweenDates($provider, $from, $to)
+    {
+        $result = $this->getEntityManager()
+            ->createQuery(
+                'SELECT l FROM EVTStatsBundle:Lead l
+                WHERE l.date BETWEEN :from AND :to
+                AND l.providerId = :provider'
+            )
+            ->setParameter('from', $from)
+            ->setParameter('to', $to)
+            ->setParameter('provider', $provider)
+            ->getResult();
+
+        return $result;
+    }
+
     public function getTotalForYear($year)
     {
         $result = $this->getEntityManager()
