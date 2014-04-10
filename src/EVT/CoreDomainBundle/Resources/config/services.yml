@@ -46,6 +46,7 @@ services:
         calls:
             - [setMapper, [@evt.mapper.vertical]]
             - [setShowroomMapper, [@evt.mapper.showroom]]
+            - [setUserRepo, [@evt.repository.user]]
 
     evt.form.provider:
         class: EVT\CoreDomainBundle\Form\Type\ProviderFormType
