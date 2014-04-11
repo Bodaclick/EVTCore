@@ -24,8 +24,10 @@ class LeadController extends Controller
     {
         $from_date = $request->query->get('from_date', '2010-01-01');
         $to_date = $request->query->get('to_date', '2010-01-01');
-        $statsLeadsRepo = $this->get('doctrine.orm.stats_entity_manager')->getRepository('EVTStatsBundle:Lead');
-        return $statsLeadsRepo->findBetweenDates($from_date, $to_date);
+        $result = $this->get('evt.manager.lead')
+            ->getLeadsBetweenDates ($request->query->get('canView'), $from_date, $to_date);
+
+        return $result;
     }
 
     /**
