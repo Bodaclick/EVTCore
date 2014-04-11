@@ -14,6 +14,7 @@ class VerticalRepository extends EntityRepository implements DomainRepository
 {
     private $mapping;
     private $showroomMapper;
+    private $userRepo;
 
     public function save($vertical)
     {
@@ -27,8 +28,43 @@ class VerticalRepository extends EntityRepository implements DomainRepository
     {
     }
 
-    public function findAll()
+    public function findAllWithCanview($username)
     {
+        if (empty($username)) {
+            return null;
+        }
+
+        $verticalsResult = $this->_em->createQuery(
+            "SELECT v
+            FROM EVTCoreDomainBundle:Vertical v
+            WHERE v.domain IN (
+                SELECT DISTINCT v1.domain
+                FROM EVTCoreDomainBundle:Showroom s
+                    JOIN s.provider p
+                    JOIN p.genericUser u
+                    JOIN s.vertical v1
+                WHERE u.username = :username
+                GROUP BY v1.domain
+            )
+            ORDER BY v.lang ASC, v.domain ASC"
+        )
+            ->setParameter("username", $username)
+            ->getResult();
+
+        if (sizeof($verticalsResult) == 0 && null !== $this->userRepo->getEmployeeByUsername($username)) {
+            $verticalsResult = $this->_em->createQuery(
+                "SELECT v
+                FROM EVTCoreDomainBundle:Vertical v
+                ORDER BY v.lang ASC, v.domain ASC"
+            )
+                ->getResult();
+        }
+
+        foreach ($verticalsResult as $vertical) {
+            $verticals[] = $this->mapping->mapEntityToDomain($vertical);
+        }
+
+        return $verticals;
     }
 
     public function findOneByDomain($domain)
@@ -64,5 +100,10 @@ class VerticalRepository extends EntityRepository implements DomainRepository
     public function setShowroomMapper(ShowroomMapping $mapping)
     {
         $this->showroomMapper = $mapping;
+    }
+
+    public function setUserRepo($userRepo)
+    {
+        $this->userRepo = $userRepo;
     }
 }

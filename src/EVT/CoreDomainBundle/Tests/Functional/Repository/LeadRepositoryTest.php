@@ -10,6 +10,7 @@ use EVT\CoreDomain\Lead\EventType;
 use EVT\CoreDomain\Lead\Location;
 use EVT\CoreDomain\User\PersonalInformation;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * LeadRepositoryTest
@@ -25,6 +26,7 @@ class LeadRepositoryTest extends WebTestCase
     public function setUp()
     {
         $classes = [
+            'EVT\ApiBundle\Tests\DataFixtures\ORM\LoadEmployeeData',
             'EVT\ApiBundle\Tests\DataFixtures\ORM\LoadLeadData',
             'EVT\ApiBundle\Tests\DataFixtures\ORM\LoadNotMainLeadData'
         ];
@@ -63,7 +65,7 @@ class LeadRepositoryTest extends WebTestCase
 
     public function testFindByOwner()
     {
-        $leads = $this->repo->findByOwner('usernameManager');
+        $leads = $this->repo->findByOwner(new ParameterBag(['canView' => 'usernameManager']));
 
         $this->assertCount(2, $leads->getItems());
         $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leads->getItems()[0]);
@@ -87,7 +89,7 @@ class LeadRepositoryTest extends WebTestCase
      */
     public function testFindByOwnerKO($username)
     {
-        $lead = $this->repo->findByOwner($username);
+        $lead = $this->repo->findByOwner(new ParameterBag(['canView' => $username]));
 
         $this->assertNull($lead);
     }
@@ -109,7 +111,7 @@ class LeadRepositoryTest extends WebTestCase
      */
     public function testFindByOwnerWrongPage($username, $page)
     {
-        $lead = $this->repo->findByOwner($username, $page);
+        $lead = $this->repo->findByOwner(new ParameterBag(['page' => $page, 'canView' => $username]));
     }
 
     public function testSaveCreate()
@@ -204,7 +206,7 @@ class LeadRepositoryTest extends WebTestCase
 
     public function testFindByOwnerEmployee()
     {
-        $leads = $this->repo->findByOwner('usernameEmployee');
+        $leads = $this->repo->findByOwner(new ParameterBag(['canView' => 'usernameEmployee']));
 
         $this->assertCount(3, $leads->getItems());
         $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leads->getItems()[0]);
@@ -213,5 +215,53 @@ class LeadRepositoryTest extends WebTestCase
         $this->assertEquals(1, $leads->getPagination()['current_page']);
         $this->assertEquals(10, $leads->getPagination()['items_per_page']);
         $this->assertEquals(3, $leads->getPagination()['total_items']);
+    }
+
+    public function testFindByOwnerEmployeeFilter()
+    {
+        $leads = $this->repo->findByOwner(new ParameterBag(
+            [
+                'canView' => 'usernameEmployee',
+                'vertical' => 'test.com',
+                'location_level2' => 'Madrid',
+                'location_level1' => 'Madrid',
+                'event_type' => 1,
+                'create_start' => '2013-10-10',
+                'create_end' => '2013-11-11',
+                'provider' => 'name',
+                'lead_status' => 'read',
+                'event_start' => '2014-01-25',
+                'event_end' => '2014-02-20'
+            ]
+        ));
+
+        $this->assertCount(2, $leads->getItems());
+        $this->assertInstanceOf('EVT\CoreDomain\Lead\Lead', $leads->getItems()[0]);
+        $this->assertEquals('valid@email.com', $leads->getItems()[0]->getEmail()->getEmail());
+        $this->assertEquals(1, $leads->getPagination()['total_pages']);
+        $this->assertEquals(1, $leads->getPagination()['current_page']);
+        $this->assertEquals(10, $leads->getPagination()['items_per_page']);
+        $this->assertEquals(2, $leads->getPagination()['total_items']);
+    }
+
+    public function testFindByOwnerEmployeeFilterZeroResult()
+    {
+        $leads = $this->repo->findByOwner(new ParameterBag(
+            [
+                'canView' => 'usernameEmployee',
+                'vertical' => 'test.com',
+                'location_level2' => 'Madrid',
+                'location_level1' => 'Madrid',
+                'event_type' => 1,
+                'create_start' => '2013-10-10',
+                'create_end' => '2013-11-11',
+                'provider' => 'name',
+                'lead_status' => 'unread',
+                'event_start' => '2014-01-25',
+                'event_end' => '2014-02-20'
+            ]
+        ));
+
+        $this->assertNull($leads);
     }
 }

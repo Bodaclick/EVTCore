@@ -21,14 +21,19 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $testName = "Test Name";
-        $vertcal = new Vertical($testName);
+        $vertcal = new Vertical($testName, 'es_ES', 'Europe/Madrid');
         $this->assertEquals($testName, $vertcal->getDomain());
     }
 
     public function testAddShowroom()
     {
-        $vertical = new Vertical("Test Name");
-        $provider = new Provider(new ProviderId(''), "Test Name", new EmailCollection(new Email('valid@email.com')));
+        $vertical = new Vertical("Test Name", 'es_ES', 'Europe/Madrid');
+        $provider = new Provider(
+            new ProviderId(''),
+            "Test Name",
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
+        );
         $informationBag = new InformationBag();
 
         $showroom = $vertical->addShowroom($provider, new ShowroomType(ShowroomType::PRO), $informationBag);
@@ -39,8 +44,13 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
 
     public function testAddShowroomFullInfo()
     {
-        $vertical = new Vertical("Test Name");
-        $provider = new Provider(new ProviderId(''), "Test Name", new EmailCollection(new Email('valid@email.com')));
+        $vertical = new Vertical("Test Name", 'es_ES', 'Europe/Madrid');
+        $provider = new Provider(
+            new ProviderId(''),
+            "Test Name",
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
+        );
         $informationBag = new InformationBag(['name' => 'myName', 'phone' => '999999999', 'slug' => 'slug']);
 
         $showroom = $vertical->addShowroom(
@@ -59,9 +69,19 @@ class VerticalTest extends \PHPUnit_Framework_TestCase
 
     public function testReAddShowroom()
     {
-        $vertical = new Vertical("Test Name");
-        $provider = new Provider(new ProviderId(''), "Test Name", new EmailCollection(new Email('valid@email.com')));
-        $provider2 = new Provider(new ProviderId(''), "Test2", new EmailCollection(new Email('valid2@email.com')));
+        $vertical = new Vertical("Test Name", 'es_ES', 'Europe/Madrid');
+        $provider = new Provider(
+            new ProviderId(''),
+            "Test Name",
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
+        );
+        $provider2 = new Provider(
+            new ProviderId(''),
+            "Test2",
+            new EmailCollection(new Email('valid2@email.com')),
+            'es_ES'
+        );
 
         $showroom1 = $vertical->addShowroom($provider, new ShowroomType(ShowroomType::PRO));
         $vertical->addShowroom($provider2, 0);

@@ -21,8 +21,13 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreation()
     {
-        $provider = new Provider(new ProviderId(''), "testName", new EmailCollection(new Email('valid@email.com')));
-        $vertical = new Vertical("testDomain.test");
+        $provider = new Provider(
+            new ProviderId(''),
+            "testName",
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
+        );
+        $vertical = new Vertical("testDomain.test", 'es_ES', 'Europe/Madrid');
         $informationBag = new InformationBag(['slug' => 'different']);
 
         $showroom = new Showroom($provider, $vertical, new ShowroomType(ShowroomType::FREE), $informationBag);
@@ -31,8 +36,13 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
 
     public function testCreationWithExtraData()
     {
-        $provider = new Provider(new ProviderId(''), "testName", new EmailCollection(new Email('valid@email.com')));
-        $vertical = new Vertical("testDomain.test");
+        $provider = new Provider(
+            new ProviderId(''),
+            "testName",
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
+        );
+        $vertical = new Vertical("testDomain.test", 'es_ES', 'Europe/Madrid');
         $informationBag = new InformationBag(['slug' => 'different']);
 
         $showroom = new Showroom(
@@ -47,8 +57,13 @@ class ShowroomTest extends \PHPUnit_Framework_TestCase
 
     public function testUrlChange()
     {
-        $provider = new Provider(new ProviderId(''), "testName", new EmailCollection(new Email('valid@email.com')));
-        $vertical = new Vertical("testDomain.test");
+        $provider = new Provider(
+            new ProviderId(''),
+            "testName",
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
+        );
+        $vertical = new Vertical("testDomain.test", 'es_ES', 'Europe/Madrid');
         $informationBag = new InformationBag();
 
         $showroom = new Showroom($provider, $vertical, new ShowroomType(ShowroomType::FREE), $informationBag);

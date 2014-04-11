@@ -56,11 +56,14 @@ class LoadNotMainLeadData implements FixtureInterface, ContainerAwareInterface
         $prov->setLocationAdminLevel1('test');
         $prov->setLocationAdminLevel2('test');
         $prov->setLocationCountry('Spain');
+        $prov->setLang('es_ES');
         $prov->addGenericUser($user);
         $manager->persist($prov);
 
         $vert = new Vertical();
         $vert->setDomain('testOther.com');
+        $vert->setLang('es_ES');
+        $vert->setTimezone('Europe/Madrid');
         $manager->persist($vert);
 
         $showroom = new Showroom();

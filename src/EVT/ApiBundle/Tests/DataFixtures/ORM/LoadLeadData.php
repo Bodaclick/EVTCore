@@ -38,17 +38,6 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
     {
         $userManager = $this->container->get('fos_user.user_manager');
 
-        $employee = $userManager->createUser();
-        $employee->setUsername('usernameEmployee');
-        $employee->setEmail('valid@emailEmployee.com');
-        $employee->setPlainPassword('passEmployee');
-        $employee->addRole('ROLE_EMPLOYEE');
-        $employee->setName('nameEmployee');
-        $employee->setSurnames('surnamesEmployee');
-        $employee->setPhone('01');
-
-        $userManager->updateUser($employee);
-
         $user = $userManager->createUser();
         $user->setUsername('usernameManager');
         $user->setEmail('valid@emailManager.com');
@@ -79,11 +68,14 @@ class LoadLeadData implements FixtureInterface, ContainerAwareInterface
         $prov->setLocationAdminLevel1('test');
         $prov->setLocationAdminLevel2('test');
         $prov->setLocationCountry('Spain');
+        $prov->setLang('es_ES');
         $prov->addGenericUser($user);
         $manager->persist($prov);
 
         $vert = new Vertical();
         $vert->setDomain('test.com');
+        $vert->setLang('es_ES');
+        $vert->setTimezone('Europe/Madrid');
         $manager->persist($vert);
 
         $showroom = new Showroom();

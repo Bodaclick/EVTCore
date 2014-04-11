@@ -22,13 +22,15 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new Liip\MonitorBundle\LiipMonitorBundle(),
-            new EVT\ApiBundle\EVTApiBundle(),
-            new EVT\CoreDomainBundle\EVTCoreDomainBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new BDK\AsyncDispatcherBundle\BDKAsyncDispatcherBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new EVT\ApiBundle\EVTApiBundle(),
             new EVT\EvtApplication\EVTEvtApplication(),
-            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle()
+            new EVT\CoreDomainBundle\EVTCoreDomainBundle(),
+            new EVT\StatsBundle\EVTStatsBundle(),
+            new Snc\RedisBundle\SncRedisBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

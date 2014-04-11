@@ -21,8 +21,9 @@ class Provider
     private $notificationEmails;
     private $managers;
     private $location;
+    private $lang;
 
-    public function __construct(ProviderId $id, $name, EmailCollection $notificationEmails, Location $location = null)
+    public function __construct(ProviderId $id, $name, EmailCollection $notificationEmails, $lang, Location $location = null)
     {
         $this->id = $id->getValue();
         $this->name = $name;
@@ -30,6 +31,7 @@ class Provider
         $this->notificationEmails = $notificationEmails;
         $this->managers = new \ArrayObject();
         $this->location = $location;
+        $this->lang = $lang;
     }
 
     public function getId()
@@ -83,6 +85,11 @@ class Provider
     public function setPhone($phone)
     {
         $this->phone = $phone;
+    }
+
+    public function getLang()
+    {
+        return $this->lang;
     }
 
     public function getLocation()

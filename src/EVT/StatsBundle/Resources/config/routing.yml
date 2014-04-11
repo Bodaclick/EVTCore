@@ -1,0 +1,4 @@
+evt_stats_lead:
+    resource: EVT\StatsBundle\Controller\LeadController
+    type: rest
+    name_prefix: stats_

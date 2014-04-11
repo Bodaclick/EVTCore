@@ -19,7 +19,12 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     public function testProviderCreation()
     {
         $testName = "TestName";
-        $provider = new Provider(new ProviderId(''), $testName, new EmailCollection(new Email('valid@email.com')));
+        $provider = new Provider(
+            new ProviderId(''),
+            $testName,
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
+        );
         $this->assertEquals($testName, $provider->getName());
         $this->assertEquals('testname', $provider->getSlug());
     }
@@ -27,7 +32,12 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     public function testAddManager()
     {
         $testName = "TestName";
-        $provider = new Provider(new ProviderId(''), $testName, new EmailCollection(new Email('valid@email.com')));
+        $provider = new Provider(
+            new ProviderId(''),
+            $testName,
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
+        );
         $provider->addManager(new Manager('valid@email.com', new PersonalInformation('a', 'b', 'c')));
 
         $managers = $provider->getManagers();

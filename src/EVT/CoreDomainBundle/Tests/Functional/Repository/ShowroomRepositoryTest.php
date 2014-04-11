@@ -18,6 +18,7 @@ class ShowroomRepositoryTest extends WebTestCase
     public function setUp()
     {
         $classes = [
+            'EVT\ApiBundle\Tests\DataFixtures\ORM\LoadEmployeeData',
             'EVT\ApiBundle\Tests\DataFixtures\ORM\LoadShowroomData',
         ];
         $this->loadFixtures($classes);
@@ -47,5 +48,18 @@ class ShowroomRepositoryTest extends WebTestCase
         $showroom = $this->repo->findByOwner('usernameManager2');
 
         $this->assertNull($showroom);
+    }
+
+    public function testFindByOwnerEmployee()
+    {
+        $showrooms = $this->repo->findByOwner('usernameEmployee');
+
+        $this->assertCount(2, $showrooms->getItems());
+        $this->assertInstanceOf('EVT\CoreDomain\Provider\Showroom', $showrooms->getItems()[0]);
+        $this->assertEquals(2, $showrooms->getItems()[0]->getId());
+        $this->assertEquals(1, $showrooms->getPagination()['total_pages']);
+        $this->assertEquals(1, $showrooms->getPagination()['current_page']);
+        $this->assertEquals(10, $showrooms->getPagination()['items_per_page']);
+        $this->assertEquals(2, $showrooms->getPagination()['total_items']);
     }
 }

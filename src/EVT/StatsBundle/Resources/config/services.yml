@@ -1,0 +1,4 @@
+services:
+    evt.manager.lead:
+            class:     EVT\StatsBundle\Model\Manager\LeadManager
+            arguments: [@evt.repository.provider, @evt.repository.user, @doctrine.orm.stats_entity_manager]

@@ -21,7 +21,6 @@ use EVT\CoreDomain\User\PersonalInformation;
  * PaginatorFactoryTest
  *
  * @author    Quique Torras <etorras@bodaclick.com>
- *
  * @copyright 2014 Bodaclick S.A.
  */
 class PaginatorFactoryTest extends \PHPUnit_Framework_TestCase
@@ -34,9 +33,10 @@ class PaginatorFactoryTest extends \PHPUnit_Framework_TestCase
                 'providername',
                 new EmailCollection(
                     new Email('valid2@email.com')
-                )
+                ),
+                'es_ES'
             ),
-            new Vertical('test.com'),
+            new Vertical('test.com', 'es_ES', 'Europe/Madrid'),
             new ShowroomType(ShowroomType::FREE)
         );
 

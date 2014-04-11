@@ -30,7 +30,7 @@ class LeadControllerGetTest extends WebTestCase
         ];
         $this->loadFixtures($classes);
         $this->client = static::createClient();
-        $this->header = ['Content-Type' => 'application/json', 'HTTP_ACCEPT' => 'application/json'];
+        $this->header = ['Content-Type' => 'application/json', 'HTTP_Accept' => 'application/json'];
 
     }
 
@@ -62,6 +62,8 @@ class LeadControllerGetTest extends WebTestCase
         $this->assertEquals('2013-10-10CEST00:00:00+0200', $arrayLeads['items'][1]['created_at']);
         $this->assertEquals('2013-10-12CEST00:00:00+0200', $arrayLeads['items'][1]['read_at']);
         $this->assertEquals('1', $arrayLeads['items'][1]['showroom']['type']);
+        $this->assertEquals('es_ES', $arrayLeads['items'][1]['showroom']['vertical']['lang']);
+        $this->assertEquals('Europe/Madrid', $arrayLeads['items'][1]['showroom']['vertical']['timezone']);
     }
 
     public function testGetLeadsCannotView()

@@ -11,13 +11,13 @@ class VerticalMappingTest extends \PHPUnit_Framework_TestCase
 
     public function testDomainToEntityIsMapped()
     {
-        $dVertical = new DomainVertical('domain');
+        $dVertical = new DomainVertical('domain', 'es_ES', 'Europe/Madrid');
 
         $mapper = new VerticalMapping();
         $eVertical = $mapper->mapDomainToEntity($dVertical);
 
         $this->assertInstanceOf('EVT\CoreDomainBundle\Entity\Vertical', $eVertical);
-        $this->assertEquals($dVertical->getDomain(), $eVertical->getDomain());
+        $this->assertEquals($dVertical->getDomain(), $eVertical->getDomain(), $dVertical->getTimezone());
     }
 
 
@@ -30,6 +30,6 @@ class VerticalMappingTest extends \PHPUnit_Framework_TestCase
         $dVertical = $mapper->mapEntityToDomain($eVertical);
 
         $this->assertInstanceOf('EVT\CoreDomain\Provider\Vertical', $dVertical);
-        $this->assertEquals($dVertical->getDomain(), $eVertical->getDomain());
+        $this->assertEquals($dVertical->getDomain(), $eVertical->getDomain(), $dVertical->getTimezone());
     }
 }

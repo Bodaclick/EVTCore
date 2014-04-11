@@ -59,4 +59,9 @@ abstract class GenericUser
     {
         return $this->id;
     }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
 }

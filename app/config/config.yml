@@ -44,33 +44,45 @@ assetic:
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
-        #closure:
-        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
-        #yui_css:
-        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
 
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   "%database_driver%"
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
-        # if using pdo_sqlite as your database driver, add the path in parameters.yml
-        # e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        # path:     "%database_path%"
+        connections:
+            default:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+            stats:
+                driver:   "%stats_database_driver%"
+                host:     "%stats_database_host%"
+                port:     "%stats_database_port%"
+                dbname:   "%stats_database_name%"
+                user:     "%stats_database_user%"
+                password: "%stats_database_password%"
+                charset:  UTF8
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
+        default_entity_manager: default
         entity_managers:
             default:
+                metadata_cache_driver: redis
+                query_cache_driver: redis
                 connection: default
                 mappings:
                     EVTCoreDomainBundle: ~
                     EVTEvtApplication: ~
+            stats:
+                metadata_cache_driver: redis
+                query_cache_driver: redis
+                connection: stats
+                mappings:
+                    EVTStatsBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -83,9 +95,29 @@ swiftmailer:
 evt_api:
     apikeys: "%apikeys%"
 
+evt_stats:
+    apikeys: "%apikeys%"
+
 sensio_framework_extra:
     view:    { annotations: false }
     router:  { annotations: true }
+
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: %redis_default%
+    doctrine:
+        metadata_cache:
+            client: default
+            entity_manager: [default, stats]
+            namespace: "evt:core:meta:"
+        query_cache:
+            client: default
+            entity_manager: [default, stats]
+            namespace: "evt:core:query:"
+
 
 fos_rest:
     routing_loader:
@@ -110,6 +142,7 @@ fos_rest:
     format_listener:
         rules:
             - { path: '^/api', priorities: ['json', 'html'], fallback_format: json, prefer_extension: false }
+            - { path: '^/stats', priorities: ['json', 'html'], fallback_format: json, prefer_extension: false }
             - { path: '^/', priorities: [ 'text/html'], fallback_format: html, prefer_extension: true }
 fos_user:
     db_driver: orm

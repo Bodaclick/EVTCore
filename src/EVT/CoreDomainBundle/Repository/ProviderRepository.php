@@ -79,4 +79,28 @@ class ProviderRepository extends EntityRepository implements DomainRepository
 
         return $this->mapper->mapEntityToDomain($eProvider);
     }
+
+    /**
+     * @param string $username
+     * @return null | Array domain providers
+     */
+    public function findByUser($username)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->select('p')
+            ->from('EVTCoreDomainBundle:Provider', 'p')
+            ->join('p.genericUser', 'gu')
+            ->add('where', 'gu.username = :username')
+            ->setParameter('username', $username);
+
+        if (!$uProviders = $qb->getQuery()->getResult()) {
+            return null;
+        }
+
+        foreach ($uProviders as $uProvider){
+            $domainProviders [] = $this->mapper->mapEntityToDomain($uProvider);
+        }
+
+        return $domainProviders;
+    }
 }

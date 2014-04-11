@@ -19,11 +19,21 @@ class Vertical
      */
     private $domain;
 
+    /**
+     * @var string
+     */
+    private $lang;
+
+    /**
+     * @var string
+     */
+    private $timezone;
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -46,10 +56,42 @@ class Vertical
     /**
      * Get domain
      *
-     * @return string 
+     * @return string
      */
     public function getDomain()
     {
         return $this->domain;
+    }
+
+    /**
+     * @param string $lang
+     */
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
+    /**
+     * @param string $timezone
+     */
+    public function setTimezone($timezone)
+    {
+        $this->timezone = $timezone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimezone()
+    {
+        return $this->timezone;
     }
 }

@@ -25,8 +25,7 @@ class LeadControllerTest extends WebTestCase
     public function setUp()
     {
         $this->client = static::createClient();
-        $this->header = ['Content-Type' => 'application/x-www-form-urlencoded', 'Accept' => 'application/json'];
-
+        $this->header = ['Content-Type' => 'application/x-www-form-urlencoded', 'HTTP_Accept' => 'application/json'];
     }
 
     public function mockContainer()
@@ -109,8 +108,7 @@ class LeadControllerTest extends WebTestCase
             'GET',
             '/api/leads/new?apikey=apikeyValue',
             [],
-            [],
-            $this->header
+            []
         );
 
         $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode());

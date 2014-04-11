@@ -43,7 +43,8 @@ class ProviderRepositoryTest extends \PHPUnit_Framework_TestCase
         $dProvider = new Provider(
             new ProviderId(null),
             'nameProvider',
-            new EmailCollection(new Email('valid@email.com'))
+            new EmailCollection(new Email('valid@email.com')),
+            'es_ES'
         );
         $dProvider->setPhone('9876543210');
 

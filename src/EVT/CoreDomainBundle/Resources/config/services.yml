@@ -13,6 +13,7 @@ services:
             - [setUserMapping, [@evt.mapper.user]]
             - [setAsyncDispatcher, [@bdk.async_event_dispatcher]]
             - [setLeadRepository, [@evt.repository.lead]]
+            - [setPaginator, [@knp_paginator]]
 
     evt.repository.lead:
         parent: evt.repository
@@ -30,6 +31,8 @@ services:
             - [setMapper, [@evt.mapper.showroom]]
             - [setAsyncDispatcher, [@bdk.async_event_dispatcher]]
             - [setPaginator, [@knp_paginator]]
+            - [setUserRepo, [@evt.repository.user]]
+
 
     evt.repository.provider:
         parent: evt.repository
@@ -43,6 +46,7 @@ services:
         calls:
             - [setMapper, [@evt.mapper.vertical]]
             - [setShowroomMapper, [@evt.mapper.showroom]]
+            - [setUserRepo, [@evt.repository.user]]
 
     evt.form.provider:
         class: EVT\CoreDomainBundle\Form\Type\ProviderFormType

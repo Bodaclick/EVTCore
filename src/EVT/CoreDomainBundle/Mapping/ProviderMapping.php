@@ -45,6 +45,7 @@ class ProviderMapping implements MappingInterface
         $eProvider->setName($provider->getName());
         $eProvider->setSlug($provider->getSlug());
         $eProvider->setPhone($provider->getPhone());
+        $eProvider->setLang($provider->getLang());
         $location = $provider->getLocation();
 
         if ($location) {
@@ -84,6 +85,8 @@ class ProviderMapping implements MappingInterface
             $notifEmails->append(new Email($email));
         }
 
+        $lang = $eProvider->getLang();
+
         $location = new Location(
             $eProvider->getLocationLat(),
             $eProvider->getLocationLong(),
@@ -92,7 +95,7 @@ class ProviderMapping implements MappingInterface
             $eProvider->getLocationCountry()
         );
 
-        $dProvider = new Provider($pId, $eProvider->getName(), $notifEmails, $location);
+        $dProvider = new Provider($pId, $eProvider->getName(), $notifEmails, $lang, $location);
         $dProvider->setPhone($eProvider->getPhone());
 
         $managers = $eProvider->getGenericUser();

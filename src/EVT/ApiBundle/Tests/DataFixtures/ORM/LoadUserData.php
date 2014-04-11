@@ -44,5 +44,27 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $user->setName('name');
 
         $userManager->updateUser($user);
+
+        $manager2 = $userManager->createUser();
+        $manager2->setUsername('usernameManager2');
+        $manager2->setEmail('valid2@emailManager.com');
+        $manager2->setPlainPassword('passManager2');
+        $manager2->addRole('ROLE_MANAGER');
+        $manager2->setName('nameManager2');
+        $manager2->setSurnames('surnamesManager2');
+        $manager2->setPhone('0132488887');
+
+        $userManager->updateUser($manager2);
+
+        $employee = $userManager->createUser();
+        $employee->setUsername('usernameEmployee');
+        $employee->setEmail('employee@bodaclick.com');
+        $employee->setPlainPassword('passEmployee');
+        $employee->addRole('ROLE_EMPLOYEE');
+        $employee->setName('nameEmployee');
+        $employee->setSurnames('surnamesEmployee');
+        $employee->setPhone('912225588');
+
+        $userManager->updateUser($employee);
     }
 }

@@ -62,7 +62,8 @@ class ProviderFactoryTest extends \PHPUnit_Framework_TestCase
             'locationCountry' => 'asdf',
             'locationLat' => 10,
             'locationLong' => 10,
-            'notificationEmails' => ['valid@email.com', 'valid2@email.com']
+            'notificationEmails' => ['valid@email.com', 'valid2@email.com'],
+            'lang' => 'es_ES'
         ];
 
         $factory = new ProviderFactory($this->providerRepo, $this->userRepo);
