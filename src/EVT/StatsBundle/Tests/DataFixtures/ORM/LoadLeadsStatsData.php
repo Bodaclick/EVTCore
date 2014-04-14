@@ -44,6 +44,16 @@ class LoadLeadsStatsData implements FixtureInterface, ContainerAwareInterface
             $manager->persist($lead);
 
         }
+        foreach ($years as $year) {
+            $lead2 = new Lead(
+                new \DateTime($year),
+                'verticalTest2.com',
+                3,
+                2
+            );
+            $manager->persist($lead2);
+
+        }
         $manager->flush();
     }
 }

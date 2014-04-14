@@ -36,13 +36,15 @@ class LeadManager
                     }else{
                         $result [] = $pResult;
                     }
+                }else{
+                    $result = null;
                 }
             }
         }else{
             if (null != $this->userRepo->getEmployeeByUsername($username)){
                 $result = $this->em->getRepository('EVTStatsBundle:Lead')->findBetweenDates($from_date, $to_date);
             }else{
-                throw new BadRequestHttpException('leads not found');
+                $result = null;
             }
         }
 
