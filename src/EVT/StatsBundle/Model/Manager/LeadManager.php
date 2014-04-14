@@ -26,27 +26,28 @@ class LeadManager
     {
         $providers = $this->providerRepo->findByUser($username);
 
-        if ($providers != null){
-            foreach ($providers as $key=>$provider){
+        if ($providers != null) {
+            foreach ($providers as $key => $provider) {
                 $pResult = $this->em->getRepository('EVTStatsBundle:Lead')
                     ->findByProviderBetweenDates($provider->getId(), $from_date, $to_date);
-                if (!empty($pResult)){
-                    if ($key == 0){
+                if (!empty($pResult)) {
+                    if ($key == 0) {
                         $result = $pResult;
-                    }else{
-                        $result [] = $pResult;
+                    } else {
+                        $result[] = $pResult;
                     }
+                } else {
+                    $result = null;
                 }
             }
-        }else{
-            if (null != $this->userRepo->getEmployeeByUsername($username)){
+        } else {
+            if (null != $this->userRepo->getEmployeeByUsername($username)) {
                 $result = $this->em->getRepository('EVTStatsBundle:Lead')->findBetweenDates($from_date, $to_date);
-            }else{
-                throw new BadRequestHttpException('leads not found');
+            } else {
+                $result = null;
             }
         }
 
         return $result;
     }
-
-} 
+}

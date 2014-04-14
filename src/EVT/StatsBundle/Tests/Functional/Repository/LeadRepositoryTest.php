@@ -30,7 +30,7 @@ class LeadRepositoryTest extends WebTestCase
     {
         $result = $this->repo->getTotalForYear('2014');
 
-        $this->assertEquals(2, $result);
+        $this->assertEquals(4, $result);
     }
 
     public function testAddIncrement()

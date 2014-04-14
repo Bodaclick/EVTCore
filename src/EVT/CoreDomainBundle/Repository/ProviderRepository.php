@@ -97,7 +97,7 @@ class ProviderRepository extends EntityRepository implements DomainRepository
             return null;
         }
 
-        foreach ($uProviders as $uProvider){
+        foreach ($uProviders as $uProvider) {
             $domainProviders [] = $this->mapper->mapEntityToDomain($uProvider);
         }
 
