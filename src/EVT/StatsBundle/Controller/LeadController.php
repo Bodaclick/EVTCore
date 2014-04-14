@@ -25,7 +25,7 @@ class LeadController extends Controller
         $from_date = $request->query->get('from_date', '2010-01-01');
         $to_date = $request->query->get('to_date', '2010-01-01');
         $result = $this->get('evt.manager.lead')
-            ->getLeadsBetweenDates ($request->query->get('canView'), $from_date, $to_date);
+            ->getLeadsBetweenDates($request->query->get('canView'), $from_date, $to_date);
 
         return $result;
     }

@@ -23,8 +23,13 @@ class Provider
     private $location;
     private $lang;
 
-    public function __construct(ProviderId $id, $name, EmailCollection $notificationEmails, $lang, Location $location = null)
-    {
+    public function __construct(
+        ProviderId $id,
+        $name,
+        EmailCollection $notificationEmails,
+        $lang,
+        Location $location = null
+    ) {
         $this->id = $id->getValue();
         $this->name = $name;
         $this->slugify();
@@ -81,7 +86,7 @@ class Provider
     {
         return $this->managers;
     }
-    
+
     public function setPhone($phone)
     {
         $this->phone = $phone;
