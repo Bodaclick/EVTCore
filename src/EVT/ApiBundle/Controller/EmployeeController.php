@@ -45,13 +45,18 @@ class EmployeeController extends Controller
 
         if ($form->isValid()) {
             $userEmployee->updateUser($user);
-
             return $view->setData(['user' => sprintf('/api/employee/%d', $user->getId())]);
         }
 
-        if ($user = $this->container->get('evt.repository.user')->findOneByEmail($user->getEmail())) {
-            $view->setStatusCode(Codes::HTTP_CONFLICT);
-            return $view->setData(['user' => sprintf('/api/employee/%d', $user->getId())]);
+        if ($userFindIt = $this->container->get('evt.repository.user')->findOneByEmail($user->getEmail())) {
+            if (count($userFindIt->getRoles()) == 1 && $userFindIt->hasRole("ROLE_USER")){
+                $userFindIt->addRole('ROLE_EMPLOYEE');
+                $userEmployee->updateUser($userFindIt);
+                return $view->setData(['user' => sprintf('/api/employee/%d', $userFindIt->getId())]);
+            }else{
+                $view->setStatusCode(Codes::HTTP_CONFLICT);
+                return $view->setData(['user' => sprintf('/api/employee/%d', $userFindIt->getId())]);
+            }
         }
 
         $view->setStatusCode(Codes::HTTP_BAD_REQUEST);
