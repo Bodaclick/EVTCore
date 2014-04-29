@@ -180,7 +180,7 @@ class UserRepository extends EntityRepository implements DomainRepository
 
     public function resetPassword ($username)
     {
-        $user = $this->userManager->findUserByUsername($username);
+        $user = $this->userManager->findUserByEmail($username);
         $user->setPlainPassword(substr(uniqid(microtime(true), true), -6));
         $password = $user->getPlainPassword();
         $this->userManager->updatePassword($user);
