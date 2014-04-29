@@ -30,7 +30,7 @@ class ResetPasswordControllerTest extends WebTestCase
 
         $this->client->request(
             'GET',
-            '/api/resets/usernameManager/password?apikey=apikeyValue',
+            '/api/resets/valid@emailManager.com/password?apikey=apikeyValue',
             [],
             [],
             $this->header
