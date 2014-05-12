@@ -122,4 +122,38 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
 
         return PaginatorFactory::create($pagination, $arrayDomShowrooms);
     }
+
+    public function findByIdOwner($id, $username, $page = 1)
+    {
+        if (empty($id) || empty($username)) {
+            return null;
+        }
+
+        $showroom = $this->_em->createQuery(
+            "SELECT s
+            FROM EVTCoreDomainBundle:Showroom s
+                JOIN s.provider p
+                JOIN p.genericUser u
+            WHERE u.username = :username
+                AND s.id = :id"
+        )
+            ->setParameter("id", $id)
+            ->setParameter("username", $username)
+            ->getOneOrNullResult();
+
+        if (null == $showroom && null !== $this->userRepo->getEmployeeByUsername($username)) {
+            $showroom = $this->_em->createQuery(
+                "SELECT s
+                FROM EVTCoreDomainBundle:Showroom s
+                WHERE s.id = :id"
+            )
+                ->setParameter("id", $id)
+                ->getOneOrNullResult();
+        }
+
+        if (null === $showroom) {
+            return null;
+        }
+        return $this->mapping->mapEntityToDomain($showroom);
+    }
 }

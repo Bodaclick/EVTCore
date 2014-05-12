@@ -58,4 +58,24 @@ class ShowroomController extends Controller
 
         return $view->setStatusCode($statusCode)->setData($showrooms);
     }
+
+    /**
+     * @View(statusCode=200)
+     */
+    public function getShowroomAction(Request $request, $id)
+    {
+        $view = FosView::create();
+        $view->setFormat('json');
+
+        $showroomRepository = $this->container->get('evt.repository.showroom');
+        $showrooms =  $showroomRepository->findByIdOwner($id, $request->get('canView', null), $request->get('page', 1));
+
+        $statusCode = Codes::HTTP_OK;
+        if (empty($showrooms)) {
+            $statusCode = Codes::HTTP_NOT_FOUND;
+            return new Response('', $statusCode);
+        }
+
+        return $view->setStatusCode($statusCode)->setData($showrooms);
+    }
 }
