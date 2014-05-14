@@ -25,7 +25,8 @@ class GenericUserFormType extends RegistrationFormType
         $builder
             ->add('name', 'text')
             ->add('surnames', 'text')
-            ->add('phone', 'text');
+            ->add('phone', 'text')
+            ->add('lang', 'text');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

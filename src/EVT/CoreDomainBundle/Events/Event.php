@@ -10,4 +10,6 @@ final class Event
     const ON_UPDATE_LEAD = 'evt.event.lead_update';
     const ON_CREATE_USER = 'evt.event.user_create';
     const ON_UPDATE_USER = 'evt.event.user_update';
+    const ON_CREATE_MANAGER = 'evt.event.manager_create';
+    const ON_CREATE_EMPLOYEE = 'evt.event.employee_create';
 }

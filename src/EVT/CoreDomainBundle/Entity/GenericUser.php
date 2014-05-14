@@ -36,6 +36,10 @@ class GenericUser extends BaseUSer
     private $provider;
 
     /**
+     * @var string
+     */
+    private $lang;
+    /**
      * Constructor
      */
     public function __construct()
@@ -168,4 +172,21 @@ class GenericUser extends BaseUSer
     {
         return $this->provider;
     }
+
+    /**
+     * @param string $lang
+     */
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
 }

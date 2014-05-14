@@ -2,6 +2,8 @@
 
 namespace EVT\ApiBundle\Controller;
 
+use EVT\CoreDomainBundle\Events\Event;
+use EVT\CoreDomainBundle\Events\GenericUserEvent;
 use EVT\CoreDomainBundle\Form\Type\GenericUserFormType;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
@@ -44,6 +46,11 @@ class EmployeeController extends Controller
 
         if ($form->isValid()) {
             $userEmployee->updateUser($user);
+
+            $event = new GenericUserEvent($user, Event::ON_CREATE_EMPLOYEE);
+            $asyncDispatcher = $this->container->get('bdk.async_event_dispatcher');
+            $asyncDispatcher->dispatch($event);
+
             return $view->setData(['user' => sprintf('/api/employee/%d', $user->getId())]);
         }
 

@@ -183,6 +183,16 @@ old_sound_rabbit_mq:
             exchange_options: {name: 'events-exchange', type: topic, durable: true}
             queue_options:    {routing_keys: ['*.user'], name:'events-user-queue'}
 
+        events_manager_queue:
+            connection: default
+            exchange_options: {name: 'events-exchange', type: topic, durable: true}
+            queue_options:    {routing_keys: ['*.manager'], name:'events-manager-queue'}
+
+        events_employee_queue:
+            connection: default
+            exchange_options: {name: 'events-exchange', type: topic, durable: true}
+            queue_options:    {routing_keys: ['*.employee'], name:'events-employee-queue'}
+
         events_hook_queue:
             connection: default
             exchange_options: {name: 'events-exchange', type: topic, durable: true}
