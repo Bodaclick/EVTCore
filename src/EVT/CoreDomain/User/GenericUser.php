@@ -20,6 +20,7 @@ abstract class GenericUser
     protected $password;
     protected $personalInfo;
     protected $roles;
+    protected $lang;
 
     /**
      * @param $email
@@ -28,6 +29,7 @@ abstract class GenericUser
      * @param null $password
      * @param array $roles
      * @param null $username
+     * @param string $lang
      */
     public function __construct(
         $email,
@@ -35,7 +37,8 @@ abstract class GenericUser
         $salt = null,
         $password = null,
         $roles = [],
-        $username = null
+        $username = null,
+        $lang = 'en_EN'
     ) {
         $this->email = new Email($email);
         $this->personalInfo = $personalInfo;
@@ -43,6 +46,7 @@ abstract class GenericUser
         $this->password = $password;
         $this->roles = $roles;
         $this->username = $username;
+        $this->lang = $lang;
     }
 
     public function getPersonalInformation()
