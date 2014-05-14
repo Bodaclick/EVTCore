@@ -2,7 +2,6 @@
 
 namespace EVT\ApiBundle\Controller;
 
-use Doctrine\DBAL\DBALException;
 use EVT\CoreDomainBundle\Form\Type\GenericUserFormType;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
@@ -49,11 +48,11 @@ class EmployeeController extends Controller
         }
 
         if ($userFindIt = $this->container->get('evt.repository.user')->findOneByEmail($user->getEmail())) {
-            if (count($userFindIt->getRoles()) == 1 && $userFindIt->hasRole("ROLE_USER")){
+            if (count($userFindIt->getRoles()) == 1 && $userFindIt->hasRole("ROLE_USER")) {
                 $userFindIt->addRole('ROLE_EMPLOYEE');
                 $userEmployee->updateUser($userFindIt);
                 return $view->setData(['user' => sprintf('/api/employee/%d', $userFindIt->getId())]);
-            }else{
+            } else {
                 $view->setStatusCode(Codes::HTTP_CONFLICT);
                 return $view->setData(['user' => sprintf('/api/employee/%d', $userFindIt->getId())]);
             }
@@ -63,5 +62,21 @@ class EmployeeController extends Controller
         $view->setTemplate('EVTApiBundle:Employee:newEmployee.html.twig');
         $view->setData(['form' => $form->createView()]);
         return $this->get('fos_rest.view_handler')->handle($view);
+    }
+
+    /**
+     * @FOS\View()
+     */
+    public function getEmployeesAction(Request $request)
+    {
+        $userRepository = $this->container->get('evt.repository.user');
+        $users = $userRepository->getEmployees($request->get('canView', null), $request->get('page', 1));
+
+        if (empty($users)) {
+            $statusCode = Codes::HTTP_NOT_FOUND;
+            return new Response('', $statusCode);
+        }
+
+        return $users;
     }
 }
