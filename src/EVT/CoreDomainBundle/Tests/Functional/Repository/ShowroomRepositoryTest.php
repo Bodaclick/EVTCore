@@ -3,6 +3,7 @@
 namespace EVT\CoreDomainBundle\Test\Functional\Repository;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * ShowroomRepositoryTest
@@ -29,7 +30,7 @@ class ShowroomRepositoryTest extends WebTestCase
 
     public function testFindByOwner()
     {
-        $showroom = $this->repo->findByOwner('usernameManager', 1);
+        $showroom = $this->repo->findByOwner(new ParameterBag(['canView' => 'usernameManager', 'page' => 1]));
 
         $this->assertCount(2, $showroom->getItems());
         $this->assertInstanceOf('EVT\CoreDomain\Provider\Showroom', $showroom->getItems()[0]);
@@ -45,14 +46,14 @@ class ShowroomRepositoryTest extends WebTestCase
 
     public function testFindByOwnerKO()
     {
-        $showroom = $this->repo->findByOwner('usernameManager2');
+        $showroom = $this->repo->findByOwner(new ParameterBag(['canView' => 'usernameManager2']));
 
         $this->assertNull($showroom);
     }
 
     public function testFindByOwnerEmployee()
     {
-        $showrooms = $this->repo->findByOwner('usernameEmployee');
+        $showrooms = $this->repo->findByOwner(new ParameterBag(['canView' => 'usernameEmployee']));
 
         $this->assertCount(2, $showrooms->getItems());
         $this->assertInstanceOf('EVT\CoreDomain\Provider\Showroom', $showrooms->getItems()[0]);
