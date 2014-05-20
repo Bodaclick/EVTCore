@@ -8,3 +8,9 @@ before_script:
   - php composer.phar install --dev
 
 script: phpunit -c app/
+
+services:
+  - redis-server
+  
+notifications:
+  slack: bodaclick:96T87K3ZYBkkRS0HXnqdRooi
