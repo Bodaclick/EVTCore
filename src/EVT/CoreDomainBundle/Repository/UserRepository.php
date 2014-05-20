@@ -122,8 +122,8 @@ class UserRepository extends EntityRepository implements DomainRepository
             $manager->select('u');
             $manager->where('u.roles LIKE :roles');
             if($params->get('email_search') != ''){
-                $manager->andWhere('u.email = :email');
-                $manager->setParameter('email', $params->get('email_search'));
+                $manager->andWhere('u.email LIKE :email');
+                $manager->setParameter('email', "%".$params->get('email_search')."%");
             }
             $manager->setParameter('roles', '%"ROLE_MANAGER"%');
             $managerUsers = $manager->getQuery()->getResult();
