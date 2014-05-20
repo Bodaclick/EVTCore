@@ -12,7 +12,7 @@ use EVT\CoreDomainBundle\Entity\GenericUser;
  *
  * @copyright 2014 Bodaclick S.A.
  */
-class GenericUserEvent  implements AsyncEventInterface
+class GenericUserEvent implements AsyncEventInterface
 {
     protected $user;
     protected $name;
