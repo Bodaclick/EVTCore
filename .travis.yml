@@ -11,6 +11,7 @@ script: phpunit -c app/
 
 services:
   - redis-server
+  - rabbitmq
   
 notifications:
   slack: bodaclick:96T87K3ZYBkkRS0HXnqdRooi
