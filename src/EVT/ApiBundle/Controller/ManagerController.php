@@ -72,7 +72,7 @@ class ManagerController extends Controller
     public function getManagersAction(Request $request)
     {
         $userRepository = $this->container->get('evt.repository.user');
-        $users = $userRepository->getManagers($request->get('canView', null), $request->get('page', 1));
+        $users = $userRepository->getManagers($request->query);
 
         $statusCode = Codes::HTTP_OK;
         if (empty($users)) {
