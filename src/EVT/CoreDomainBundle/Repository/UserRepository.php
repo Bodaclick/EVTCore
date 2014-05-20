@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use FOS\UserBundle\Model\UserManager;
 use BDK\AsyncEventDispatcher\AsyncEventDispatcherInterface;
 use EVT\CoreDomainBundle\Factory\PaginatorFactory;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * UserRepository
@@ -99,11 +100,15 @@ class UserRepository extends EntityRepository implements DomainRepository
         $this->userMapping = $userMapping;
     }
 
-    public function getManagers($username, $page = 1)
+    public function getManagers(ParameterBag $params)
     {
+
+        $username = $params->get('canView', null);
+
         if (empty($username)) {
             return null;
         }
+        $page = $params->get('page', 1);
 
         if (empty($page) || !is_numeric($page)) {
             throw new \InvalidArgumentException('Page not valid', 0);
@@ -114,9 +119,13 @@ class UserRepository extends EntityRepository implements DomainRepository
         $arrayDomManagers = [];
         if (null !== $user && in_array("ROLE_EMPLOYEE", $user->getRoles())) {
             $manager = $this->createQueryBuilder('u');
-            $manager->select('u')
-                ->where('u.roles LIKE :roles')
-                ->setParameter('roles', '%"ROLE_MANAGER"%');
+            $manager->select('u');
+            $manager->where('u.roles LIKE :roles');
+            if($params->get('email_search') != ''){
+                $manager->andWhere('u.email = :email');
+                $manager->setParameter('email', $params->get('email_search'));
+            }
+            $manager->setParameter('roles', '%"ROLE_MANAGER"%');
             $managerUsers = $manager->getQuery()->getResult();
 
             $pagination = $this->paginator->paginate($managerUsers, $page, 10);
