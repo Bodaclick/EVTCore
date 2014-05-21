@@ -7,8 +7,6 @@ before_script:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install --dev
 
-before_script: phpenv config-add myconfig.ini
-
 script: phpunit -c app/
 
 services:
