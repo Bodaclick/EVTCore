@@ -256,6 +256,20 @@ func (this *UserCreatedEvent) getDataName() string {
 	return ""
 }
 
+type ManagerCreatedEvent struct {
+}
+
+func (this *ManagerCreatedEvent) getDataName() string {
+	return ""
+}
+
+type EmployeeCreatedEvent struct {
+}
+
+func (this *EmployeeCreatedEvent) getDataName() string {
+	return ""
+}
+
 type ShowroomCreatedEvent struct {
 }
 
@@ -268,6 +282,10 @@ func MessageFactory(hookName string) hookMessageInterface {
 		return new(LeadCreatedEvent)
 	} else if hookName == "evt.event.user_create" {
 		return new(UserCreatedEvent)
+	} else if hookName == "evt.event.manager_create" {
+		return new(ManagerCreatedEvent)
+	} else if hookName == "evt.event.employee_create" {
+		return new(EmployeeCreatedEvent)
 	} else if hookName == "evt.event.showroom_create" {
 		return new(ShowroomCreatedEvent)
 	}
