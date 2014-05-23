@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use EVT\CoreDomainBundle\Mapping\ShowroomMapping;
 use BDK\AsyncEventDispatcher\AsyncEventDispatcherInterface;
 use EVT\CoreDomainBundle\Factory\PaginatorFactory;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Class ShowroomRepository
@@ -84,10 +85,30 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
         $rflId->setValue($showroom, $id);
     }
 
-    public function findByOwner($username, $page = 1)
+    public function findByOwner(ParameterBag $params)
     {
+        $username = $params->get('canView', null);
         if (empty($username)) {
             return null;
+        }
+
+        $page = $params->get('page', 1);
+
+        if (empty($page) || !is_numeric($page)) {
+            throw new \InvalidArgumentException('Page not valid', 0);
+        }
+
+        $queryFilter = '';
+        if ($params->get('vertical') != '') {
+            $queryFilter .= " AND s.vertical='". $params->get('vertical'). "' ";
+        }
+
+        if ($params->get('name') != '') {
+            $queryFilter .= " AND s.name='". $params->get('name'). "' ";
+        }
+
+        if ($params->get('notification_email') != '') {
+            $queryFilter .= " AND p.notificationEmails LIKE '%". $params->get('notification_email'). "%' ";
         }
 
         $showrooms = $this->_em->createQuery(
@@ -96,6 +117,7 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
                 JOIN s.provider p
                 JOIN p.genericUser u
             WHERE u.username = :username
+            ". $queryFilter. "
             ORDER BY s.id ASC"
         )
             ->setParameter("username", $username);
@@ -106,6 +128,9 @@ class ShowroomRepository extends EntityRepository implements DomainRepository
             $showrooms = $this->_em->createQuery(
                 "SELECT s
                 FROM EVTCoreDomainBundle:Showroom s
+                    JOIN s.provider p
+                WHERE 1=1
+                ". $queryFilter. "
                 ORDER BY s.id DESC"
             );
 

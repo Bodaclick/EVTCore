@@ -27,7 +27,8 @@ class UserMapping implements MappingInterface
                 $object->getSalt(),
                 $object->getPassword(),
                 $object->getRoles(),
-                $object->getUsername()
+                $object->getUsername(),
+                $object->getLang()
             );
         } elseif (in_array('ROLE_EMPLOYEE', $object->getRoles())) {
             $personalInfo = new PersonalInformation($object->getName(), $object->getSurnames(), '-');
@@ -37,7 +38,8 @@ class UserMapping implements MappingInterface
                 $object->getSalt(),
                 $object->getPassword(),
                 $object->getRoles(),
-                $object->getUsername()
+                $object->getUsername(),
+                $object->getLang()
             );
         } else {
             return null;

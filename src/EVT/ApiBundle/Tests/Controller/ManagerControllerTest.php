@@ -74,6 +74,10 @@ class ManagerControllerTest extends WebTestCase
             json_decode($this->client->getResponse()->getContent(), true)['user'],
             $this->client->getResponse()->getContent()
         );
+
+        $this->markTestSkipped(
+            'The MySQLi extension is not available.'
+        );
     }
 
     public function managersProvider()

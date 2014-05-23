@@ -124,7 +124,7 @@ class LeadControllerGetTest extends WebTestCase
         $this->assertArrayHasKey('pagination', $arrayLeads);
         $this->assertCount(1, ['items']);
         $this->assertEquals('valid@email.com', $arrayLeads['items'][0]['email']['email']);
-        $this->assertEquals('2014-01-01CET14:00:01+0100', $arrayLeads['items'][0]['event']['date']);
+        $this->assertEquals('2014-01-01UTC13:00:01+0000', $arrayLeads['items'][0]['event']['date']);
         $this->assertEquals(1, $arrayLeads['pagination']['total_pages']);
         $this->assertEquals(1, $arrayLeads['pagination']['current_page']);
         $this->assertEquals(10, $arrayLeads['pagination']['items_per_page']);

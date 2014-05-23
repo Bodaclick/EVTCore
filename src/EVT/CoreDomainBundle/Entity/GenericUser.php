@@ -36,6 +36,10 @@ class GenericUser extends BaseUSer
     private $provider;
 
     /**
+     * @var string
+     */
+    private $lang;
+    /**
      * Constructor
      */
     public function __construct()
@@ -60,7 +64,7 @@ class GenericUser extends BaseUSer
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -83,7 +87,7 @@ class GenericUser extends BaseUSer
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -106,7 +110,7 @@ class GenericUser extends BaseUSer
     /**
      * Get surnames
      *
-     * @return string 
+     * @return string
      */
     public function getSurnames()
     {
@@ -129,7 +133,7 @@ class GenericUser extends BaseUSer
     /**
      * Get phone
      *
-     * @return string 
+     * @return string
      */
     public function getPhone()
     {
@@ -162,10 +166,26 @@ class GenericUser extends BaseUSer
     /**
      * Get provider
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProvider()
     {
         return $this->provider;
+    }
+
+    /**
+     * @param string $lang
+     */
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLang()
+    {
+        return $this->lang;
     }
 }

@@ -101,3 +101,19 @@ services:
             - [setRoutingKey, ['create.user']]
         tags:
             - { name: bdk.async_event_dispatcher, event: evt.event.user_create }
+
+    evt.manager.async_event_driver_create:
+        class: BDK\AsyncEventDispatcher\AsyncDriver\RabbitMQDriver
+        arguments:  [@old_sound_rabbit_mq.events_producer, @jms_serializer]
+        calls:
+            - [setRoutingKey, ['create.manager']]
+        tags:
+            - { name: bdk.async_event_dispatcher, event: evt.event.manager_create }
+
+    evt.employee.async_event_driver_create:
+        class: BDK\AsyncEventDispatcher\AsyncDriver\RabbitMQDriver
+        arguments:  [@old_sound_rabbit_mq.events_producer, @jms_serializer]
+        calls:
+            - [setRoutingKey, ['create.employee']]
+        tags:
+            - { name: bdk.async_event_dispatcher, event: evt.event.employee_create }

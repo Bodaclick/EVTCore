@@ -33,6 +33,12 @@ EVT\CoreDomainBundle\Entity\GenericUser:
             nullable: true
             length: 20
             fixed: false
+        lang:
+            type: string
+            nullable: true
+            length: 5
+            fixed: false
+            comment: ''
     manyToMany:
         provider:
             targetEntity: Provider

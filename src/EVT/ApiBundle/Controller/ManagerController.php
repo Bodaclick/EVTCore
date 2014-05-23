@@ -3,6 +3,8 @@
 namespace EVT\ApiBundle\Controller;
 
 use Doctrine\DBAL\DBALException;
+use EVT\CoreDomainBundle\Events\Event;
+use EVT\CoreDomainBundle\Events\GenericUserEvent;
 use EVT\CoreDomainBundle\Form\Type\GenericUserFormType;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View as FosView;
@@ -46,6 +48,10 @@ class ManagerController extends Controller
         if ($form->isValid()) {
             $userManager->updateUser($user);
 
+            $event = new GenericUserEvent($user, Event::ON_CREATE_MANAGER);
+            $asyncDispatcher = $this->container->get('bdk.async_event_dispatcher');
+            $asyncDispatcher->dispatch($event);
+
             return $view->setData(['user' => sprintf('/api/managers/%d', $user->getId())]);
         }
 
@@ -66,7 +72,7 @@ class ManagerController extends Controller
     public function getManagersAction(Request $request)
     {
         $userRepository = $this->container->get('evt.repository.user');
-        $users = $userRepository->getManagers($request->get('canView', null), $request->get('page', 1));
+        $users = $userRepository->getManagers($request->query);
 
         $statusCode = Codes::HTTP_OK;
         if (empty($users)) {
